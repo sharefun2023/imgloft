@@ -2,12 +2,3 @@
   Cache-Control: public, max-age=3600
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
-
-*.html
-  Content-Type: text/html; charset=utf-8
-
-*.xml
-  Content-Type: application/xml; charset=utf-8
-
-*.txt
-  Content-Type: text/plain; charset=utf-8
