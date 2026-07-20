@@ -205,6 +205,9 @@
     }
     footer a { color: var(--accent); text-decoration: none; }
     .hidden { display: none !important; }
+    .tools-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin: 20px 0; }
+    .tc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; text-align: center; text-decoration: none; color: var(--text); font-size: .85rem; transition: all .2s; }
+    .tc:hover { border-color: var(--accent); transform: translateY(-2px); }
     @media (max-width: 600px) {
       .hero h1 { font-size: 1.5rem; }
       .settings-row { flex-direction: column; }
@@ -313,6 +316,17 @@
     </div>
   </section>
 
+  <section>
+    <h2 style="text-align:center;font-size:1.4rem;margin-bottom:20px">More Free Tools</h2>
+    <div class="tools-grid">
+      <a href="/compress-png.html" class="tc"><strong>🗜️ Compress PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce PNG file size</span></a>
+      <a href="/resize-image.html" class="tc"><strong>📐 Resize Image</strong><br><span style="color:var(--text2);font-size:.78rem">Change dimensions</span></a>
+      <a href="/jpg-to-webp.html" class="tc"><strong>🔄 JPG → WebP</strong><br><span style="color:var(--text2);font-size:.78rem">Convert to WebP</span></a>
+      <a href="/compress-jpg.html" class="tc"><strong>🗜️ Compress JPG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce JPG size</span></a>
+      <a href="/image-crop.html" class="tc"><strong>✂️ Crop Image</strong><br><span style="color:var(--text2);font-size:.78rem">Crop &amp; trim</span></a>
+    </div>
+  </section>
+
   <section class="faq">
     <h2>FAQ</h2>
     <div class="faq-item" onclick="this.classList.toggle('open')">
@@ -340,7 +354,7 @@
 
 <footer>
   <div class="container">
-    <p>© 2026 imglite — <a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a></p>
+    <p>© 2026 imgloft — <a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a></p>
     <p style="margin-top:4px">All processing happens in your browser. We never see your files.</p>
   </div>
 </footer>

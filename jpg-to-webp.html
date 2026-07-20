@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free JPG to WebP Converter Online — No Upload | imgloft</title>
+  <meta name="description" content="Convert JPG to WebP online free. Smaller file size, same quality — all in your browser, no upload required.">
+  <meta name="keywords" content="jpg to webp, convert jpg to webp, jpg to webp converter, webp converter">
+  <meta property="og:title" content="Free JPG to WebP Converter Online — No Upload | imgloft">
+  <meta property="og:description" content="Convert JPG images to WebP format instantly. Reduce file size by up to 30% — all in your browser.">
+  <link rel="canonical" href="https://imgloft.com/jpg-to-webp.html">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"imglite JPG to WebP Converter","description":"Free online JPG to WebP converter. Convert images to WebP format in your browser.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://imgloft.com/jpg-to-webp.html","browserRequirements":"Requires JavaScript"}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why convert JPG to WebP?","acceptedAnswer":{"@type":"Answer","text":"WebP images are 25-35% smaller than equivalent JPGs with the same visual quality. This means faster website loading and less bandwidth."}},{"@type":"Question","name":"Does imglite support batch JPG to WebP conversion?","acceptedAnswer":{"@type":"Answer","text":"Currently one image at a time. Batch conversion is coming soon."}},{"@type":"Question","name":"Are my images uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Conversion happens entirely in your browser using Canvas API."}}]}
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--text:#e6edf3;--text2:#8b949e;--accent:#f0883e;--accent2:#d9742a;--green:#3fb950;--radius:8px}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    .container{max-width:900px;margin:0 auto;padding:0 20px;width:100%}
+    header{border-bottom:1px solid var(--border);padding:16px 0;background:var(--surface)}
+    header .container{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.4rem;font-weight:700;color:var(--text);text-decoration:none}.logo span{color:var(--accent)}
+    nav a{color:var(--text2);text-decoration:none;margin-left:20px;font-size:.9rem}nav a:hover{color:var(--accent)}
+    .hero{text-align:center;padding:40px 0 24px}.hero h1{font-size:1.7rem;font-weight:700;margin-bottom:8px}.hero p{color:var(--text2);font-size:.95rem}
+    .tool-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:24px;overflow:hidden}
+    .tool-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+    .drop-zone{margin:16px;border:2px dashed var(--border);border-radius:var(--radius);padding:36px 20px;text-align:center;cursor:pointer}
+    .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:rgba(240,136,62,.05)}
+    .drop-zone .icon{font-size:2rem;margin-bottom:8px}
+    .drop-zone .fn{color:var(--accent);font-weight:500;margin-top:6px;font-size:.85rem}
+    .settings-row{display:flex;gap:16px;padding:0 16px 16px;flex-wrap:wrap;align-items:flex-end}
+    .settings-row label{display:block;font-size:.78rem;color:var(--text2);margin-bottom:4px}
+    .settings-row input[type=range]{width:160px}
+    .settings-row .qval{font-size:.85rem;color:var(--accent);font-weight:600;min-width:36px}
+    .btn{padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.85rem;cursor:pointer;font-weight:500}
+    .btn:hover{border-color:var(--accent)}.btn.primary{background:var(--accent2);border-color:var(--accent2);color:#fff}.btn.success{background:var(--green);border-color:var(--green);color:#fff}.btn:disabled{opacity:.5;cursor:not-allowed}
+    .preview-area{margin:0 16px 16px;display:none;text-align:center}
+    .preview-area.show{display:block}.preview-area img{max-width:100%;max-height:300px;border-radius:var(--radius);border:1px solid var(--border)}
+    .preview-info{display:flex;gap:20px;margin-top:10px;font-size:.82rem;color:var(--text2);justify-content:center}
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:20px 0 32px}
+    .tc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;text-decoration:none;color:var(--text);font-size:.85rem}.tc:hover{border-color:var(--accent)}
+    footer{margin-top:auto;border-top:1px solid var(--border);padding:20px 0;text-align:center;color:var(--text2);font-size:.8rem}footer a{color:var(--accent);text-decoration:none}
+    .hidden{display:none!important}
+  </style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">img<span>loft</span></a><nav><a href="/">Home</a><a href="/about.html">About</a></nav></div></header>
+<main class="container">
+  <section class="hero"><h1>Free JPG to WebP Converter</h1><p>Convert JPG images to WebP — smaller files, same quality. All in your browser.</p></section>
+  <div class="tool-panel">
+    <div class="tool-header"><h2>JPG → WebP</h2></div>
+    <div class="drop-zone" id="dz"><div class="icon">🔄</div><p>Drop a JPG here or click to select</p><p class="fn" id="fn"></p></div>
+    <input type="file" id="fi" accept="image/jpeg,.jpg,.jpeg" class="hidden">
+    <div class="settings-row" id="st">
+      <label for="q">Quality</label><input type="range" id="q" min="0.1" max="1" step="0.01" value="0.85"><span class="qval" id="qv">0.85</span>
+      <button class="btn primary" id="cb" disabled>Convert to WebP</button>
+      <button class="btn success hidden" id="db">⬇ Download WebP</button>
+    </div>
+    <div class="preview-area" id="pa"><img id="pv" alt="Preview"><div class="preview-info"><span id="os"></span><span id="ns"></span><span id="rd"></span></div></div>
+  </div>
+  <section><h2 style="text-align:center;font-size:1.1rem;margin-bottom:12px">More Free Tools</h2>
+    <div class="tools-grid">
+      <a href="/" class="tc"><strong>SVG → PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Convert SVG to PNG</span></a>
+      <a href="/compress-png.html" class="tc"><strong>Compress PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce PNG file size</span></a>
+      <a href="/resize-image.html" class="tc"><strong>Resize Image</strong><br><span style="color:var(--text2);font-size:.78rem">Resize to any dimensions</span></a>
+      <a href="/compress-jpg.html" class="tc"><strong>Compress JPG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce JPG file size</span></a>
+      <a href="/image-crop.html" class="tc"><strong>Crop Image</strong><br><span style="color:var(--text2);font-size:.78rem">Crop &amp; trim</span></a>
+    </div>
+  </section>
+</main>
+<footer><div class="container"><p>© 2026 imgloft — <a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a></p></div></footer>
+<script>
+const dz=document.getElementById('dz'),fi=document.getElementById('fi'),fn=document.getElementById('fn');
+const cb=document.getElementById('cb'),db=document.getElementById('db'),pa=document.getElementById('pa'),pv=document.getElementById('pv');
+const q=document.getElementById('q'),qv=document.getElementById('qv');
+let cf=null,rb=null;q.oninput=()=>qv.textContent=q.value;
+dz.onclick=()=>fi.click();
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragover');if(e.dataTransfer.files[0])hf(e.dataTransfer.files[0])});
+fi.onchange=()=>{if(fi.files[0])hf(fi.files[0])};
+function hf(f){cf=f;fn.textContent='📄 '+f.name;cb.disabled=false;pa.classList.remove('show');db.classList.add('hidden')}
+cb.onclick=async()=>{if(!cf)return;cb.disabled=true;cb.textContent='Converting...';
+  try{const bmp=await createImageBitmap(cf);const c=document.createElement('canvas');c.width=bmp.width;c.height=bmp.height;c.getContext('2d').drawImage(bmp,0,0);
+    rb=await new Promise(r=>c.toBlob(r,'image/webp',parseFloat(q.value)));pv.src=URL.createObjectURL(rb);pa.classList.add('show');
+    document.getElementById('os').textContent='JPG: '+fs(cf.size);document.getElementById('ns').textContent='WebP: '+fs(rb.size);
+    const pct=((1-rb.size/cf.size)*100).toFixed(1);document.getElementById('rd').textContent=pct>0?'-'+pct+'%':'+'+Math.abs(pct)+'%';
+    document.getElementById('rd').style.color=pct>0?'var(--green)':'var(--text2)';
+    db.classList.remove('hidden');cb.textContent='Convert Again';cb.disabled=false}catch(e){alert('Failed: '+e.message);cb.textContent='Convert to WebP';cb.disabled=false}};
+db.onclick=()=>{if(!rb)return;const a=document.createElement('a');a.href=URL.createObjectURL(rb);a.download=cf.name.replace(/\.jpe?g$/i,'')+'.webp';a.click()};
+function fs(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'}
+</script>
+</body>
+</html>

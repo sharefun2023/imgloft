@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Image Crop Tool Online — Crop Images | imgloft</title>
+  <meta name="description" content="Crop images online free. Trim, cut, and resize with custom or preset aspect ratios — all in your browser, no upload.">
+  <meta name="keywords" content="image crop tool, crop image online, image cropper, crop photo">
+  <meta property="og:title" content="Free Image Crop Tool Online — Crop Images | imgloft">
+  <meta property="og:description" content="Crop images to any size or aspect ratio. Free, instant, private.">
+  <link rel="canonical" href="https://imgloft.com/image-crop.html">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"imglite Image Cropper","description":"Free online image crop tool. Crop images with custom or preset ratios in your browser.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://imgloft.com/image-crop.html","browserRequirements":"Requires JavaScript"}
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--text:#e6edf3;--text2:#8b949e;--accent:#f0883e;--accent2:#d9742a;--green:#3fb950;--radius:8px}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+    .container{max-width:900px;margin:0 auto;padding:0 20px;width:100%}
+    header{border-bottom:1px solid var(--border);padding:16px 0;background:var(--surface)}
+    header .container{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.4rem;font-weight:700;color:var(--text);text-decoration:none}.logo span{color:var(--accent)}
+    nav a{color:var(--text2);text-decoration:none;margin-left:20px;font-size:.9rem}nav a:hover{color:var(--accent)}
+    .hero{text-align:center;padding:40px 0 24px}.hero h1{font-size:1.7rem;font-weight:700;margin-bottom:8px}.hero p{color:var(--text2);font-size:.95rem}
+    .tool-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:24px;overflow:hidden}
+    .tool-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+    .ratio-btns{display:flex;gap:4px}.rb{padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-size:.75rem;cursor:pointer}.rb:hover,.rb.active{color:var(--accent);border-color:var(--accent)}
+    .drop-zone{margin:16px;border:2px dashed var(--border);border-radius:var(--radius);padding:36px 20px;text-align:center;cursor:pointer}
+    .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:rgba(240,136,62,.05)}
+    .drop-zone .fn{color:var(--accent);font-weight:500;margin-top:6px;font-size:.85rem}
+    .crop-container{margin:16px;position:relative;display:none;overflow:hidden;max-height:400px;background:#000;border-radius:var(--radius)}
+    .crop-container.show{display:block}
+    .crop-container img{display:block;max-width:100%}
+    .crop-box{position:absolute;border:2px dashed var(--accent);background:rgba(240,136,62,.1);cursor:move}
+    .crop-box .handle{position:absolute;width:12px;height:12px;background:var(--accent);border-radius:2px}
+    .crop-box .tl{top:-6px;left:-6px;cursor:nw-resize}.crop-box .tr{top:-6px;right:-6px;cursor:ne-resize}
+    .crop-box .bl{bottom:-6px;left:-6px;cursor:sw-resize}.crop-box .br{bottom:-6px;right:-6px;cursor:se-resize}
+    .btn-row{display:flex;gap:10px;padding:0 16px 16px}
+    .btn{padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.85rem;cursor:pointer;font-weight:500}
+    .btn:hover{border-color:var(--accent)}.btn.primary{background:var(--accent2);border-color:var(--accent2);color:#fff}.btn.success{background:var(--green);border-color:var(--green);color:#fff}.btn:disabled{opacity:.5;cursor:not-allowed}
+    .preview-area{margin:0 16px 16px;display:none;text-align:center}
+    .preview-area.show{display:block}.preview-area img{max-width:100%;max-height:250px;border-radius:var(--radius);border:1px solid var(--border)}
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:20px 0 32px}
+    .tc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;text-decoration:none;color:var(--text);font-size:.85rem}.tc:hover{border-color:var(--accent)}
+    footer{margin-top:auto;border-top:1px solid var(--border);padding:20px 0;text-align:center;color:var(--text2);font-size:.8rem}footer a{color:var(--accent);text-decoration:none}
+    .hidden{display:none!important}
+  </style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">img<span>loft</span></a><nav><a href="/">Home</a><a href="/about.html">About</a></nav></div></header>
+<main class="container">
+  <section class="hero"><h1>Free Image Crop Tool</h1><p>Crop images to any size or aspect ratio — all in your browser. No upload, no limits.</p></section>
+  <div class="tool-panel">
+    <div class="tool-header"><h2>Crop Image</h2><div class="ratio-btns"><span class="rb active" data-r="0">Free</span><span class="rb" data-r="1">1:1</span><span class="rb" data-r="1.333">4:3</span><span class="rb" data-r="1.778">16:9</span><span class="rb" data-r="0.75">3:4</span><span class="rb" data-r="0.5625">9:16</span></div></div>
+    <div class="drop-zone" id="dz"><div class="icon">✂️</div><p>Drop an image here or click to select</p><p class="fn" id="fn"></p></div>
+    <input type="file" id="fi" accept="image/*" class="hidden">
+    <div class="crop-container" id="cc"><img id="ci" alt="Crop"><div class="crop-box" id="cbx"><div class="handle tl"></div><div class="handle tr"></div><div class="handle bl"></div><div class="handle br"></div></div></div>
+    <div class="btn-row" id="btnRow" style="display:none">
+      <button class="btn primary" id="cropBtn">Crop &amp; Download</button>
+      <button class="btn" id="resetBtn">Reset</button>
+    </div>
+    <div class="preview-area" id="pa"><img id="pv" alt="Cropped"></div>
+  </div>
+  <section><h2 style="text-align:center;font-size:1.1rem;margin-bottom:12px">More Free Tools</h2>
+    <div class="tools-grid">
+      <a href="/" class="tc"><strong>SVG → PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Convert SVG to PNG</span></a>
+      <a href="/compress-png.html" class="tc"><strong>Compress PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce PNG file size</span></a>
+      <a href="/resize-image.html" class="tc"><strong>Resize Image</strong><br><span style="color:var(--text2);font-size:.78rem">Resize to any dimensions</span></a>
+      <a href="/jpg-to-webp.html" class="tc"><strong>JPG → WebP</strong><br><span style="color:var(--text2);font-size:.78rem">Convert to WebP</span></a>
+      <a href="/compress-jpg.html" class="tc"><strong>Compress JPG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce JPG file size</span></a>
+    </div>
+  </section>
+</main>
+<footer><div class="container"><p>© 2026 imgloft — <a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a></p></div></footer>
+<script>
+const dz=document.getElementById('dz'),fi=document.getElementById('fi'),fn=document.getElementById('fn');
+const cc=document.getElementById('cc'),ci=document.getElementById('ci'),cbx=document.getElementById('cbx');
+const cropBtn=document.getElementById('cropBtn'),resetBtn=document.getElementById('resetBtn'),btnRow=document.getElementById('btnRow');
+const pa=document.getElementById('pa'),pv=document.getElementById('pv');
+let ratio=0,imgW=0,imgH=0,cropX=0,cropY=0,cropW=200,cropH=200,dragging=false,resizing=false,resizeHandle='',startX=0,startY=0,startCX=0,startCY=0,startCW=0,startCH=0;
+
+document.querySelectorAll('.rb').forEach(b=>b.onclick=function(){document.querySelectorAll('.rb').forEach(x=>x.classList.remove('active'));this.classList.add('active');ratio=parseFloat(this.dataset.r);updateCropBox()});
+
+dz.onclick=()=>fi.click();
+dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover')});
+dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragover');if(e.dataTransfer.files[0])loadImg(e.dataTransfer.files[0])});
+fi.onchange=()=>{if(fi.files[0])loadImg(fi.files[0])};
+
+function loadImg(f){const u=URL.createObjectURL(f);ci.onload=()=>{imgW=ci.naturalWidth;imgH=ci.naturalHeight;fn.textContent='📄 '+f.name+' ('+imgW+'×'+imgH+')';dz.style.display='none';cc.classList.add('show');btnRow.style.display='flex';pa.classList.remove('show');cropW=Math.min(300,imgW);cropH=ratio?cropW/ratio:200;if(cropW>imgW){cropW=imgW;cropH=ratio?cropW/ratio:cropW}cropX=(imgW-cropW)/2;cropY=(imgH-cropH)/2;updateCropBox()};ci.src=u}
+function updateCropBox(){if(ratio){cropH=cropW/ratio;if(cropW>imgW){cropW=imgW;cropH=cropW/ratio}if(cropH>imgH){cropH=imgH;cropW=cropH*ratio}}cropX=Math.max(0,Math.min(cropX,imgW-cropW));cropY=Math.max(0,Math.min(cropY,imgH-cropH));cbx.style.left=(cropX/imgW*100)+'%';cbx.style.top=(cropY/imgH*100)+'%';cbx.style.width=(cropW/imgW*100)+'%';cbx.style.height=(cropH/imgH*100)+'%'}
+cbx.onmousedown=function(e){if(e.target.classList.contains('handle')){resizing=true;resizeHandle=[...e.target.classList].find(c=>c.length===2&&['tl','tr','bl','br'].includes(c))}else{dragging=true}startX=e.clientX;startY=e.clientY;startCX=cropX;startCY=cropY;startCW=cropW;startCH=cropH;e.preventDefault()};
+document.onmousemove=function(e){if(!dragging&&!resizing)return;const dx=e.clientX-startX,dy=e.clientY-startY;const sx=dx/imgW*imgW, sy=dy/imgH*imgH;
+  if(resizing){if(resizeHandle.includes('r'))cropW=Math.max(20,startCW+sx);if(resizeHandle.includes('l')){cropW=Math.max(20,startCW-sx);cropX=startCX+sx}
+    if(resizeHandle.includes('b'))cropH=ratio?cropW/ratio:Math.max(20,startCH+sy);if(resizeHandle.includes('t')){const nh=ratio?cropW/ratio:Math.max(20,startCH-sy);cropY=startCY+(startCH-nh);cropH=nh}
+    if(ratio){if(resizeHandle==='br'||resizeHandle==='tl')cropH=cropW/ratio}else if(!resizeHandle.includes('b')&&!resizeHandle.includes('t')){if(ratio)cropH=cropW/ratio}}
+  if(dragging){cropX=startCX+sx;cropY=startCY+sy}
+  updateCropBox()};
+document.onmouseup=()=>{dragging=false;resizing=false};
+cropBtn.onclick=()=>{const c=document.createElement('canvas');c.width=cropW;c.height=cropH;c.getContext('2d').drawImage(ci,cropX,cropY,cropW,cropH,0,0,cropW,cropH);pv.src=c.toDataURL();pa.classList.add('show');
+  c.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download='cropped-image.png';a.click()})};
+resetBtn.onclick=()=>{dz.style.display='';cc.classList.remove('show');btnRow.style.display='none';pa.classList.remove('show');fn.textContent='';ci.src=''};
+</script>
+</body>
+</html>
