@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Online PNG Compressor — Reduce PNG File Size Without Losing Quality | imgloft</title>
+  <meta name="description" content="Compress PNG images online for free. Reduce PNG file size by up to 80% without losing quality. Private, browser-based PNG compression — no upload, no signup.">
+  <meta name="keywords" content="free online png compressor, compress png online, reduce png file size, png size reducer, compress png without losing quality, online png compression tool, png optimizer online free">
+  <meta property="og:title" content="Free Online PNG Compressor — Reduce PNG File Size Without Losing Quality | imgloft">
+  <meta property="og:description" content="Compress PNG images for free in your browser. Reduce file size by up to 80% with our online PNG compressor — no upload, no signup, instant results.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://imgloft.com/free-online-png-compressor">
+  <meta property="og:site_name" content="imgloft">
+  <link rel="canonical" href="https://imgloft.com/free-online-png-compressor">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://imgloft.com"},{"@type":"ListItem","position":2,"name":"Free Online PNG Compressor","item":"https://imgloft.com/free-online-png-compressor"}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How can I compress a PNG online for free?","acceptedAnswer":{"@type":"Answer","text":"Use imglite's free PNG compressor at imgloft.com/compress-png. Drag and drop your PNG, adjust the quality slider, and click Compress. All processing happens in your browser — your file never uploads to any server."}},{"@type":"Question","name":"Does compressing a PNG reduce image quality?","acceptedAnswer":{"@type":"Answer","text":"Our PNG compressor uses lossy compression via the Canvas API, which means a small quality reduction for significant file size savings. You control the tradeoff with a quality slider from 10% to 100%. At 80% quality, most users see 50-70% size reduction with negligible visual difference."}},{"@type":"Question","name":"Is it safe to compress PNG files online?","acceptedAnswer":{"@type":"Answer","text":"Yes. imglite processes everything client-side in your browser using the Canvas API. Your PNG file never leaves your device — no upload, no server processing, no data retention. This is fundamentally more private than server-based tools like TinyPNG or iloveimg."}},{"@type":"Question","name":"What's the maximum PNG file size I can compress?","acceptedAnswer":{"@type":"Answer","text":"There is no artificial file size limit. You can compress PNGs of any size — the only limit is your browser's available memory. For very large images (50MB+), we recommend using a desktop with sufficient RAM."}},{"@type":"Question","name":"Can I compress multiple PNG files at once?","acceptedAnswer":{"@type":"Answer","text":"Currently, imglite processes one PNG at a time. For batch compression, simply repeat the process for each file — there's no daily limit. We're working on a batch mode feature."}},{"@type":"Question","name":"What's the difference between lossy and lossless PNG compression?","acceptedAnswer":{"@type":"Answer","text":"Lossless compression (like PNG's built-in DEFLATE) shrinks file size without touching image data — but savings are modest (5-15%). Lossy compression (what imglite offers) intelligently reduces color precision to achieve much larger savings (50-80%) with minimal quality loss. For web use, lossy is almost always the better choice."}},{"@type":"Question","name":"How does imglite compare to TinyPNG?","acceptedAnswer":{"@type":"Answer","text":"Both tools compress PNGs, but imglite is fully client-side — no uploads, no API limits, no account needed, and completely free. TinyPNG uploads your image to their servers, which means bandwidth consumption and privacy concerns. For quick web-ready PNG compression, imglite is faster and more private."}}]}
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--text:#e6edf3;--text2:#8b949e;--accent:#f0883e;--accent2:#d9742a;--green:#3fb950;--radius:8px}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.6}
+    .container{max-width:900px;margin:0 auto;padding:0 20px;width:100%}
+    header{border-bottom:1px solid var(--border);padding:16px 0;background:var(--surface)}
+    header .container{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.4rem;font-weight:700;color:var(--text);text-decoration:none}.logo span{color:var(--accent)}
+    nav a{color:var(--text2);text-decoration:none;margin-left:20px;font-size:.9rem}nav a:hover,nav a.active{color:var(--accent)}
+    .hero{text-align:center;padding:48px 0 28px}
+    .hero h1{font-size:2rem;font-weight:700;margin-bottom:12px;line-height:1.3}
+    .hero p{color:var(--text2);font-size:1.05rem;max-width:650px;margin:0 auto}
+    .cta-section{text-align:center;padding:0 0 32px}
+    .cta-btn{display:inline-block;padding:14px 36px;background:var(--accent2);color:#fff;border-radius:var(--radius);text-decoration:none;font-size:1.05rem;font-weight:600;transition:background .2s}
+    .cta-btn:hover{background:var(--accent)}
+    section{padding:28px 0}
+    h2{font-size:1.35rem;font-weight:700;margin-bottom:16px;color:var(--text)}
+    h3{font-size:1.1rem;font-weight:600;margin-bottom:8px;color:var(--text)}
+    p{color:var(--text2);margin-bottom:12px;font-size:.95rem}
+    ul,ol{color:var(--text2);margin:0 0 16px 20px;font-size:.95rem}
+    li{margin-bottom:6px}
+    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:16px}
+    .feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+    .feature-card h3{font-size:1rem;margin-bottom:6px}
+    .feature-card p{font-size:.85rem;margin:0}
+    .feature-card .icon{font-size:1.4rem;margin-bottom:8px}
+    .steps{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin:16px 0}
+    .steps ol{margin:0}
+    .steps li{margin-bottom:10px}
+    .comparison-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.88rem}
+    .comparison-table th{background:var(--surface2);color:var(--text);padding:10px 14px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+    .comparison-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
+    .comparison-table tr:hover td{background:rgba(240,136,62,.03)}
+    .check{color:var(--green)}.cross{color:#f85149}
+    .faq-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:12px}
+    .faq-item h3{font-size:.95rem;margin-bottom:6px}
+    .faq-item p{font-size:.87rem;margin:0}
+    .tips-box{background:var(--surface);border:1px solid var(--accent2);border-left:3px solid var(--accent);border-radius:var(--radius);padding:18px 22px;margin:16px 0}
+    .tips-box p{margin:6px 0;font-size:.88rem}
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:16px 0}
+    .tc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;text-decoration:none;color:var(--text);transition:all .2s;font-size:.85rem}
+    .tc:hover{border-color:var(--accent)}
+    footer{margin-top:auto;border-top:1px solid var(--border);padding:24px 0;text-align:center;color:var(--text2);font-size:.8rem}
+    footer a{color:var(--accent);text-decoration:none}
+    .breadcrumb{color:var(--text2);font-size:.82rem;padding:12px 0}
+    .breadcrumb a{color:var(--text2);text-decoration:none}.breadcrumb a:hover{color:var(--accent)}
+    .updated{text-align:center;color:var(--text2);font-size:.78rem;padding:0 0 20px}
+  </style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">img<span>loft</span></a><nav><a href="/">Home</a><a href="/compress-png.html">Compress PNG</a><a href="/resize-image.html">Resize</a><a href="/about.html">About</a></nav></div></header>
+
+<main class="container">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Free Online PNG Compressor</div>
+
+  <section class="hero">
+    <h1>Free Online PNG Compressor — Reduce PNG File Size Instantly</h1>
+    <p>Compress PNG images online without uploading anything. Reduce file sizes by up to 80% — all processing happens in your browser. No signup, no limits, completely free.</p>
+  </section>
+
+  <div class="cta-section">
+    <a href="/compress-png.html" class="cta-btn">🖼️ Compress Your PNG Now</a>
+  </div>
+
+  <section>
+    <h2>Why Use Our Online PNG Compressor?</h2>
+    <p>PNG images are great for quality, but their file sizes can slow down your website, eat up storage, and frustrate users. Our <strong>free online PNG compressor</strong> solves this by reducing PNG file sizes dramatically — all from the safety of your browser.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">🔒</div>
+        <h3>100% Private & Secure</h3>
+        <p>Your PNG files never leave your device. All compression uses browser Canvas API — zero uploads, zero server processing.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">⚡</div>
+        <h3>Instant Compression</h3>
+        <p>No waiting for uploads or server queues. Drag, drop, and compress your PNG in seconds.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎚️</div>
+        <h3>Quality Control</h3>
+        <p>Adjustable quality slider from 10% to 100%. Find the perfect balance between file size and image quality.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🆓</div>
+        <h3>Completely Free</h3>
+        <p>No hidden costs, no premium tiers, no daily limits. Compress as many PNGs as you want, forever free.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📱</div>
+        <h3>Works on Any Device</h3>
+        <p>Desktop, tablet, or mobile — compress PNGs anywhere. Works in Chrome, Firefox, Safari, and Edge.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📦</div>
+        <h3>No File Size Limits</h3>
+        <p>Compress PNGs of any size. The only limit is your browser's memory — no arbitrary caps like other tools.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How to Compress PNG Files Online (3 Simple Steps)</h2>
+    <div class="steps">
+      <ol>
+        <li><strong>Open the PNG Compressor</strong> — Go to our <a href="/compress-png.html" style="color:var(--accent)">PNG compression tool</a>.</li>
+        <li><strong>Upload Your PNG</strong> — Drag and drop your PNG image onto the drop zone, or click to browse files. The file stays on your device.</li>
+        <li><strong>Adjust & Compress</strong> — Use the quality slider to set your preferred compression level, click "Compress", and download the optimized PNG instantly.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>imglite vs Other PNG Compression Tools</h2>
+    <table class="comparison-table">
+      <tr><th>Feature</th><th>imglite</th><th>TinyPNG</th><th>iloveimg</th></tr>
+      <tr><td>Free</td><td><span class="check">✓ Unlimited</span></td><td>20/day free</td><td>Limited free tier</td></tr>
+      <tr><td>Privacy</td><td><span class="check">✓ Client-side only</span></td><td><span class="cross">✗</span> Uploads to server</td><td><span class="cross">✗</span> Uploads to server</td></tr>
+      <tr><td>No Signup</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span> Account required</td></tr>
+      <tr><td>File Size Limit</td><td><span class="check">✓ None</span></td><td>5 MB</td><td>Varies by plan</td></tr>
+      <tr><td>Batch Processing</td><td>Coming soon</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Quality Control</td><td><span class="check">✓ Slider 10-100%</span></td><td>Auto only</td><td>Auto only</td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>When Should You Compress PNG Files?</h2>
+    <p>PNG compression is useful in many real-world scenarios. Here are the most common use cases:</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>🌐 Website Optimization</h3>
+        <p>Large PNGs slow down page load times and hurt SEO. Compress all site images before publishing to improve Core Web Vitals scores.</p>
+      </div>
+      <div class="feature-card">
+        <h3>✉️ Email Attachments</h3>
+        <p>Many email providers cap attachments at 10-25 MB. Compress large PNGs before attaching to stay under limits.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📱 Social Media</h3>
+        <p>Platforms like Twitter and LinkedIn compress uploads themselves — feed them optimized PNGs to avoid double-compression artifacts.</p>
+      </div>
+      <div class="feature-card">
+        <h3>💾 Storage Savings</h3>
+        <p>Cut cloud storage costs by compressing PNG archives. A 50% size reduction doubles your effective storage capacity.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="tips-box">
+    <h3 style="margin-bottom:8px;font-size:.95rem">💡 Pro Tips for Better PNG Compression</h3>
+    <p>• <strong>Start at 80% quality</strong> — this is the sweet spot for most images. You'll see 50-70% size reduction with barely noticeable quality loss.</p>
+    <p>• <strong>Stripe and gradient-heavy PNGs</strong> compress best — you might see up to 85% reduction.</p>
+    <p>• <strong>Photos with lots of detail</strong> compress less effectively — consider converting to WebP via our <a href="/jpg-to-webp.html" style="color:var(--accent)">JPG to WebP converter</a> instead.</p>
+    <p>• <strong>Always preview</strong> the compressed result before downloading to ensure quality meets your needs.</p>
+  </div>
+
+  <section>
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item"><h3>How can I compress a PNG online for free?</h3><p>Visit our <a href="/compress-png.html" style="color:var(--accent)">PNG compressor tool</a>, drag and drop your PNG, adjust the quality slider, and click Compress. Everything runs in your browser — no uploads, no signup, completely free.</p></div>
+    <div class="faq-item"><h3>Does compressing a PNG reduce image quality?</h3><p>Yes, some quality reduction is inherent to lossy compression. However, at 80% quality, the visual difference is negligible for most images while file size drops by 50-70%. You can fine-tune the slider to find your ideal tradeoff.</p></div>
+    <div class="faq-item"><h3>Is it safe to compress PNG files online?</h3><p>With imglite, absolutely. All compression uses your browser's Canvas API — your PNG never gets uploaded to any server. This is fundamentally more private than tools that send your files to a remote server for processing.</p></div>
+    <div class="faq-item"><h3>What is the difference between PNG compression and PNG to WebP conversion?</h3><p>PNG compression reduces the file size of a PNG while keeping it in PNG format. WebP conversion changes the format entirely — often achieving even smaller file sizes. Use PNG compression when you need PNG format specifically (e.g., for logos with transparency). Use <a href="/jpg-to-webp.html" style="color:var(--accent)">WebP conversion</a> for general web images.</p></div>
+    <div class="faq-item"><h3>Why is my PNG file so large?</h3><p>PNGs can be large for several reasons: 24-bit color depth with alpha channel, uncompressed pixel data, or the image being saved at maximum quality. Our PNG compressor addresses this by applying intelligent lossy compression to dramatically reduce file size while maintaining acceptable visual quality.</p></div>
+  </section>
+
+  <section>
+    <h2>Explore More Free Image Tools</h2>
+    <div class="tools-grid">
+      <a href="/compress-png.html" class="tc"><strong>Compress PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce PNG file size</span></a>
+      <a href="/compress-jpg.html" class="tc"><strong>Compress JPG</strong><br><span style="color:var(--text2);font-size:.78rem">Optimize JPEG images</span></a>
+      <a href="/jpg-to-webp.html" class="tc"><strong>JPG → WebP</strong><br><span style="color:var(--text2);font-size:.78rem">Modern format conversion</span></a>
+      <a href="/" class="tc"><strong>SVG → PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Convert vector to raster</span></a>
+      <a href="/resize-image.html" class="tc"><strong>Resize Image</strong><br><span style="color:var(--text2);font-size:.78rem">Scale to any dimension</span></a>
+      <a href="/image-crop.html" class="tc"><strong>Crop Image</strong><br><span style="color:var(--text2);font-size:.78rem">Crop &amp; trim edges</span></a>
+    </div>
+  </section>
+
+  <p class="updated">Last updated: July 21, 2026</p>
+</main>
+
+<footer><div class="container"><p>&copy; 2026 imgloft — <a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a> · <a href="/free-online-png-compressor">PNG Compressor Guide</a></p><p style="margin-top:2px">All image processing happens in your browser. No uploads, no servers.</p></div></footer>
+</body>
+</html>
