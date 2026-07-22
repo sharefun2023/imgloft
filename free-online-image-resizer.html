@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Online Image Resizer — Resize Images Without Uploading | imgloft</title>
+  <meta name="description" content="Resize images online for free. Change image dimensions, scale by percentage, or use ready presets. Private, browser-based image resizer — no upload, no signup.">
+  <meta name="keywords" content="free online image resizer, resize image online, image size reducer, online image resizer, resize image without uploading, photo resizer online free, image dimension changer">
+  <meta property="og:title" content="Free Online Image Resizer — Resize Images Without Uploading | imgloft">
+  <meta property="og:description" content="Resize any image for free in your browser. Custom dimensions, percentage scaling, and one-click presets. No upload, no signup, instant results.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://imgloft.com/free-online-image-resizer">
+  <meta property="og:site_name" content="imgloft">
+  <link rel="canonical" href="https://imgloft.com/free-online-image-resizer">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://imgloft.com"},{"@type":"ListItem","position":2,"name":"Free Online Image Resizer","item":"https://imgloft.com/free-online-image-resizer"}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How can I resize an image online for free?","acceptedAnswer":{"@type":"Answer","text":"Use imglite's free image resizer at imgloft.com/resize-image. Drag and drop your image, set your target dimensions (width/height in pixels) or choose a preset like 800×600, and click Resize. All processing happens in your browser — your image never uploads to any server."}},{"@type":"Question","name":"Can I resize an image by percentage?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enter a percentage (10-200%) in either the width or height field, and the other dimension automatically scales proportionally. This is ideal when you need consistent scaling across multiple images."}},{"@type":"Question","name":"Does resizing an image reduce its file size?","acceptedAnswer":{"@type":"Answer","text":"Yes. Reducing pixel dimensions naturally decreases file size. A 1920×1080 image resized to 800×450 will typically see a 70-85% file size reduction. You can also adjust output quality for further compression."}},{"@type":"Question","name":"Is it safe to resize personal photos online?","acceptedAnswer":{"@type":"Answer","text":"With imglite, yes. All resizing uses your browser's Canvas API — your photos never leave your device. There's no upload, no server processing, and no data retention. This is fundamentally more private than server-based tools."}},{"@type":"Question","name":"What image formats can I resize?","acceptedAnswer":{"@type":"Answer","text":"imglite's image resizer works with any image format your browser supports: PNG, JPG, JPEG, WebP, GIF, BMP, and SVG. The output is always a high-quality JPEG or PNG, depending on your preference."}},{"@type":"Question","name":"How do I resize an image for social media?","acceptedAnswer":{"@type":"Answer","text":"Use our built-in presets: 1080×1080 for Instagram posts, 1200×630 for Facebook/Twitter link previews, 1920×1080 for YouTube thumbnails. Just select the preset, drop your image, and download — no manual calculation needed."}},{"@type":"Question","name":"What's the difference between resizing and compressing an image?","acceptedAnswer":{"@type":"Answer","text":"Resizing changes the pixel dimensions (e.g., 1920×1080 → 800×450), which reduces file size as a side effect. Compression reduces file size by optimizing how pixel data is stored — without changing dimensions. For maximum size reduction use our PNG compressor or JPG compressor, but if you need specific dimensions, use this image resizer."}}]}
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--text:#e6edf3;--text2:#8b949e;--accent:#f0883e;--accent2:#d9742a;--green:#3fb950;--radius:8px}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.6}
+    .container{max-width:900px;margin:0 auto;padding:0 20px;width:100%}
+    header{border-bottom:1px solid var(--border);padding:16px 0;background:var(--surface)}
+    header .container{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.4rem;font-weight:700;color:var(--text);text-decoration:none}.logo span{color:var(--accent)}
+    nav a{color:var(--text2);text-decoration:none;margin-left:20px;font-size:.9rem}nav a:hover,nav a.active{color:var(--accent)}
+    .hero{text-align:center;padding:48px 0 28px}
+    .hero h1{font-size:2rem;font-weight:700;margin-bottom:12px;line-height:1.3}
+    .hero p{color:var(--text2);font-size:1.05rem;max-width:650px;margin:0 auto}
+    .cta-section{text-align:center;padding:0 0 32px}
+    .cta-btn{display:inline-block;padding:14px 36px;background:var(--accent2);color:#fff;border-radius:var(--radius);text-decoration:none;font-size:1.05rem;font-weight:600;transition:background .2s}
+    .cta-btn:hover{background:var(--accent)}
+    section{padding:28px 0}
+    h2{font-size:1.35rem;font-weight:700;margin-bottom:16px;color:var(--text)}
+    h3{font-size:1.1rem;font-weight:600;margin-bottom:8px;color:var(--text)}
+    p{color:var(--text2);margin-bottom:12px;font-size:.95rem}
+    ul,ol{color:var(--text2);margin:0 0 16px 20px;font-size:.95rem}
+    li{margin-bottom:6px}
+    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:16px}
+    .feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+    .feature-card h3{font-size:1rem;margin-bottom:6px}
+    .feature-card p{font-size:.85rem;margin:0}
+    .feature-card .icon{font-size:1.4rem;margin-bottom:8px}
+    .steps{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin:16px 0}
+    .steps ol{margin:0}
+    .steps li{margin-bottom:10px}
+    .comparison-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.88rem}
+    .comparison-table th{background:var(--surface2);color:var(--text);padding:10px 14px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+    .comparison-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
+    .comparison-table tr:hover td{background:rgba(240,136,62,.03)}
+    .check{color:var(--green)}.cross{color:#f85149}
+    .faq-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:12px}
+    .faq-item h3{font-size:.95rem;margin-bottom:6px}
+    .faq-item p{font-size:.87rem;margin:0}
+    .tips-box{background:var(--surface);border:1px solid var(--accent2);border-left:3px solid var(--accent);border-radius:var(--radius);padding:18px 22px;margin:16px 0}
+    .tips-box p{margin:6px 0;font-size:.88rem}
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:16px 0}
+    .tc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;text-decoration:none;color:var(--text);transition:all .2s;font-size:.85rem}
+    .tc:hover{border-color:var(--accent)}
+    footer{margin-top:auto;border-top:1px solid var(--border);padding:24px 0;text-align:center;color:var(--text2);font-size:.8rem}
+    footer a{color:var(--accent);text-decoration:none}
+    .breadcrumb{color:var(--text2);font-size:.82rem;padding:12px 0}
+    .breadcrumb a{color:var(--text2);text-decoration:none}.breadcrumb a:hover{color:var(--accent)}
+    .updated{text-align:center;color:var(--text2);font-size:.78rem;padding:0 0 20px}
+  </style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">img<span>loft</span></a><nav><a href="/">Home</a><a href="/compress-png.html">Compress PNG</a><a href="/resize-image.html">Resize</a><a href="/about.html">About</a></nav></div></header>
+
+<main class="container">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Free Online Image Resizer</div>
+
+  <section class="hero">
+    <h1>Free Online Image Resizer — Resize Images Instantly, No Upload</h1>
+    <p>Resize any image to exact pixel dimensions or scale by percentage — all in your browser. No upload, no signup, no watermarks. Completely free.</p>
+  </section>
+
+  <div class="cta-section">
+    <a href="/resize-image.html" class="cta-btn">📐 Resize Your Image Now</a>
+  </div>
+
+  <section>
+    <h2>Why Use Our Online Image Resizer?</h2>
+    <p>Whether you need images for a website, social media, email, or a presentation — getting the right dimensions matters. Our <strong>free online image resizer</strong> lets you change any image's width and height instantly, right in your browser.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">🔒</div>
+        <h3>100% Private & Secure</h3>
+        <p>Your images never leave your device. All resizing uses browser Canvas API — zero uploads, zero server processing.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">⚡</div>
+        <h3>Instant Results</h3>
+        <p>No waiting for uploads or server queues. Drop your image, set dimensions, and resize in under a second.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📏</div>
+        <h3>Exact Dimensions</h3>
+        <p>Set precise pixel width and height, or scale proportionally by percentage. Full control over output size.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🆓</div>
+        <h3>Completely Free</h3>
+        <p>No hidden costs, no premium tiers, no daily limits. Resize as many images as you want, forever free.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎯</div>
+        <h3>Ready Presets</h3>
+        <p>One-click presets for common sizes: 800×600, 1024×768, 1920×1080, 320×240. No manual input needed.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📱</div>
+        <h3>Works on Any Device</h3>
+        <p>Desktop, tablet, or mobile — resize images anywhere. Works in Chrome, Firefox, Safari, and Edge.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How to Resize an Image Online (3 Simple Steps)</h2>
+    <div class="steps">
+      <ol>
+        <li><strong>Open the Image Resizer</strong> — Go to our <a href="/resize-image.html" style="color:var(--accent)">online image resizer tool</a>.</li>
+        <li><strong>Upload Your Image</strong> — Drag and drop any image onto the drop zone, or click to browse. The file stays on your device.</li>
+        <li><strong>Set Dimensions & Resize</strong> — Enter your target width and height (or pick a preset), click "Resize", and download the result instantly.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>imglite vs Other Image Resizer Tools</h2>
+    <table class="comparison-table">
+      <tr><th>Feature</th><th>imglite</th><th>iloveimg</th><th>Adobe Express</th></tr>
+      <tr><td>Free</td><td><span class="check">✓ Unlimited</span></td><td>Limited free tier</td><td>Free with account</td></tr>
+      <tr><td>Privacy</td><td><span class="check">✓ Client-side only</span></td><td><span class="cross">✗</span> Uploads to server</td><td><span class="cross">✗</span> Uploads to server</td></tr>
+      <tr><td>No Signup</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span> Account required</td></tr>
+      <tr><td>Percentage Scaling</td><td><span class="check">✓ 10-200%</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Built-in Presets</td><td><span class="check">✓ 4 presets</span></td><td><span class="cross">✗</span></td><td>Template-based</td></tr>
+      <tr><td>Batch Processing</td><td>Coming soon</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>Common Image Resize Dimensions for Every Use Case</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>🌐 Website Images</h3>
+        <p>Hero banners: 1920×600. Blog featured images: 1200×630. Product photos: 800×800. Resize all your site images to consistent dimensions for a professional look and faster load times.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📱 Social Media</h3>
+        <p>Instagram post: 1080×1080 (square) or 1080×1350 (portrait). Facebook/Twitter link preview: 1200×630. YouTube thumbnail: 1280×720. Get exact dimensions right every time.</p>
+      </div>
+      <div class="feature-card">
+        <h3>✉️ Email & Documents</h3>
+        <p>Email signatures: 200×100 max. Presentation slides: 1920×1080 or 1024×768. Resize before attaching to stay within email provider size limits and avoid oversized documents.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🖨️ Print & Display</h3>
+        <p>HD display wallpapers: 1920×1080. 4K: 3840×2160. Print at 300 DPI: multiply inches × 300 for pixel dimensions. Resize photos to exact print specifications.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="tips-box">
+    <h3 style="margin-bottom:8px;font-size:.95rem">💡 Pro Tips for Better Image Resizing</h3>
+    <p>• <strong>Maintain aspect ratio</strong> — enter either width or height, leave the other blank, and imglite auto-calculates the proportional value.</p>
+    <p>• <strong>Resize before compressing</strong> — if you need both smaller dimensions and smaller file size, resize first then run through our <a href="/compress-png.html" style="color:var(--accent)">PNG compressor</a> or <a href="/compress-jpg.html" style="color:var(--accent)">JPG compressor</a>.</p>
+    <p>• <strong>For social media, use presets</strong> — the built-in 1080×1080 and 1920×1080 presets match the most common social media image sizes exactly.</p>
+    <p>• <strong>Upscaling has limits</strong> — scaling an image larger than its original dimensions won't add detail. For best results, always resize down, not up.</p>
+  </div>
+
+  <section>
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item"><h3>How can I resize an image online for free?</h3><p>Visit our <a href="/resize-image.html" style="color:var(--accent)">free image resizer</a>, drag and drop your image, enter target width/height or pick a preset, and click Resize. Everything runs in your browser — no uploads, no signup, completely free.</p></div>
+    <div class="faq-item"><h3>Can I resize an image by percentage?</h3><p>Yes. Enter a percentage value (10-200%) in either the width or height field. The other dimension scales proportionally. This is great for consistent scaling — e.g., resizing all product photos to 50% of their original size.</p></div>
+    <div class="faq-item"><h3>Does resizing reduce image quality?</h3><p>Scaling down (reducing dimensions) maintains excellent quality since the browser's Canvas API uses high-quality interpolation. Scaling up a small image to larger dimensions may appear blurry — always resize down for best results.</p></div>
+    <div class="faq-item"><h3>Is it safe to resize personal photos online?</h3><p>With imglite, absolutely. All image processing uses your browser's Canvas API — your photos never get uploaded to any server. This is fundamentally more private than tools like iloveimg or Adobe Express that require server uploads.</p></div>
+    <div class="faq-item"><h3>What's the difference between resizing and compressing?</h3><p>Resizing changes pixel dimensions (1920×1080 → 800×450). Compression reduces file size by optimizing data storage without changing dimensions. For maximum size reduction, resize first, then compress with our <a href="/compress-jpg.html" style="color:var(--accent)">JPG compressor</a> or <a href="/compress-png.html" style="color:var(--accent)">PNG compressor</a>.</p></div>
+    <div class="faq-item"><h3>What image formats does the resizer support?</h3><p>imglite's resizer supports all major image formats: PNG, JPEG, JPG, WebP, GIF, BMP, and SVG. The output format depends on your original — PNGs and SVGs output as PNG (preserving transparency), while JPGs and WebPs output as JPEG.</p></div>
+    <div class="faq-item"><h3>How do I resize an image for a specific social media platform?</h3><p>Use our one-click presets: 1080×1080 for Instagram posts, 1200×630 for Facebook/Twitter link images, 1920×1080 for YouTube thumbnails and full-width social banners. No manual dimension lookup needed.</p></div>
+  </section>
+
+  <section>
+    <h2>Explore More Free Image Tools</h2>
+    <div class="tools-grid">
+      <a href="/resize-image.html" class="tc"><strong>Resize Image</strong><br><span style="color:var(--text2);font-size:.78rem">Scale to any dimension</span></a>
+      <a href="/compress-png.html" class="tc"><strong>Compress PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce PNG file size</span></a>
+      <a href="/compress-jpg.html" class="tc"><strong>Compress JPG</strong><br><span style="color:var(--text2);font-size:.78rem">Optimize JPEG images</span></a>
+      <a href="/jpg-to-webp.html" class="tc"><strong>JPG → WebP</strong><br><span style="color:var(--text2);font-size:.78rem">Modern format conversion</span></a>
+      <a href="/" class="tc"><strong>SVG → PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Convert vector to raster</span></a>
+      <a href="/image-crop.html" class="tc"><strong>Crop Image</strong><br><span style="color:var(--text2);font-size:.78rem">Crop &amp; trim edges</span></a>
+    </div>
+  </section>
+
+  <p class="updated">Last updated: July 22, 2026</p>
+</main>
+
+<footer><div class="container"><p>&copy; 2026 imgloft — <a href="/about.html">About</a> · <a href="/privacy.html">Privacy</a> · <a href="/free-online-image-resizer">Image Resizer Guide</a> · <a href="/free-online-png-compressor">PNG Compressor Guide</a></p><p style="margin-top:2px">All image processing happens in your browser. No uploads, no servers.</p></div></footer>
+</body>
+</html>
