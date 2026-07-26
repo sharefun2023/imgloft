@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Online Image Cropper — Crop Images Instantly Without Uploading | imgloft</title>
+  <meta name="description" content="Crop images online for free. Trim, cut, and resize photos with custom or preset aspect ratios — all processing happens in your browser, no upload required.">
+  <meta name="keywords" content="free online image cropper, crop image online, image cropping tool, crop photo online free, online image cropper, crop jpg online, crop png online, image cutter tool">
+  <meta property="og:title" content="Free Online Image Cropper — Crop Images Instantly Without Uploading | imgloft">
+  <meta property="og:description" content="Crop images for free in your browser. Trim photos to any aspect ratio — 1:1, 4:3, 16:9, or custom — no upload, no signup, instant results.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://imgloft.com/free-online-image-cropper">
+  <meta property="og:site_name" content="imgloft">
+  <link rel="canonical" href="https://imgloft.com/free-online-image-cropper">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://imgloft.com"},{"@type":"ListItem","position":2,"name":"Free Online Image Cropper","item":"https://imgloft.com/free-online-image-cropper"}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How can I crop an image online for free?","acceptedAnswer":{"@type":"Answer","text":"Use imgloft's free image cropper at imgloft.com/image-crop. Upload or drag-and-drop your image, choose a preset ratio (1:1, 4:3, 16:9) or use freeform, adjust the crop box, and click Crop & Download. All processing happens in your browser — your image never leaves your device."}},{"@type":"Question","name":"Does cropping an image reduce quality?","acceptedAnswer":{"@type":"Answer","text":"No — cropping only removes parts of the image; it does not recompress or degrade the remaining portion. The cropped area retains its original pixel quality. If you also need to reduce file size, combine cropping with our free JPG compressor or PNG compressor."}},{"@type":"Question","name":"Is it safe to crop images online?","acceptedAnswer":{"@type":"Answer","text":"Yes. imgloft processes everything client-side in your browser using the Canvas API. Your image never leaves your device — no upload, no server processing, no data retention. This is fundamentally more private than server-based tools like iloveimg or ezgif."}},{"@type":"Question","name":"What aspect ratios does the image cropper support?","acceptedAnswer":{"@type":"Answer","text":"imgloft's cropper supports freeform (unconstrained), 1:1 (square — ideal for Instagram), 4:3 (standard photo), 16:9 (widescreen / YouTube thumbnail), 3:4 (portrait), and 9:16 (vertical / Stories). You can also drag the corner handles for fully custom dimensions."}},{"@type":"Question","name":"Can I crop JPG, PNG, and WebP images?","acceptedAnswer":{"@type":"Answer","text":"Yes. imgloft's image cropper supports all common image formats including JPG, JPEG, PNG, WebP, BMP, GIF, and SVG. The output format matches your input — crop a PNG and you get a PNG, crop a JPG and you get a JPG."}},{"@type":"Question","name":"What's the maximum image size I can crop?","acceptedAnswer":{"@type":"Answer","text":"There is no artificial file size limit. You can crop images of any size — the only constraint is your browser's available memory. For very large images (50MB+), we recommend using a desktop with sufficient RAM for smooth cropping."}},{"@type":"Question","name":"Can I undo a crop after downloading?","acceptedAnswer":{"@type":"Answer","text":"The downloaded image is a new cropped file. Since imgloft never uploads or stores your original, we cannot recover the uncropped version. We recommend keeping a copy of your original image before cropping, especially for important photos."}}]}
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--text:#e6edf3;--text2:#8b949e;--accent:#f0883e;--accent2:#d9742a;--green:#3fb950;--radius:8px}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.6}
+    .container{max-width:900px;margin:0 auto;padding:0 20px;width:100%}
+    header{border-bottom:1px solid var(--border);padding:16px 0;background:var(--surface)}
+    header .container{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.4rem;font-weight:700;color:var(--text);text-decoration:none}.logo span{color:var(--accent)}
+    nav a{color:var(--text2);text-decoration:none;margin-left:20px;font-size:.9rem}nav a:hover,nav a.active{color:var(--accent)}
+    .hero{text-align:center;padding:48px 0 28px}
+    .hero h1{font-size:2rem;font-weight:700;margin-bottom:12px;line-height:1.3}
+    .hero p{color:var(--text2);font-size:1.05rem;max-width:650px;margin:0 auto}
+    .cta-section{text-align:center;padding:0 0 32px}
+    .cta-btn{display:inline-block;padding:14px 36px;background:var(--accent2);color:#fff;border-radius:var(--radius);text-decoration:none;font-size:1.05rem;font-weight:600;transition:background .2s}
+    .cta-btn:hover{background:var(--accent)}
+    section{padding:28px 0}
+    h2{font-size:1.35rem;font-weight:700;margin-bottom:16px;color:var(--text)}
+    h3{font-size:1.1rem;font-weight:600;margin-bottom:8px;color:var(--text)}
+    p{color:var(--text2);margin-bottom:12px;font-size:.95rem}
+    ul,ol{color:var(--text2);margin:0 0 16px 20px;font-size:.95rem}
+    li{margin-bottom:6px}
+    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:16px}
+    .feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+    .feature-card h3{font-size:1rem;margin-bottom:6px}
+    .feature-card p{font-size:.85rem;margin:0}
+    .feature-card .icon{font-size:1.4rem;margin-bottom:8px}
+    .steps{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin:16px 0}
+    .steps ol{margin:0}
+    .steps li{margin-bottom:10px}
+    .comparison-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.88rem}
+    .comparison-table th{background:var(--surface2);color:var(--text);padding:10px 14px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+    .comparison-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
+    .comparison-table tr:hover td{background:rgba(240,136,62,.03)}
+    .check{color:var(--green)}.cross{color:#f85149}
+    .faq-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:12px}
+    .faq-item h3{font-size:.95rem;margin-bottom:6px}
+    .faq-item p{font-size:.87rem;margin:0}
+    .tips-box{background:var(--surface);border:1px solid var(--accent2);border-left:3px solid var(--accent);border-radius:var(--radius);padding:18px 22px;margin:16px 0}
+    .tips-box p{margin:6px 0;font-size:.88rem}
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:16px 0}
+    .tc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;text-decoration:none;color:var(--text);transition:all .2s;font-size:.85rem}
+    .tc:hover{border-color:var(--accent)}
+    footer{margin-top:auto;border-top:1px solid var(--border);padding:24px 0;text-align:center;color:var(--text2);font-size:.8rem}
+    footer a{color:var(--accent);text-decoration:none}
+    .breadcrumb{color:var(--text2);font-size:.82rem;padding:12px 0}
+    .breadcrumb a{color:var(--text2);text-decoration:none}.breadcrumb a:hover{color:var(--accent)}
+    .updated{text-align:center;color:var(--text2);font-size:.78rem;padding:0 0 20px}
+  </style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">img<span>loft</span></a><nav><a href="/">Home</a><a href="/compress-png">Compress PNG</a><a href="/compress-jpg">Compress JPG</a><a href="/resize-image">Resize</a><a href="/about">About</a></nav></div></header>
+
+<main class="container">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Free Online Image Cropper</div>
+
+  <section class="hero">
+    <h1>Free Online Image Cropper — Trim &amp; Cut Images Instantly</h1>
+    <p>Crop JPG, PNG, and WebP images online without uploading anything. Choose from preset aspect ratios or drag freely — all processing happens in your browser. No signup, no limits, completely free.</p>
+  </section>
+
+  <div class="cta-section">
+    <a href="/image-crop" class="cta-btn">✂️ Crop Your Image Now</a>
+  </div>
+
+  <section>
+    <h2>Why Use Our Online Image Cropper?</h2>
+    <p>Cropping is the most common image editing task — whether you're resizing a profile picture, preparing a YouTube thumbnail, or trimming a screenshot. Our <strong>free online image cropper</strong> makes it dead simple: drop an image, adjust the crop box, download. No uploads, no ads, no hassle.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">🔒</div>
+        <h3>100% Private & Secure</h3>
+        <p>Your images never leave your device. All cropping uses browser Canvas API — zero uploads, zero server processing, zero privacy risks.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">⚡</div>
+        <h3>Instant Results</h3>
+        <p>No waiting for uploads or server queues. Drop your image and the crop tool loads instantly — even large photos process in milliseconds.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📐</div>
+        <h3>Preset & Custom Ratios</h3>
+        <p>Choose from 1:1 (square), 4:3, 16:9, 3:4, and 9:16 presets, or drag freely for custom dimensions. Perfect for any platform.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🆓</div>
+        <h3>Completely Free</h3>
+        <p>No hidden costs, no premium tiers, no daily limits. Crop as many images as you want, forever free.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🖼️</div>
+        <h3>All Image Formats</h3>
+        <p>Works with JPG, JPEG, PNG, WebP, BMP, GIF, and SVG. The output format matches your input automatically.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📱</div>
+        <h3>Works on Any Device</h3>
+        <p>Desktop, tablet, or mobile — crop images from anywhere. Works in Chrome, Firefox, Safari, and Edge.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How to Crop Images Online (3 Simple Steps)</h2>
+    <div class="steps">
+      <ol>
+        <li><strong>Open the Image Cropper</strong> — Go to our <a href="/image-crop" style="color:var(--accent)">image crop tool</a>.</li>
+        <li><strong>Upload Your Image</strong> — Drag and drop your photo onto the drop zone, or click to browse files. The file stays entirely on your device.</li>
+        <li><strong>Crop & Download</strong> — Choose a preset ratio or drag the corner handles to adjust the crop area, click "Crop & Download", and save the trimmed image instantly.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>imgloft vs Other Image Cropping Tools</h2>
+    <table class="comparison-table">
+      <tr><th>Feature</th><th>imgloft</th><th>iloveimg</th><th>ezgif</th><th>Canva</th></tr>
+      <tr><td>Free</td><td><span class="check">✓ Unlimited</span></td><td>Limited free tier</td><td><span class="check">✓ Unlimited</span></td><td>Free with watermark</td></tr>
+      <tr><td>Privacy</td><td><span class="check">✓ Client-side only</span></td><td><span class="cross">✗</span> Uploads to server</td><td><span class="cross">✗</span> Uploads to server</td><td><span class="cross">✗</span> Uploads to server</td></tr>
+      <tr><td>No Signup</td><td><span class="check">✓</span></td><td><span class="cross">✗</span> Account required</td><td><span class="check">✓</span></td><td><span class="cross">✗</span> Account required</td></tr>
+      <tr><td>Preset Ratios</td><td><span class="check">✓ 1:1, 4:3, 16:9, 3:4, 9:16</span></td><td>Manual only</td><td>Manual only</td><td><span class="check">✓</span></td></tr>
+      <tr><td>Freeform Crop</td><td><span class="check">✓ Drag handles</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td></tr>
+      <tr><td>Batch Crop</td><td>Coming soon</td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td><td><span class="check">✓</span></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>When Should You Crop Images?</h2>
+    <p>Image cropping is essential for making photos work across different platforms and contexts. Here are the most common use cases:</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>📸 Social Media Profiles</h3>
+        <p>Platforms require specific aspect ratios: Instagram profile (1:1), Facebook cover (16:9), LinkedIn banner (4:1). Crop to the exact dimensions before uploading to avoid awkward auto-crops.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🎬 YouTube Thumbnails</h3>
+        <p>YouTube thumbnails work best at 16:9 aspect ratio and 1280×720 resolution. Crop your image to the right dimensions for maximum click-through rates.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🛒 Product Photography</h3>
+        <p>E-commerce platforms like Shopify, Etsy, and Amazon display products best in square (1:1) format. Crop product photos to square for consistent, professional-looking listings.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📱 Instagram Stories & Reels</h3>
+        <p>Stories and Reels require 9:16 vertical format. Use our 9:16 preset to quickly crop horizontal photos into the vertical format without guessing dimensions.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="tips-box">
+    <h3 style="margin-bottom:8px;font-size:.95rem">💡 Pro Tips for Better Image Cropping</h3>
+    <p>• <strong>Use the rule of thirds</strong> — position your subject along the grid lines rather than dead center. Our crop tool's freeform mode lets you frame shots exactly right.</p>
+    <p>• <strong>Compose first, resize later</strong> — crop for composition, then use our <a href="/free-online-image-resizer" style="color:var(--accent)">image resizer</a> if you need specific pixel dimensions.</p>
+    <p>• <strong>Leave breathing room for profile pics</strong> — social media profile pictures are often displayed inside circles. Crop slightly wider than you think to avoid cutting off edges when the platform applies circular masking.</p>
+    <p>• <strong>Lock ratio for consistent thumbnails</strong> — if you're making multiple YouTube thumbnails, always use the 16:9 ratio lock so they all match. No more mismatched video covers.</p>
+    <p>• <strong>Don't upscale</strong> — cropping removes pixels. If the remaining area is too small for your needs, consider using our <a href="/resize-image" style="color:var(--accent)">image resizer</a> to enlarge first, then crop.</p>
+  </div>
+
+  <section>
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item"><h3>How can I crop an image online for free?</h3><p>Visit our <a href="/image-crop" style="color:var(--accent)">image crop tool</a>, drag and drop your image, select a preset ratio or drag the handles for freeform, click "Crop & Download", and save. Everything runs in your browser — no uploads, no signup, completely free.</p></div>
+    <div class="faq-item"><h3>Does cropping an image reduce quality?</h3><p>No — cropping only removes parts of the image; it does not recompress or degrade the remaining portion. The cropped area retains its original pixel quality. If you also need to reduce file size, combine cropping with our <a href="/free-online-jpg-compressor" style="color:var(--accent)">JPG compressor</a> or <a href="/free-online-png-compressor" style="color:var(--accent)">PNG compressor</a>.</p></div>
+    <div class="faq-item"><h3>Is it safe to crop images online?</h3><p>With imgloft, absolutely. All cropping uses your browser's Canvas API — your image never gets uploaded to any server. This is fundamentally more private than services that require you to send files to a remote server for processing.</p></div>
+    <div class="faq-item"><h3>What aspect ratios does the image cropper support?</h3><p>imgloft's cropper supports freeform (unconstrained), 1:1 (square — ideal for Instagram), 4:3 (standard photo), 16:9 (widescreen / YouTube thumbnail), 3:4 (portrait), and 9:16 (vertical / Stories). You can also drag the corner handles for fully custom dimensions.</p></div>
+    <div class="faq-item"><h3>Can I crop JPG, PNG, and WebP images?</h3><p>Yes. imgloft's image cropper supports all common image formats including JPG, JPEG, PNG, WebP, BMP, GIF, and SVG. The output format matches your input — crop a PNG and you get a PNG, crop a JPG and you get a JPG.</p></div>
+    <div class="faq-item"><h3>How is imgloft's cropper different from Canva or iloveimg?</h3><p>The biggest difference is privacy: imgloft processes everything in your browser — nothing is uploaded. Canva and iloveimg upload your images to their servers. Plus, imgloft is completely free with no account required, no watermarks, and no daily limits.</p></div>
+  </section>
+
+  <section>
+    <h2>Explore More Free Image Tools</h2>
+    <div class="tools-grid">
+      <a href="/image-crop" class="tc"><strong>Crop Image</strong><br><span style="color:var(--text2);font-size:.78rem">Trim &amp; cut edges</span></a>
+      <a href="/compress-jpg" class="tc"><strong>Compress JPG</strong><br><span style="color:var(--text2);font-size:.78rem">Shrink JPEG files</span></a>
+      <a href="/compress-png" class="tc"><strong>Compress PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce PNG file size</span></a>
+      <a href="/free-online-image-resizer" class="tc"><strong>Resize Image</strong><br><span style="color:var(--text2);font-size:.78rem">Scale to any dimension</span></a>
+      <a href="/free-online-jpg-to-webp-converter" class="tc"><strong>JPG → WebP</strong><br><span style="color:var(--text2);font-size:.78rem">Modern format conversion</span></a>
+      <a href="/" class="tc"><strong>SVG → PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Vector to raster</span></a>
+    </div>
+  </section>
+
+  <p class="updated">Last updated: July 26, 2026</p>
+</main>
+
+<footer><div class="container"><p>&copy; 2026 imgloft — <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/free-online-image-cropper">Image Cropper Guide</a></p><p style="margin-top:2px">All image processing happens in your browser. No uploads, no servers.</p></div></footer>
+</body>
+</html>
