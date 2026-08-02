@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free Online SVG to PNG Converter — Convert SVG to PNG Instantly | imgloft</title>
+  <meta name="description" content="Convert SVG to PNG online for free. Instant, private, browser-based SVG to PNG converter — no upload, no signup, no limits. Supports custom dimensions and transparent backgrounds.">
+  <meta name="keywords" content="svg to png converter, convert svg to png, svg to png online, free svg to png converter, svg to png, online svg converter, vector to raster converter">
+  <meta property="og:title" content="Free Online SVG to PNG Converter — Convert SVG to PNG Instantly | imgloft">
+  <meta property="og:description" content="Convert SVG vector graphics to high-quality PNG images for free. All processing happens in your browser — no upload, no signup, instant results.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://imgloft.com/free-online-svg-to-png-converter">
+  <meta property="og:site_name" content="imgloft">
+  <link rel="canonical" href="https://imgloft.com/free-online-svg-to-png-converter">
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://imgloft.com"},{"@type":"ListItem","position":2,"name":"Free Online SVG to PNG Converter","item":"https://imgloft.com/free-online-svg-to-png-converter"}]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How can I convert SVG to PNG online for free?","acceptedAnswer":{"@type":"Answer","text":"Use imgloft's free SVG to PNG converter at imgloft.com/svg-to-png. Drag and drop your SVG file, set your desired output dimensions, and click Convert. All processing happens in your browser using the Canvas API — your file never uploads to any server."}},{"@type":"Question","name":"Is it safe to convert SVG files online?","acceptedAnswer":{"@type":"Answer","text":"Yes, with imgloft it is completely safe. All SVG to PNG conversion happens client-side in your browser using the Canvas API. Your SVG file never leaves your device — no uploads, no server storage, no data retention. This is fundamentally more private than server-based converters."}},{"@type":"Question","name":"What resolution can I convert SVG to PNG at?","acceptedAnswer":{"@type":"Answer","text":"You can convert SVG to PNG at any resolution — from tiny icons (16×16) to high-resolution exports (4000×4000 or larger). SVG is resolution-independent, so the PNG output is only limited by your browser's memory. The converter supports custom width and height controls for precise output."}},{"@type":"Question","name":"Does the converted PNG keep the SVG's transparent background?","acceptedAnswer":{"@type":"Answer","text":"Yes, imgloft's SVG to PNG converter fully preserves transparency. If your SVG has a transparent background (alpha channel), the resulting PNG will also have a transparent background. This is essential for logos, icons, and design assets."}},{"@type":"Question","name":"Can I convert multiple SVG files to PNG at once?","acceptedAnswer":{"@type":"Answer","text":"Currently, imgloft converts one SVG at a time. For batch conversion, simply repeat the process — there's no daily limit. We're working on batch SVG to PNG conversion for a future release."}},{"@type":"Question","name":"What's the difference between SVG and PNG formats?","acceptedAnswer":{"@type":"Answer","text":"SVG (Scalable Vector Graphics) is a vector format — images are defined by mathematical paths and shapes, making them infinitely scalable without quality loss. PNG (Portable Network Graphics) is a raster format — images are made of pixels at a fixed resolution. You convert SVG to PNG when you need a pixel-based image for web display, social media, or applications that don't support SVG."}},{"@type":"Question","name":"Why won't my SVG display on a website?","acceptedAnswer":{"@type":"Answer","text":"Some platforms and CMS systems don't support SVG uploads for security reasons (SVG can contain scripts). Converting your SVG to PNG solves this — PNG is universally supported and safe for all platforms including WordPress, Shopify, and social media."}}]}
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{--bg:#0d1117;--surface:#161b22;--surface2:#21262d;--border:#30363d;--text:#e6edf3;--text2:#8b949e;--accent:#f0883e;--accent2:#d9742a;--green:#3fb950;--radius:8px}
+    body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.6}
+    .container{max-width:900px;margin:0 auto;padding:0 20px;width:100%}
+    header{border-bottom:1px solid var(--border);padding:16px 0;background:var(--surface)}
+    header .container{display:flex;align-items:center;justify-content:space-between}
+    .logo{font-size:1.4rem;font-weight:700;color:var(--text);text-decoration:none}.logo span{color:var(--accent)}
+    nav a{color:var(--text2);text-decoration:none;margin-left:20px;font-size:.9rem}nav a:hover,nav a.active{color:var(--accent)}
+    .hero{text-align:center;padding:48px 0 28px}
+    .hero h1{font-size:2rem;font-weight:700;margin-bottom:12px;line-height:1.3}
+    .hero p{color:var(--text2);font-size:1.05rem;max-width:650px;margin:0 auto}
+    .cta-section{text-align:center;padding:0 0 32px}
+    .cta-btn{display:inline-block;padding:14px 36px;background:var(--accent2);color:#fff;border-radius:var(--radius);text-decoration:none;font-size:1.05rem;font-weight:600;transition:background .2s}
+    .cta-btn:hover{background:var(--accent)}
+    section{padding:28px 0}
+    h2{font-size:1.35rem;font-weight:700;margin-bottom:16px;color:var(--text)}
+    h3{font-size:1.1rem;font-weight:600;margin-bottom:8px;color:var(--text)}
+    p{color:var(--text2);margin-bottom:12px;font-size:.95rem}
+    ul,ol{color:var(--text2);margin:0 0 16px 20px;font-size:.95rem}
+    li{margin-bottom:6px}
+    .feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px;margin-top:16px}
+    .feature-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+    .feature-card h3{font-size:1rem;margin-bottom:6px}
+    .feature-card p{font-size:.85rem;margin:0}
+    .feature-card .icon{font-size:1.4rem;margin-bottom:8px}
+    .steps{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin:16px 0}
+    .steps ol{margin:0}
+    .steps li{margin-bottom:10px}
+    .comparison-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.88rem}
+    .comparison-table th{background:var(--surface2);color:var(--text);padding:10px 14px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
+    .comparison-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
+    .comparison-table tr:hover td{background:rgba(240,136,62,.03)}
+    .check{color:var(--green)}.cross{color:#f85149}
+    .faq-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin-bottom:12px}
+    .faq-item h3{font-size:.95rem;margin-bottom:6px}
+    .faq-item p{font-size:.87rem;margin:0}
+    .tips-box{background:var(--surface);border:1px solid var(--accent2);border-left:3px solid var(--accent);border-radius:var(--radius);padding:18px 22px;margin:16px 0}
+    .tips-box p{margin:6px 0;font-size:.88rem}
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:16px 0}
+    .tc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;text-decoration:none;color:var(--text);transition:all .2s;font-size:.85rem}
+    .tc:hover{border-color:var(--accent)}
+    footer{margin-top:auto;border-top:1px solid var(--border);padding:24px 0;text-align:center;color:var(--text2);font-size:.8rem}
+    footer a{color:var(--accent);text-decoration:none}
+    .breadcrumb{color:var(--text2);font-size:.82rem;padding:12px 0}
+    .breadcrumb a{color:var(--text2);text-decoration:none}.breadcrumb a:hover{color:var(--accent)}
+    .updated{text-align:center;color:var(--text2);font-size:.78rem;padding:0 0 20px}
+  </style>
+</head>
+<body>
+<header><div class="container"><a href="/" class="logo">img<span>loft</span></a><nav><a href="/">Home</a><a href="/svg-to-png">SVG → PNG</a><a href="/compress-png">Compress PNG</a><a href="/jpg-to-webp">JPG → WebP</a><a href="/about">About</a></nav></div></header>
+
+<main class="container">
+  <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Free Online SVG to PNG Converter</div>
+
+  <section class="hero">
+    <h1>Free Online SVG to PNG Converter — Convert SVG to PNG Instantly</h1>
+    <p>Convert SVG vector graphics to high-quality PNG images for free. Our browser-based <strong>SVG to PNG converter</strong> works instantly — no uploads, no signup, no file size limits. Resize output, preserve transparency, and download your PNG in seconds.</p>
+  </section>
+
+  <div class="cta-section">
+    <a href="/svg-to-png" class="cta-btn">🖼️ Convert SVG to PNG Now — Free</a>
+  </div>
+
+  <section>
+    <h2>Why Use Our Free SVG to PNG Converter?</h2>
+    <p>Converting SVG to PNG shouldn't require installing software, uploading files to unknown servers, or signing up for accounts. Our <strong>online SVG to PNG converter</strong> handles everything directly in your browser — fast, private, and completely free.</p>
+
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="icon">🔒</div>
+        <h3>100% Private & Secure</h3>
+        <p>Your SVG files never leave your device. All conversion uses browser Canvas API — zero uploads, zero server processing, total privacy.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">⚡</div>
+        <h3>Instant Conversion</h3>
+        <p>No upload queues, no server processing delays. Your SVG converts to PNG in milliseconds — just drag, drop, and download.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📐</div>
+        <h3>Custom Output Size</h3>
+        <p>Set exact width and height for your PNG output. Scale up for high-res exports or down for thumbnails — SVG is resolution-independent.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🆓</div>
+        <h3>Completely Free</h3>
+        <p>No hidden costs, no premium plans, no daily limits. Convert as many SVGs to PNG as you want, forever free.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">📱</div>
+        <h3>Works on Any Device</h3>
+        <p>Desktop, tablet, or mobile — convert SVG to PNG anywhere. Works in Chrome, Firefox, Safari, and Edge.</p>
+      </div>
+      <div class="feature-card">
+        <div class="icon">🎨</div>
+        <h3>Preserves Transparency</h3>
+        <p>Alpha channel support — your SVG's transparent backgrounds and semi-transparent elements are fully preserved in the PNG output.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How to Convert SVG to PNG Online (3 Simple Steps)</h2>
+    <div class="steps">
+      <ol>
+        <li><strong>Open the SVG to PNG Converter</strong> — Go to our <a href="/svg-to-png" style="color:var(--accent)">free SVG to PNG converter</a>.</li>
+        <li><strong>Upload Your SVG File</strong> — Drag and drop your SVG onto the drop zone, or click to browse. Set your desired output width and height.</li>
+        <li><strong>Convert & Download</strong> — Click "Convert to PNG" and download your high-quality PNG instantly. That's it — no signup, no wait.</li>
+      </ol>
+    </div>
+  </section>
+
+  <section>
+    <h2>imgloft vs Other SVG to PNG Converters</h2>
+    <table class="comparison-table">
+      <tr><th>Feature</th><th>imgloft</th><th>CloudConvert</th><th>Convertio</th><th>EZGIF</th></tr>
+      <tr><td>Free</td><td><span class="check">✓ Unlimited</span></td><td>25/day free</td><td>10/day free</td><td><span class="check">✓ Free</span></td></tr>
+      <tr><td>Privacy</td><td><span class="check">✓ Client-side only</span></td><td><span class="cross">✗</span> Uploads to server</td><td><span class="cross">✗</span> Uploads to server</td><td><span class="cross">✗</span> Uploads to server</td></tr>
+      <tr><td>No Signup</td><td><span class="check">✓</span></td><td><span class="cross">✗</span> Account after limit</td><td><span class="cross">✗</span> Account after limit</td><td><span class="check">✓</span></td></tr>
+      <tr><td>Custom Resolution</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+      <tr><td>Transparency Support</td><td><span class="check">✓ Full alpha</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td>Partial</td></tr>
+      <tr><td>Batch Conversion</td><td>Coming soon</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
+    </table>
+  </section>
+
+  <section>
+    <h2>When Should You Convert SVG to PNG?</h2>
+    <p>SVG is a powerful vector format, but it's not supported everywhere. Here are the most common scenarios where <strong>converting SVG to PNG</strong> makes sense:</p>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <h3>🌐 Website & CMS Uploads</h3>
+        <p>WordPress, Shopify, and many CMS platforms block SVG uploads for security reasons. Convert your logo or icon to PNG for universal compatibility.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📱 Social Media Posts</h3>
+        <p>Twitter, Instagram, LinkedIn, and Facebook don't support SVG images. Convert to PNG before posting for full-resolution, crisp graphics.</p>
+      </div>
+      <div class="feature-card">
+        <h3>🖨️ Print & Marketing Materials</h3>
+        <p>Most printing services require raster formats like PNG. Convert your vector designs to high-resolution PNG (300+ DPI) for business cards, flyers, and banners.</p>
+      </div>
+      <div class="feature-card">
+        <h3>📧 Email Signatures</h3>
+        <p>Email clients don't render SVGs. Convert your company logo to PNG for email signatures that display correctly across Gmail, Outlook, and Apple Mail.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="tips-box">
+    <h3 style="margin-bottom:8px;font-size:.95rem">💡 Pro Tips for Better SVG to PNG Conversion</h3>
+    <p>• <strong>Set resolution before converting</strong> — SVG is resolution-independent, so define your target width/height in the converter for pixel-perfect output. For web, 2x the display size (e.g., 800px for a 400px slot) ensures retina-ready PNGs.</p>
+    <p>• <strong>Check your SVG's viewBox</strong> — if conversion produces unexpected cropping, your SVG may lack a proper viewBox attribute. Add <code>viewBox="0 0 WIDTH HEIGHT"</code> to your SVG for predictable results.</p>
+    <p>• <strong>Convert text to outlines first</strong> — if your SVG uses custom fonts that render incorrectly, convert text to paths in your design tool (Illustrator, Figma, Inkscape) before running the SVG to PNG conversion.</p>
+    <p>• <strong>For icons, export at multiple sizes</strong> — use the converter to generate 16×16, 32×32, 64×64, and 128×128 favicon variants from a single SVG master.</p>
+    <p>• <strong>Need a compressed PNG?</strong> — after converting SVG to PNG, use our <a href="/compress-png" style="color:var(--accent)">free PNG compressor</a> to further reduce file size without quality loss.</p>
+  </div>
+
+  <section>
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item"><h3>How can I convert SVG to PNG online for free?</h3><p>Visit our <a href="/svg-to-png" style="color:var(--accent)">free SVG to PNG converter</a>, drag and drop your SVG file, set your desired output dimensions, and click Convert. Everything runs in your browser — no uploads, no signup, no limits. Download your PNG instantly.</p></div>
+    <div class="faq-item"><h3>Is it safe to convert SVG files online?</h3><p>With imgloft, absolutely. All SVG to PNG conversion uses your browser's Canvas API — your file never gets uploaded to any server. This is fundamentally more private than CloudConvert, Convertio, or any server-based converter that stores your files temporarily.</p></div>
+    <div class="faq-item"><h3>What resolution can I convert SVG to PNG at?</h3><p>Any resolution you want. SVG is vector-based and resolution-independent — you can export a tiny 16×16 favicon or a massive 4000×4000 high-res image. Set custom width and height in the converter controls for exact output dimensions.</p></div>
+    <div class="faq-item"><h3>Will my SVG's transparent background be preserved in the PNG?</h3><p>Yes, imgloft's SVG to PNG converter fully supports the alpha channel. If your SVG has transparent or semi-transparent elements, they will be accurately preserved in the PNG output. This is critical for logos, icons, and UI assets.</p></div>
+    <div class="faq-item"><h3>What's the difference between SVG and PNG?</h3><p>SVG is a vector format — defined by mathematical paths that scale infinitely without quality loss. PNG is a raster format — composed of fixed pixels. Use SVG for scalable graphics; convert to PNG when you need pixel output for web display, social media, or print. Learn more about vector vs raster formats in our <a href="/about" style="color:var(--accent)">about page</a>.</p></div>
+    <div class="faq-item"><h3>Why do some websites block SVG uploads?</h3><p>SVG files can contain embedded JavaScript, which is a security risk. Platforms like WordPress, Shopify, and many social media sites block SVG uploads to prevent XSS attacks. Converting your SVG to PNG eliminates this risk — PNG is universally accepted and safe.</p></div>
+    <div class="faq-item"><h3>Can I convert SVG to PNG and then compress the PNG?</h3><p>Yes — it's a great two-step workflow. First, convert your SVG to PNG at your desired resolution using our <a href="/svg-to-png" style="color:var(--accent)">SVG converter</a>. Then, use our <a href="/compress-png" style="color:var(--accent)">PNG compressor</a> to reduce the file size by up to 80% while maintaining visual quality.</p></div>
+  </section>
+
+  <section>
+    <h2>Explore More Free Image Tools</h2>
+    <div class="tools-grid">
+      <a href="/svg-to-png" class="tc"><strong>SVG → PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Convert vector to raster</span></a>
+      <a href="/compress-png" class="tc"><strong>Compress PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce PNG file size</span></a>
+      <a href="/jpg-to-webp" class="tc"><strong>JPG → WebP</strong><br><span style="color:var(--text2);font-size:.78rem">Modern format conversion</span></a>
+      <a href="/compress-jpg" class="tc"><strong>Compress JPG</strong><br><span style="color:var(--text2);font-size:.78rem">Optimize JPEG images</span></a>
+      <a href="/resize-image" class="tc"><strong>Resize Image</strong><br><span style="color:var(--text2);font-size:.78rem">Scale to any dimension</span></a>
+      <a href="/image-crop" class="tc"><strong>Crop Image</strong><br><span style="color:var(--text2);font-size:.78rem">Crop &amp; trim edges</span></a>
+    </div>
+  </section>
+
+  <p class="updated">Last updated: August 2, 2026</p>
+</main>
+
+<footer><div class="container"><p>&copy; 2026 imgloft — <a href="/about">About</a> · <a href="/privacy">Privacy</a> · <a href="/free-online-svg-to-png-converter">SVG to PNG Converter Guide</a></p><p style="margin-top:2px">All image processing happens in your browser. No uploads, no servers.</p></div></footer>
+</body>
+</html>
