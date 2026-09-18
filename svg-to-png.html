@@ -38,42 +38,50 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "How do I convert SVG to PNG for free?",
+        "name": "Should I convert at 1x or 2x my display size?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Drag your SVG file onto the converter, adjust the output size if needed, and click Convert. imgloft processes everything in your browser — no upload required."
+          "text": "Export at 2x the CSS size you will render the image at: a 24 px icon becomes a 48 x 48 px PNG. PNG scales down cleanly in a browser, but it never scales up without blur, so the largest size you are likely to need is the size to convert at."
         }
       },
       {
         "@type": "Question",
-        "name": "Is my image safe? Does it get uploaded?",
+        "name": "Will the transparent background survive the conversion?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, completely safe. All processing is client-side in your browser. Your files never leave your device. No server upload, no logging."
+          "text": "Yes. The output is RGBA PNG, so transparency defined in the SVG stays transparent. A white box only appears if the SVG itself paints one."
         }
       },
       {
         "@type": "Question",
-        "name": "Can I resize the output image?",
+        "name": "Why is there a white box behind my icon?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. You can set custom width and height before converting, or keep the original SVG dimensions. You can also reduce the output quality to compress the PNG file size."
+          "text": "Usually the SVG paints a full-size white rectangle, sets a CSS background, or relies on a font the browser has to substitute. Open the file in a text editor, look for a shape that covers the whole viewBox, remove it and convert again."
         }
       },
       {
         "@type": "Question",
-        "name": "Does imgloft work offline?",
+        "name": "Do web fonts and text labels convert correctly?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Once the page is loaded, conversion works without an internet connection since all processing is client-side."
+          "text": "Only when the font is web-safe or embedded in the file. If the SVG merely references a system font, the rasterizer substitutes whatever is installed on your machine, so convert text to outlines in your editor when the exact typeface matters."
         }
       },
       {
         "@type": "Question",
-        "name": "What's the difference between SVG and PNG?",
+        "name": "Does the quality setting shrink the PNG file?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "SVG is a vector format — it scales infinitely without losing quality and is defined by mathematical paths. PNG is a raster format made of pixels at a fixed resolution. Converting SVG to PNG lets you use vector graphics in places that require raster images, like social media, presentations, or websites that don't support SVG."
+          "text": "PNG is a lossless format, so a quality factor does not reduce its size the way it does for JPEG. To lose real bytes, convert at a smaller pixel size, or convert the image to WebP instead."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is there a file size or conversion limit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "No. Nothing is uploaded and there is no account or quota, so the only ceiling is your device memory. Very large drawings, heavy filters or hundreds of paths simply take longer to rasterize."
         }
       }
     ]
@@ -247,7 +255,7 @@
   <section class="intro-text">
     <p>Need to <strong>convert SVG to PNG</strong> quickly, privately, and without installing anything? You're in the right place. Our <strong>SVG to PNG converter</strong> transforms vector graphics into high-quality raster images entirely in your browser — no uploads, no signups, no software to download. Whether you're a designer exporting icons for a website, a developer creating PNG fallbacks for SVG assets, a marketer preparing images for social media, or anyone who needs to <strong>convert SVG to PNG online</strong>, imgloft delivers instant, professional results.</p>
     <p style="margin-top:12px">SVG (Scalable Vector Graphics) is an incredible format — infinitely scalable, tiny file sizes, and perfect for responsive web design. But many platforms and applications still require PNG format: WordPress featured images, email signatures, presentation slides, document embedding, and social media posts all expect raster images. That's where a reliable <strong>svg to png converter</strong> becomes essential, and imgloft's tool is built to handle it flawlessly.</p>
-    <p style="margin-top:12px">What sets our <strong>svg to png converter</strong> apart is privacy. Unlike other online tools that silently upload your files to remote servers — exposing sensitive designs, logos, or unpublished work — imgloft processes everything client-side using your browser's Canvas API. Your SVG data never leaves your device. No server ever sees your files. No logs, no tracking, no cookies. You also get full control: set custom output dimensions in pixels, adjust PNG quality from 0.1 to 1.0 for smaller file sizes, and preview the result before downloading. Best of all — it's completely free, with no daily limits and no watermarks.</p>
+    <p style="margin-top:12px">What sets our <strong>svg to png converter</strong> apart is privacy. Unlike other online tools that silently upload your files to remote servers — exposing sensitive designs, logos, or unpublished work — imgloft processes everything client-side using your browser's Canvas API. Your SVG data never leaves your device. No server ever sees your files. No logs, no tracking, no cookies. You also get full control: type an exact output width and height in pixels, then check the real file size in the preview line before you download anything. Best of all — it's completely free, with no daily limits and no watermarks.</p>
   </section>
 
   <div class="tool-panel">
@@ -290,48 +298,48 @@
   </div>
 
   <section class="how-it-works">
-    <h2>How It Works</h2>
+    <h2>How the SVG to PNG conversion works</h2>
     <div class="steps">
       <div class="step">
         <div class="num">1</div>
-        <h3>Drop Your SVG</h3>
-        <p>Drag an SVG file onto the converter or click to browse.</p>
+        <h3>Vector in</h3>
+        <p>You drop an .svg file. The markup is read and loaded as an image object inside your own browser tab — no file is posted anywhere, and nothing is queued for a worker.</p>
       </div>
       <div class="step">
         <div class="num">2</div>
-        <h3>Adjust Settings</h3>
-        <p>Set output dimensions and quality — or leave defaults.</p>
+        <h3>Rasterized at your pixel size</h3>
+        <p>The vector is redrawn onto a canvas at the exact width and height you typed (up to 8000 px). This is the one irreversible step in the whole process: PNG does not scale back up, so choose the final size before you convert.</p>
       </div>
       <div class="step">
         <div class="num">3</div>
-        <h3>Download PNG</h3>
-        <p>Click convert, preview the result, and download your PNG.</p>
+        <h3>RGBA PNG out</h3>
+        <p>The canvas is encoded as a lossless RGBA PNG. Transparency survives, edges stay crisp, and there is no re-compression generation loss however many times you convert the same asset.</p>
       </div>
     </div>
   </section>
 
   <section class="features">
-    <h2>Why imgloft</h2>
+    <h2>Built for one job: clean SVG to PNG output</h2>
     <div class="features-grid">
       <div class="feat-card">
+        <div class="icon">📐</div>
+        <h3>Exact pixel dimensions</h3>
+        <p>Type any width and height up to 8000 px instead of accepting whatever size the SVG claims — useful for 2× retina assets, 512 px app icons and 1200 px social cards.</p>
+      </div>
+      <div class="feat-card">
+        <div class="icon">🫥</div>
+        <h3>Alpha channel preserved</h3>
+        <p>Output is RGBA, so transparent regions in the artwork stay transparent. No white box appears behind logos and icons when they land on a coloured background.</p>
+      </div>
+      <div class="feat-card">
         <div class="icon">🔒</div>
-        <h3>100% Private</h3>
-        <p>All processing happens in your browser. Your files never touch a server.</p>
+        <h3>No upload step to audit</h3>
+        <p>Rasterization happens in your browser's Canvas API. Unreleased logos, client icon sets and internal diagrams are never copied to a third-party server.</p>
       </div>
       <div class="feat-card">
-        <div class="icon">⚡</div>
-        <h3>Instant Results</h3>
-        <p>No waiting for uploads or downloads. Conversion is instant.</p>
-      </div>
-      <div class="feat-card">
-        <div class="icon">🆓</div>
-        <h3>Completely Free</h3>
-        <p>No limits, no watermarks, no signup required. Ever.</p>
-      </div>
-      <div class="feat-card">
-        <div class="icon">📱</div>
-        <h3>Works Offline</h3>
-        <p>Once loaded, convert images without an internet connection.</p>
+        <div class="icon">♾️</div>
+        <h3>No caps, no watermarks</h3>
+        <p>Convert the same file repeatedly while you compare output sizes, and download every result without a size limit, a daily quota or a signup wall.</p>
       </div>
     </div>
   </section>
@@ -350,24 +358,28 @@
   <section class="faq">
     <h2>FAQ</h2>
     <div class="faq-item" onclick="this.classList.toggle('open')">
-      <h3>How does imgloft convert SVG to PNG?</h3>
-      <p>imgloft uses your browser's built-in Canvas API. The SVG is loaded into an image element, drawn onto a canvas, and exported as a PNG — all client-side.</p>
+      <h3>Should I convert at 1x or 2x my display size?</h3>
+      <p>Export at 2x the CSS size you will render the image at: a 24 px icon becomes a 48 x 48 px PNG. PNG scales down cleanly in a browser, but it never scales up without blur, so the largest size you are likely to need is the size to convert at.</p>
     </div>
     <div class="faq-item" onclick="this.classList.toggle('open')">
-      <h3>Are my images uploaded to a server?</h3>
-      <p>No. Everything runs in your browser. Your files never leave your device. We have no server-side processing, no logging, and no way to see your images.</p>
+      <h3>Will the transparent background survive the conversion?</h3>
+      <p>Yes. The output is RGBA PNG, so transparency defined in the SVG stays transparent. A white box only appears if the SVG itself paints one.</p>
     </div>
     <div class="faq-item" onclick="this.classList.toggle('open')">
-      <h3>Can I resize the PNG output?</h3>
-      <p>Yes. Enter custom width and height before converting. Leave them blank to keep the original SVG dimensions.</p>
+      <h3>Why is there a white box behind my icon?</h3>
+      <p>Usually the SVG paints a full-size white rectangle, sets a CSS background, or relies on a font the browser has to substitute. Open the file in a text editor, look for a shape that covers the whole viewBox, remove it and convert again.</p>
     </div>
     <div class="faq-item" onclick="this.classList.toggle('open')">
-      <h3>Is there a file size limit?</h3>
-      <p>No artificial limits — only what your browser can handle. Most SVGs convert instantly.</p>
+      <h3>Do web fonts and text labels convert correctly?</h3>
+      <p>Only when the font is web-safe or embedded in the file. If the SVG merely references a system font, the rasterizer substitutes whatever is installed on your machine, so convert text to outlines in your editor when the exact typeface matters.</p>
     </div>
     <div class="faq-item" onclick="this.classList.toggle('open')">
-      <h3>What about batch conversion?</h3>
-      <p>Batch processing is coming soon. For now, convert one SVG at a time — each conversion takes less than a second.</p>
+      <h3>Does the quality setting shrink the PNG file?</h3>
+      <p>PNG is a lossless format, so a quality factor does not reduce its size the way it does for JPEG. To lose real bytes, convert at a smaller pixel size, or convert the image to WebP instead.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Is there a file size or conversion limit?</h3>
+      <p>No. Nothing is uploaded and there is no account or quota, so the only ceiling is your device memory. Very large drawings, heavy filters or hundreds of paths simply take longer to rasterize.</p>
     </div>
   </section>
 </main>

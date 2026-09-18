@@ -39,34 +39,42 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "How do I convert SVG to PNG for free?",
+        "name": "How does imgloft convert SVG to PNG?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Drag your SVG file onto the converter, adjust the output size if needed, and click Convert. imgloft processes everything in your browser — no upload required."
+          "text": "imgloft uses your browser's built-in Canvas API. The SVG is loaded into an image element, drawn onto a canvas, and exported as a PNG — all client-side."
         }
       },
       {
         "@type": "Question",
-        "name": "Is my image safe? Does it get uploaded?",
+        "name": "Are my images uploaded to a server?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes, completely safe. All processing is client-side in your browser. Your files never leave your device. No server upload, no logging."
+          "text": "No. Everything runs in your browser. Your files never leave your device. We have no server-side processing, no logging, and no way to see your images."
         }
       },
       {
         "@type": "Question",
-        "name": "Can I resize the output image?",
+        "name": "Can I resize the PNG output?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Yes. You can set custom width and height before converting, or keep the original SVG dimensions. You can also reduce the output quality to compress the PNG file size."
+          "text": "Yes. Enter custom width and height before converting. Leave them blank to keep the original SVG dimensions."
         }
       },
       {
         "@type": "Question",
-        "name": "Does imgloft work offline?",
+        "name": "Is there a file size limit?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Once the page is loaded, conversion works without an internet connection since all processing is client-side."
+          "text": "No artificial limits — only what your browser can handle. Most SVGs convert instantly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What about batch conversion?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Batch processing is coming soon. For now, convert one SVG at a time — each conversion takes less than a second."
         }
       }
     ]
