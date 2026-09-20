@@ -13,7 +13,7 @@
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"imgloft JPG to WebP Converter","description":"Free online JPG to WebP converter. Convert images to WebP format in your browser.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://imgloft.com/jpg-to-webp","browserRequirements":"Requires JavaScript"}
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why convert JPG to WebP?","acceptedAnswer":{"@type":"Answer","text":"WebP images are 25-35% smaller than equivalent JPGs with the same visual quality. This means faster website loading and less bandwidth."}},{"@type":"Question","name":"Does imgloft support batch JPG to WebP conversion?","acceptedAnswer":{"@type":"Answer","text":"Currently one image at a time. Batch conversion is coming soon."}},{"@type":"Question","name":"Are my images uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Conversion happens entirely in your browser using Canvas API."}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why convert JPG to WebP?","acceptedAnswer":{"@type":"Answer","text":"WebP usually produces a smaller file than JPEG at the same visual quality, which means faster page loads and less bandwidth. The readout after converting shows the exact saving for your particular image rather than an average."}},{"@type":"Question","name":"Does imgloft support batch JPG to WebP conversion?","acceptedAnswer":{"@type":"Answer","text":"Not currently; conversion is one image at a time. There is no queue and no account, so a folder of photos has to go through one file per drop."}},{"@type":"Question","name":"Are my images uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Decoding and encoding both happen in your browser with the Canvas API, so the file never leaves your device."}}]}
   </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -44,7 +44,16 @@
     .tc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;text-decoration:none;color:var(--text);font-size:.85rem}.tc:hover{border-color:var(--accent)}
     footer{margin-top:auto;border-top:1px solid var(--border);padding:20px 0;text-align:center;color:var(--text2);font-size:.8rem}footer a{color:var(--accent);text-decoration:none}
     .hidden{display:none!important}
-  </style>
+    .faq { margin: 40px 0; }
+    .faq h2 { text-align: center; font-size: 1.4rem; margin-bottom: 24px; }
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px 20px; margin-bottom: 10px; cursor: pointer;
+    }
+    .faq-item h3 { font-size: 0.95rem; font-weight: 500; }
+    .faq-item p { color: var(--text2); font-size: 0.85rem; margin-top: 8px; display: none; line-height: 1.5; }
+    .faq-item.open p { display: block; }
+</style>
 </head>
 <body>
 <header><div class="container"><a href="/" class="logo">img<span>loft</span></a><nav><a href="/">Home</a><a href="/about">About</a></nav></div></header>
@@ -68,6 +77,21 @@
       <a href="/resize-image" class="tc"><strong>Resize Image</strong><br><span style="color:var(--text2);font-size:.78rem">Resize to any dimensions</span></a>
       <a href="/compress-jpg" class="tc"><strong>Compress JPG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce JPG file size</span></a>
       <a href="/image-crop" class="tc"><strong>Crop Image</strong><br><span style="color:var(--text2);font-size:.78rem">Crop &amp; trim</span></a>
+    </div>
+  </section>
+  <section class="faq">
+    <h2>FAQ</h2>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Why convert JPG to WebP?</h3>
+      <p>WebP usually produces a smaller file than JPEG at the same visual quality, which means faster page loads and less bandwidth. The readout after converting shows the exact saving for your particular image rather than an average.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Does imgloft support batch JPG to WebP conversion?</h3>
+      <p>Not currently; conversion is one image at a time. There is no queue and no account, so a folder of photos has to go through one file per drop.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Are my images uploaded?</h3>
+      <p>No. Decoding and encoding both happen in your browser with the Canvas API, so the file never leaves your device.</p>
     </div>
   </section>
 </main>

@@ -13,7 +13,7 @@
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"imgloft JPG Compressor","description":"Free online JPG compressor. Reduce JPEG file size in your browser.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://imgloft.com/compress-jpg","browserRequirements":"Requires JavaScript"}
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much can I compress a JPG?","acceptedAnswer":{"@type":"Answer","text":"Typically 30-60% size reduction with minimal quality loss. Adjust the quality slider to find your sweet spot."}},{"@type":"Question","name":"Is the compression lossless?","acceptedAnswer":{"@type":"Answer","text":"No, JPG compression is lossy. But at quality 0.8-0.9, the difference is barely noticeable while file size drops significantly."}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much can I compress a JPG?","acceptedAnswer":{"@type":"Answer","text":"It depends on the source image. The panel reports the exact before and after sizes; at the default quality of 0.75 a typical camera JPEG shrinks noticeably, while a file that was already exported at low quality has very little left to give."}},{"@type":"Question","name":"Is the compression lossless?","acceptedAnswer":{"@type":"Answer","text":"No, JPEG compression is lossy, so re-encoding always discards some detail. At quality 0.75 to 0.9 the difference is normally hard to see at full size, but every re-save compounds the loss, so keep the original file."}},{"@type":"Question","name":"Can I compress a PNG here?","acceptedAnswer":{"@type":"Answer","text":"No. This tool re-encodes to JPEG and the file picker only accepts JPEG images. For PNG files use the PNG compressor, which stays lossless."}}]}
   </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -42,7 +42,16 @@
     .tc{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;text-align:center;text-decoration:none;color:var(--text);font-size:.85rem}.tc:hover{border-color:var(--accent)}
     footer{margin-top:auto;border-top:1px solid var(--border);padding:20px 0;text-align:center;color:var(--text2);font-size:.8rem}footer a{color:var(--accent);text-decoration:none}
     .hidden{display:none!important}
-  </style>
+    .faq { margin: 40px 0; }
+    .faq h2 { text-align: center; font-size: 1.4rem; margin-bottom: 24px; }
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px 20px; margin-bottom: 10px; cursor: pointer;
+    }
+    .faq-item h3 { font-size: 0.95rem; font-weight: 500; }
+    .faq-item p { color: var(--text2); font-size: 0.85rem; margin-top: 8px; display: none; line-height: 1.5; }
+    .faq-item.open p { display: block; }
+</style>
 </head>
 <body>
 <header><div class="container"><a href="/" class="logo">img<span>loft</span></a><nav><a href="/">Home</a><a href="/about">About</a></nav></div></header>
@@ -66,6 +75,21 @@
       <a href="/resize-image" class="tc"><strong>Resize Image</strong><br><span style="color:var(--text2);font-size:.78rem">Resize to any dimensions</span></a>
       <a href="/jpg-to-webp" class="tc"><strong>JPG → WebP</strong><br><span style="color:var(--text2);font-size:.78rem">Convert to WebP</span></a>
       <a href="/image-crop" class="tc"><strong>Crop Image</strong><br><span style="color:var(--text2);font-size:.78rem">Crop &amp; trim</span></a>
+    </div>
+  </section>
+  <section class="faq">
+    <h2>FAQ</h2>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>How much can I compress a JPG?</h3>
+      <p>It depends on the source image. The panel reports the exact before and after sizes; at the default quality of 0.75 a typical camera JPEG shrinks noticeably, while a file that was already exported at low quality has very little left to give.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Is the compression lossless?</h3>
+      <p>No, JPEG compression is lossy, so re-encoding always discards some detail. At quality 0.75 to 0.9 the difference is normally hard to see at full size, but every re-save compounds the loss, so keep the original file.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Can I compress a PNG here?</h3>
+      <p>No. This tool re-encodes to JPEG and the file picker only accepts JPEG images. For PNG files use the PNG compressor, which stays lossless.</p>
     </div>
   </section>
 </main>

@@ -14,7 +14,7 @@
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"imgloft PNG Compressor","description":"Free online PNG compressor. Reduce PNG file size in your browser — no upload, no signup.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://imgloft.com/compress-png","browserRequirements":"Requires JavaScript","featureList":"PNG compression, quality control, client-side processing"}
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I compress a PNG without losing quality?","acceptedAnswer":{"@type":"Answer","text":"Upload your PNG, adjust the quality slider, and click Compress. imgloft uses lossy compression via Canvas API — small quality drop for big size savings."}},{"@type":"Question","name":"Does imgloft upload my PNG to a server?","acceptedAnswer":{"@type":"Answer","text":"No. All compression happens in your browser using Canvas API. Your file never leaves your device."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"No artificial limits. Compress PNGs of any size — only limited by your browser's memory."}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I compress a PNG without losing quality?","acceptedAnswer":{"@type":"Answer","text":"Drop the PNG into the panel above and press Compress. Your browser re-encodes the file locally and reports the exact before and after size. Note that PNG is a lossless format, so there is no quality setting that trades detail for a smaller file: a re-encode mainly strips metadata and only sometimes saves a meaningful number of bytes."}},{"@type":"Question","name":"Does the quality setting reduce PNG file size?","acceptedAnswer":{"@type":"Answer","text":"No. PNG stores pixels losslessly, so a quality factor does not shrink the file the way it does for JPEG. To remove real bytes, resize the image to fewer pixels, or convert it to WebP instead."}},{"@type":"Question","name":"Does imgloft upload my PNG to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Decoding and re-encoding both happen inside your own browser using the Canvas API, so the file never leaves your device and there is no server-side copy to delete."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"There is no artificial limit because nothing is uploaded; the only ceiling is your device memory. Very large images take longer to decode, that is all."}}]}
   </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -56,7 +56,16 @@
     footer{margin-top:auto;border-top:1px solid var(--border);padding:20px 0;text-align:center;color:var(--text2);font-size:.8rem}
     footer a{color:var(--accent);text-decoration:none}
     .hidden{display:none!important}
-  </style>
+    .faq { margin: 40px 0; }
+    .faq h2 { text-align: center; font-size: 1.4rem; margin-bottom: 24px; }
+    .faq-item {
+      background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+      padding: 16px 20px; margin-bottom: 10px; cursor: pointer;
+    }
+    .faq-item h3 { font-size: 0.95rem; font-weight: 500; }
+    .faq-item p { color: var(--text2); font-size: 0.85rem; margin-top: 8px; display: none; line-height: 1.5; }
+    .faq-item.open p { display: block; }
+</style>
 </head>
 <body>
 <header><div class="container"><a href="/" class="logo">img<span>loft</span></a><nav><a href="/">Home</a><a href="/about">About</a></nav></div></header>
@@ -82,6 +91,25 @@
       <a href="/jpg-to-webp" class="tc"><strong>JPG → WebP</strong><br><span style="color:var(--text2);font-size:.78rem">Convert to WebP</span></a>
       <a href="/compress-jpg" class="tc"><strong>Compress JPG</strong><br><span style="color:var(--text2);font-size:.78rem">Reduce JPG file size</span></a>
       <a href="/image-crop" class="tc"><strong>Crop Image</strong><br><span style="color:var(--text2);font-size:.78rem">Crop &amp; trim</span></a>
+    </div>
+  </section>
+  <section class="faq">
+    <h2>FAQ</h2>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>How do I compress a PNG without losing quality?</h3>
+      <p>Drop the PNG into the panel above and press Compress. Your browser re-encodes the file locally and reports the exact before and after size. Note that PNG is a lossless format, so there is no quality setting that trades detail for a smaller file: a re-encode mainly strips metadata and only sometimes saves a meaningful number of bytes.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Does the quality setting reduce PNG file size?</h3>
+      <p>No. PNG stores pixels losslessly, so a quality factor does not shrink the file the way it does for JPEG. To remove real bytes, resize the image to fewer pixels, or convert it to WebP instead.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Does imgloft upload my PNG to a server?</h3>
+      <p>No. Decoding and re-encoding both happen inside your own browser using the Canvas API, so the file never leaves your device and there is no server-side copy to delete.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Is there a file size limit?</h3>
+      <p>There is no artificial limit because nothing is uploaded; the only ceiling is your device memory. Very large images take longer to decode, that is all.</p>
     </div>
   </section>
 </main>
