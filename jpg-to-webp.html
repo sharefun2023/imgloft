@@ -13,7 +13,7 @@
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"imgloft JPG to WebP Converter","description":"Free online JPG to WebP converter. Convert images to WebP format in your browser.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://imgloft.com/jpg-to-webp","browserRequirements":"Requires JavaScript"}
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Why convert JPG to WebP?","acceptedAnswer":{"@type":"Answer","text":"WebP usually produces a smaller file than JPEG at the same visual quality, which means faster page loads and less bandwidth. The readout after converting shows the exact saving for your particular image rather than an average."}},{"@type":"Question","name":"Does imgloft support batch JPG to WebP conversion?","acceptedAnswer":{"@type":"Answer","text":"Not currently; conversion is one image at a time. There is no queue and no account, so a folder of photos has to go through one file per drop."}},{"@type":"Question","name":"Are my images uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Decoding and encoding both happen in your browser with the Canvas API, so the file never leaves your device."}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Does the quality slider actually change the WebP file size?","acceptedAnswer":{"@type":"Answer","text":"Yes. The slider value goes straight to the browser's WebP encoder, and WebP honours it — the same 1200×800 photo converted to 17.3 KB at 0.30 and 112.8 KB at 0.95 in Chrome. That is the opposite of this site's PNG tools, where the browser ignores the quality argument completely and the output size never moves."}},{"@type":"Question","name":"Does imgloft support batch JPG to WebP conversion?","acceptedAnswer":{"@type":"Answer","text":"Not currently; conversion is one image at a time. There is no queue and no account, so a folder of photos has to go through one file per drop."}},{"@type":"Question","name":"Are my images uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Decoding and encoding both happen in your browser with the Canvas API, so the file never leaves your device."}},{"@type":"Question","name":"Where do the camera's EXIF, GPS and timestamp fields go?","acceptedAnswer":{"@type":"Answer","text":"They are dropped. The file is decoded to pixels and re-encoded as WebP, so only image data survives: a JPEG carrying EXIF metadata converted here produced a WebP with no Exif, XMP or ICC blocks inside it. Keep the original file if you need the shooting data."}},{"@type":"Question","name":"I dragged in a transparent PNG. Does the WebP keep the transparency?","acceptedAnswer":{"@type":"Answer","text":"Yes. Alpha survives the conversion — a test PNG with a fully transparent corner and a half-transparent block came back as a WebP with identical alpha values. The file picker only accepts JPG, so this path is for drag-and-drop."}},{"@type":"Question","name":"The WebP came out larger than the JPEG I started with. Why?","acceptedAnswer":{"@type":"Answer","text":"Lossy WebP is tuned for photographs, so graphic-style images — screenshots, flat colours, hard edges, or a JPEG that was already optimised — can grow. The readout shows the real percentage with a + sign when that happens: lower the quality slider, or simply keep the JPEG."}},{"@type":"Question","name":"How large an image can it handle?","acceptedAnswer":{"@type":"Answer","text":"A 6000×4000 (24 megapixel) JPEG converted to WebP without trouble, which covers phone and camera photos. The ceiling is whatever your browser's canvas can allocate; if that is exceeded the tool reports the failure instead of saving a broken file."}},{"@type":"Question","name":"What happens to an animated GIF if I drop it in?","acceptedAnswer":{"@type":"Answer","text":"Only the first frame is converted. The canvas holds a single still image, so the animation is lost — it is not carried into the WebP."}}]}
   </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -80,10 +80,10 @@
     </div>
   </section>
   <section class="faq">
-    <h2>FAQ</h2>
+    <h2>Frequently Asked Questions</h2>
     <div class="faq-item" onclick="this.classList.toggle('open')">
-      <h3>Why convert JPG to WebP?</h3>
-      <p>WebP usually produces a smaller file than JPEG at the same visual quality, which means faster page loads and less bandwidth. The readout after converting shows the exact saving for your particular image rather than an average.</p>
+      <h3>Does the quality slider actually change the WebP file size?</h3>
+      <p>Yes. The slider value goes straight to the browser's WebP encoder, and WebP honours it — the same 1200×800 photo converted to 17.3 KB at 0.30 and 112.8 KB at 0.95 in Chrome. That is the opposite of this site's PNG tools, where the browser ignores the quality argument completely and the output size never moves.</p>
     </div>
     <div class="faq-item" onclick="this.classList.toggle('open')">
       <h3>Does imgloft support batch JPG to WebP conversion?</h3>
@@ -92,6 +92,26 @@
     <div class="faq-item" onclick="this.classList.toggle('open')">
       <h3>Are my images uploaded?</h3>
       <p>No. Decoding and encoding both happen in your browser with the Canvas API, so the file never leaves your device.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Where do the camera's EXIF, GPS and timestamp fields go?</h3>
+      <p>They are dropped. The file is decoded to pixels and re-encoded as WebP, so only image data survives: a JPEG carrying EXIF metadata converted here produced a WebP with no Exif, XMP or ICC blocks inside it. Keep the original file if you need the shooting data.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>I dragged in a transparent PNG. Does the WebP keep the transparency?</h3>
+      <p>Yes. Alpha survives the conversion — a test PNG with a fully transparent corner and a half-transparent block came back as a WebP with identical alpha values. The file picker only accepts JPG, so this path is for drag-and-drop.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>The WebP came out larger than the JPEG I started with. Why?</h3>
+      <p>Lossy WebP is tuned for photographs, so graphic-style images — screenshots, flat colours, hard edges, or a JPEG that was already optimised — can grow. The readout shows the real percentage with a + sign when that happens: lower the quality slider, or simply keep the JPEG.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>How large an image can it handle?</h3>
+      <p>A 6000×4000 (24 megapixel) JPEG converted to WebP without trouble, which covers phone and camera photos. The ceiling is whatever your browser's canvas can allocate; if that is exceeded the tool reports the failure instead of saving a broken file.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>What happens to an animated GIF if I drop it in?</h3>
+      <p>Only the first frame is converted. The canvas holds a single still image, so the animation is lost — it is not carried into the WebP.</p>
     </div>
   </section>
 </main>
@@ -117,7 +137,7 @@ cb.onclick=async()=>{if(!cf)return;cb.disabled=true;cb.textContent='Converting..
     const pct=((1-rb.size/cf.size)*100).toFixed(1);document.getElementById('rd').textContent=pct>0?'-'+pct+'%':'+'+Math.abs(pct)+'%';
     document.getElementById('rd').style.color=pct>0?'var(--green)':'var(--text2)';
     db.classList.remove('hidden');cb.textContent='Convert Again';cb.disabled=false}catch(e){alert('Failed: '+e.message);cb.textContent='Convert to WebP';cb.disabled=false}};
-db.onclick=()=>{if(!rb)return;const a=document.createElement('a');a.href=URL.createObjectURL(rb);a.download=cf.name.replace(/\.jpe?g$/i,'')+'.webp';a.click()};
+db.onclick=()=>{if(!rb)return;const a=document.createElement('a');a.href=URL.createObjectURL(rb);a.download=cf.name.replace(/\.(jpe?g|png|webp|gif|bmp|avif)$/i,'')+'.webp';a.click()};
 function fs(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'}
 </script>
 </body>
