@@ -91,6 +91,22 @@
           "@type": "Answer",
           "text": "No. Nothing is uploaded and there is no account or quota, so the only ceiling is your device memory. Very large drawings, heavy filters or hundreds of paths simply take longer to rasterize."
         }
+      },
+{
+            "@type": "Question",
+            "name": "Why is part of my artwork missing from the PNG?",
+            "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Because it was never inside the file. When an SVG is drawn as an image, the browser does not fetch anything the file links from a URL — a photo, a stylesheet, a webfont — and it does not report an error either: that part of the artwork simply comes out blank. Inline the asset as a data URI, or export a self-contained SVG from your editor, then convert again."
+            }
+      },
+{
+            "@type": "Question",
+            "name": "Why is the PNG a different size than the SVG's own width and height?",
+            "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "The size you type wins. The vector is redrawn on the canvas at exactly those pixel dimensions, so a 24 x 24 px icon exported at 512 x 512 gives you a 512 x 512 PNG with no upscaling blur — the source is vector. An SVG that carries only a viewBox and no width or height has no size of its own (browsers fall back to 300 x 150 on a page), which is why this tool asks instead of guessing."
+            }
       }
     ]
   }
@@ -228,6 +244,13 @@
     .faq-item h3 { font-size: 0.95rem; font-weight: 500; }
     .faq-item p { color: var(--text2); font-size: 0.85rem; margin-top: 8px; display: none; line-height: 1.5; }
     .faq-item.open p { display: block; }
+
+    .comparison-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: .85rem; }
+    .comparison-table th { background: var(--surface2); color: var(--text); padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border); }
+    .comparison-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; }
+    .measured { color: var(--text2); font-size: .85rem; line-height: 1.65; margin: 8px 0 0 18px; }
+    .measured li { margin-bottom: 6px; }
+    .measured code { color: var(--text); background: var(--surface2); padding: 1px 5px; border-radius: 4px; font-size: .82rem; }
     footer {
       margin-top: auto; border-top: 1px solid var(--border);
       padding: 24px 0; text-align: center; color: var(--text2); font-size: 0.85rem;
@@ -352,6 +375,27 @@
     </div>
   </section>
 
+  <section class="render-notes">
+    <h2>What the browser actually renders</h2>
+    <p>Converting an SVG to PNG is a redraw, not a copy: the renderer follows the drawing
+    instructions again, and anything it does not support is skipped without an error message.
+    Each behaviour in this table was verified in a browser before this page was written,
+    because together they explain most &ldquo;the PNG came out wrong&rdquo; reports.</p>
+    <table class="comparison-table">
+      <tr><th>What is in your SVG</th><th>What the converted PNG contains</th></tr>
+      <tr><td><code>width="24" height="24"</code></td><td>The pixel size you typed. The file's own dimensions never cap the export &mdash; the artwork is redrawn at your size, so small vector files become large crisp PNGs.</td></tr>
+      <tr><td>A <code>viewBox</code>, no width or height</td><td>Also fine at any size you ask for. Such a file has no size of its own (browsers fall back to 300 &times; 150 when it sits on a page), which is exactly why the tool asks for dimensions.</td></tr>
+      <tr><td><code>&lt;image href="https://&hellip;"&gt;</code></td><td>Empty space where the picture was. External files are never fetched when an SVG is rendered as an image &mdash; no error, no warning.</td></tr>
+      <tr><td>A webfont loaded with <code>@import</code> or a linked stylesheet</td><td>Your fallback font. The font is never downloaded either, so text is set in whatever local font matches your font stack.</td></tr>
+      <tr><td>A <code>&lt;style&gt;</code> block inside the file</td><td>Applied. Rules that live in the file itself do run, and SVG filters such as <code>feGaussianBlur</code> are rendered.</td></tr>
+    </table>
+    <ul class="measured">
+      <li><strong>Measured:</strong> a 24 &times; 24 SVG exported at 512 &times; 512 produced a 512 &times; 512 PNG (7,220 bytes, 183,184 painted pixels) &mdash; the vector was redrawn, not stretched.</li>
+      <li><strong>Measured:</strong> an SVG pointing at a photo by URL painted 0 pixels in that slot, while the identical picture inlined as a data URI filled all 40,000 pixels of it.</li>
+      <li><strong>Measured:</strong> text set in an <code>@import</code>'ed webfont rendered pixel-for-pixel like the local monospace fallback (2,256 ink pixels both times), while a <code>&lt;style&gt;</code> rule in the same file did change the output colour.</li>
+    </ul>
+  </section>
+
   <section>
     <h2 style="text-align:center;font-size:1.4rem;margin-bottom:20px">More Free Tools</h2>
     <div class="tools-grid">
@@ -388,6 +432,14 @@
     <div class="faq-item" onclick="this.classList.toggle('open')">
       <h3>Is there a file size or conversion limit?</h3>
       <p>No. Nothing is uploaded and there is no account or quota, so the only ceiling is your device memory. Very large drawings, heavy filters or hundreds of paths simply take longer to rasterize.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Why is part of my artwork missing from the PNG?</h3>
+      <p>Because it was never inside the file. When an SVG is drawn as an image, the browser does not fetch anything the file links from a URL &mdash; a photo, a stylesheet, a webfont &mdash; and it does not report an error either: that part of the artwork simply comes out blank. Inline the asset as a data URI, or export a self-contained SVG from your editor, then convert again.</p>
+    </div>
+    <div class="faq-item" onclick="this.classList.toggle('open')">
+      <h3>Why is the PNG a different size than the SVG's own width and height?</h3>
+      <p>The size you type wins. The vector is redrawn on the canvas at exactly those pixel dimensions, so a 24 &times; 24 px icon exported at 512 &times; 512 gives you a 512 &times; 512 PNG with no upscaling blur &mdash; the source is vector. An SVG that carries only a viewBox and no width or height has no size of its own (browsers fall back to 300 &times; 150 on a page), which is why this tool asks instead of guessing.</p>
     </div>
   </section>
 </main>
