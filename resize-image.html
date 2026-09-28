@@ -144,7 +144,7 @@ cb.onclick=async()=>{if(!cf)return;cb.disabled=true;cb.textContent='Resizing...'
     document.getElementById('od').textContent=bmp.width+'×'+bmp.height+' ('+fs(cf.size)+')';
     document.getElementById('nd').textContent=tw+'×'+th+' ('+fs(rb.size)+')';
     db.classList.remove('hidden');cb.textContent='Resize Again';cb.disabled=false}catch(e){alert('Failed: '+e.message);cb.textContent='Resize';cb.disabled=false}};
-db.onclick=()=>{if(!rb)return;const a=document.createElement('a');a.href=URL.createObjectURL(rb);a.download='resized-'+cf.name;a.click()};
+db.onclick=()=>{if(!rb)return;const a=document.createElement('a');a.href=URL.createObjectURL(rb);a.download='resized-'+cf.name.replace(/\.[a-z0-9]+$/i,'')+'.png';a.click()};
 function fs(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'}
 </script>
 </body>
