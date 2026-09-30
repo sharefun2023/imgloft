@@ -162,8 +162,8 @@
       transition: all 0.2s; font-weight: 500;
     }
     .btn:hover { border-color: var(--accent); }
-    .btn.primary { background: var(--accent2); border-color: var(--accent2); color: #fff; }
-    .btn.primary:hover { background: var(--accent); }
+    .btn.primary { background: #a9591e; border-color: #a9591e; color: #fff; }
+    .btn.primary:hover { background: #b15d20; }
     .btn.success { background: var(--green); border-color: var(--green); color: #fff; }
     .btn:disabled { opacity: 0.5; cursor: not-allowed; }
     .preview-area {
@@ -188,7 +188,7 @@
       padding: 24px; text-align: center;
     }
     .step .num {
-      width: 36px; height: 36px; border-radius: 50%; background: var(--accent2);
+      width: 36px; height: 36px; border-radius: 50%; background: #a9591e;
       color: #fff; display: inline-flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 1rem; margin-bottom: 12px;
     }
@@ -229,6 +229,11 @@
       .hero h1 { font-size: 1.5rem; }
       .settings-row { flex-direction: column; }
     }
+  
+    /* a11y: visible keyboard focus for the custom interactive elements */
+    .drop-zone:focus-visible, .faq-item:focus-visible {
+      outline: 2px solid var(--accent); outline-offset: 2px;
+    }
   </style>
 </head>
 <body>
@@ -252,7 +257,7 @@
       <h2>SVG → PNG Converter</h2>
     </div>
 
-    <div class="drop-zone" id="dropZone">
+    <div class="drop-zone" id="dropZone" role="button" tabindex="0">
       <div class="icon">📁</div>
       <p>Drag &amp; drop an SVG file here, or click to select</p>
       <p class="file-name" id="fileName"></p>
@@ -348,23 +353,23 @@
 
   <section class="faq">
     <h2>FAQ</h2>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
       <h3>How does imgloft convert SVG to PNG?</h3>
       <p>imgloft uses your browser's built-in Canvas API. The SVG is loaded into an image element, drawn onto a canvas, and exported as a PNG — all client-side.</p>
     </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
       <h3>Are my images uploaded to a server?</h3>
       <p>No. Everything runs in your browser. Your files never leave your device. We have no server-side processing, no logging, and no way to see your images.</p>
     </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
       <h3>Can I resize the PNG output?</h3>
       <p>Yes. Enter custom width and height before converting. Leave them blank to keep the original SVG dimensions.</p>
     </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
       <h3>Is there a file size limit?</h3>
       <p>No artificial limits — only what your browser can handle. Most SVGs convert instantly.</p>
     </div>
-    <div class="faq-item" onclick="this.classList.toggle('open')">
+    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
       <h3>What about batch conversion?</h3>
       <p>Batch processing is coming soon. For now, convert one SVG at a time — each conversion takes less than a second.</p>
     </div>
@@ -489,6 +494,39 @@ function formatBytes(bytes) {
   if (bytes < 1048576) return (bytes / 1024).toFixed(1) + ' KB';
   return (bytes / 1048576).toFixed(1) + ' MB';
 }
+</script>
+<script>
+/* a11y: make the upload zone and the FAQ accordions operable by keyboard.
+   The drop zone is a div (it must stay one for the drag & drop layout) and the file
+   input is display:none, so Enter/Space on the focused zone has to open the picker
+   explicitly. FAQ items carry role=button + aria-expanded in the markup. */
+(function () {
+  function toggleFaq(el) {
+    el.classList.toggle('open');
+    el.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
+    var el = e.target;
+    if (!el || !el.classList) return;
+    if (el.classList.contains('faq-item')) {
+      e.preventDefault();
+      toggleFaq(el);
+    } else if (el.classList.contains('drop-zone')) {
+      e.preventDefault();
+      var fi = el.querySelector('input[type=file]') ||
+               (el.parentElement && el.parentElement.querySelector('input[type=file]')) ||
+               document.querySelector('input[type=file]');
+      if (fi) fi.click();
+    }
+  });
+  document.addEventListener('click', function (e) {
+    var el = e.target;
+    if (el && el.classList && el.classList.contains('faq-item')) {
+      el.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
+    }
+  });
+})();
 </script>
 </body>
 </html>
