@@ -14,12 +14,14 @@ A collection of free, client-side image tools. No upload, no signup, no watermar
 
 | Tool | What It Does |
 |------|-------------|
-| **SVG → PNG** | Convert SVG vector graphics to high-resolution PNG |
-| **Compress PNG** | Reduce PNG file size with quality control |
-| **Compress JPG** | Shrink JPEG files — adjust quality vs size |
-| **JPG → WebP** | Convert JPEG to Google's modern WebP format |
-| **Resize Image** | Change dimensions, constrain proportions |
-| **Crop Image** | Interactive crop with preset aspect ratios |
+| **[SVG → PNG](https://imgloft.com/svg-to-png)** | Convert SVG vector graphics to PNG at the exact pixel size you ask for |
+| **[Compress PNG](https://imgloft.com/compress-png)** | Re-encode a PNG and strip metadata — PNG is lossless, so there is no quality slider |
+| **[Compress JPG](https://imgloft.com/compress-jpg)** | Shrink JPEG files with a real quality slider (0.1–1.0) |
+| **[JPG → WebP](https://imgloft.com/jpg-to-webp)** | Convert JPEG to WebP at a quality you pick — much smaller files |
+| **[Resize Image](https://imgloft.com/resize-image)** | Set an exact pixel width and height, or pick one of four presets |
+| **[Crop Image](https://imgloft.com/image-crop)** | Interactive crop with preset aspect ratios |
+
+Each page documents its own limits rather than hiding them: PNG has no quality setting (the format is lossless), resizing has no percentage mode, the resizer always writes PNG whatever you drop in, and the cropper's output is always a PNG too. If a tool can't do something, the page says so.
 
 ## Why Client-Side?
 
@@ -37,10 +39,10 @@ imgloft processes everything in your browser using Canvas API and Web Workers. Z
 # No install — just open
 open https://imgloft.com
 
-# Or run locally
+# Or run locally (plain HTML, no build step, no dependencies)
 git clone https://github.com/sharefun2023/imgloft.git
 cd imgloft
-python3 -m http.server 8080 --directory public
+python3 -m http.server 8080
 # → http://localhost:8080
 ```
 
