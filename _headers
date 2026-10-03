@@ -1,3 +1,15 @@
+# Security + caching headers for imgloft (Cloudflare Pages).
+#
+# The Content-Security-Policy below is not generic boilerplate: every origin it
+# allows was taken from what a real browser actually loads on all 15 pages
+# (performance.getEntriesByType('resource') + a fetch/XHR/sendBeacon/WebSocket hook).
+# The only external resource on any page is Cloudflare's edge-injected Web Analytics
+# beacon (static.cloudflareinsights.com/beacon.min.js), and its RUM call is the
+# same-origin path /cdn-cgi/rum. Nothing else is whitelisted, so the site's own
+# "no third-party scripts" claim is now enforced by the browser, not just asserted.
+# 'unsafe-inline' is required because the tools use inline scripts and inline
+# event handlers; it does not weaken the part that matters here (blocking
+# injection of *external* script).
 /*
   Cache-Control: public, max-age=3600
   X-Content-Type-Options: nosniff
