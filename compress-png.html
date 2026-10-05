@@ -80,6 +80,13 @@
       padding: 16px 20px; margin-bottom: 10px; cursor: pointer;
     }
     .faq-item h3 { font-size: 0.95rem; font-weight: 500; }
+    .faq-btn { position: relative; display: block; background: none; border: 0;
+      margin: 0; padding: 0 18px 0 0; font: inherit; color: inherit;
+      text-align: left; width: 100%; cursor: pointer; }
+    .faq-btn::after { content: ''; position: absolute; right: 3px; top: 50%;
+      width: 6px; height: 6px; border-right: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent); transform: translateY(-70%) rotate(45deg); }
+    .faq-item.open .faq-btn::after { transform: translateY(-30%) rotate(-135deg); }
     .faq-item p { color: var(--text2); font-size: 0.85rem; margin-top: 8px; display: none; line-height: 1.5; }
     .faq-item.open p { display: block; }
     .breadcrumb{color:var(--text2);font-size:.82rem;padding:12px 0}
@@ -87,7 +94,7 @@
     .breadcrumb a:hover{color:var(--accent)}
 
     /* a11y: visible keyboard focus for the custom interactive elements */
-    .drop-zone:focus-visible, .faq-item:focus-visible {
+    .drop-zone:focus-visible, .faq-btn:focus-visible,
       outline: 2px solid var(--accent); outline-offset: 2px;
     }
   </style>
@@ -108,7 +115,7 @@
       <button class="btn primary" id="cb" disabled>Compress</button>
       <button class="btn success hidden" id="db">⬇ Download</button>
     </div>
-    <div class="preview-area" id="pa"><img id="pv" alt="Preview"><div class="preview-info"><span id="os"></span><span id="ns"></span><span id="rd"></span></div></div>
+    <div class="preview-area" id="pa"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="pv" alt="Preview"><div class="preview-info"><span id="os"></span><span id="ns"></span><span id="rd"></span></div></div>
   </div>
   <section><h2 style="text-align:center;font-size:1.1rem;margin-bottom:12px">More Free Tools</h2>
     <div class="tools-grid">
@@ -121,20 +128,20 @@
   </section>
   <section class="faq">
     <h2>FAQ</h2>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>How do I compress a PNG without losing quality?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">How do I compress a PNG without losing quality?</button></h3>
       <p>Drop the PNG into the panel above and press Compress. Your browser re-encodes the file locally and reports the exact before and after size. Note that PNG is a lossless format, so there is no quality setting that trades detail for a smaller file: a re-encode mainly strips metadata and only sometimes saves a meaningful number of bytes.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Does the quality setting reduce PNG file size?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Does the quality setting reduce PNG file size?</button></h3>
       <p>No. PNG stores pixels losslessly, so a quality factor does not shrink the file the way it does for JPEG. To remove real bytes, resize the image to fewer pixels, or convert it to WebP instead.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Does imgloft upload my PNG to a server?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Does imgloft upload my PNG to a server?</button></h3>
       <p>No. Decoding and re-encoding both happen inside your own browser using the Canvas API, so the file never leaves your device and there is no server-side copy to delete.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Is there a file size limit?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Is there a file size limit?</button></h3>
       <p>There is no artificial limit because nothing is uploaded; the only ceiling is your device memory. Very large images take longer to decode, that is all.</p>
     </div>
   </section>
@@ -168,34 +175,35 @@ db.onclick=()=>{if(!rb)return;const a=document.createElement('a');a.href=URL.cre
 function fs(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'}
 </script>
 <script>
-/* a11y: make the upload zone and the FAQ accordions operable by keyboard.
-   The drop zone is a div (it must stay one for the drag & drop layout) and the file
-   input is display:none, so Enter/Space on the focused zone has to open the picker
-   explicitly. FAQ items carry role=button + aria-expanded in the markup. */
+/* a11y: make the upload zone operable by keyboard, and the FAQ accordions
+   accessible. The drop zone is a div (it must stay one for the drag & drop
+   layout) and the file input is display:none, so Enter/Space on the focused
+   zone has to open the picker explicitly. FAQ questions are real <button>
+   elements inside their <h3>, so the heading semantics survive and the
+   browser handles Enter/Space natively. */
 (function () {
-  function toggleFaq(el) {
-    el.classList.toggle('open');
-    el.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
+  function toggleFaq(item) {
+    var open = item.classList.toggle('open');
+    var btn = item.querySelector('.faq-btn');
+    if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
   }
+  document.addEventListener('click', function (e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.classList && el.classList.contains('faq-item')) { toggleFaq(el); return; }
+      el = el.parentNode;
+    }
+  });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
     var el = e.target;
     if (!el || !el.classList) return;
-    if (el.classList.contains('faq-item')) {
-      e.preventDefault();
-      toggleFaq(el);
-    } else if (el.classList.contains('drop-zone')) {
+    if (el.classList.contains('drop-zone')) {
       e.preventDefault();
       var fi = el.querySelector('input[type=file]') ||
                (el.parentElement && el.parentElement.querySelector('input[type=file]')) ||
                document.querySelector('input[type=file]');
       if (fi) fi.click();
-    }
-  });
-  document.addEventListener('click', function (e) {
-    var el = e.target;
-    if (el && el.classList && el.classList.contains('faq-item')) {
-      el.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
     }
   });
 })();

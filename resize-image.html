@@ -57,7 +57,7 @@
     .settings-row input[type=number]{padding:6px 10px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.85rem;width:90px}
     .settings-row input:focus{outline:none;border-color:var(--accent)}
     .presets{display:flex;gap:6px;flex-wrap:wrap}
-    .preset{padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-size:.75rem;cursor:pointer}.preset:hover{color:var(--accent);border-color:var(--accent)}
+    .preset{padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-size:.75rem;font-family:inherit;cursor:pointer}.preset:hover{color:var(--accent);border-color:var(--accent)}
     .btn{padding:8px 18px;border-radius:6px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:.85rem;cursor:pointer;font-weight:500}
     .btn:hover{border-color:var(--accent)}.btn.primary{background:#a9591e;border-color:#a9591e;color:#fff}.btn.success{background:var(--green);border-color:var(--green);color:#fff}.btn:disabled{opacity:.5;cursor:not-allowed}
     .preview-area{margin:0 16px 16px;display:none;text-align:center}
@@ -74,6 +74,13 @@
       padding: 16px 20px; margin-bottom: 10px; cursor: pointer;
     }
     .faq-item h3 { font-size: 0.95rem; font-weight: 500; }
+    .faq-btn { position: relative; display: block; background: none; border: 0;
+      margin: 0; padding: 0 18px 0 0; font: inherit; color: inherit;
+      text-align: left; width: 100%; cursor: pointer; }
+    .faq-btn::after { content: ''; position: absolute; right: 3px; top: 50%;
+      width: 6px; height: 6px; border-right: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent); transform: translateY(-70%) rotate(45deg); }
+    .faq-item.open .faq-btn::after { transform: translateY(-30%) rotate(-135deg); }
     .faq-item p { color: var(--text2); font-size: 0.85rem; margin-top: 8px; display: none; line-height: 1.5; }
     .faq-item.open p { display: block; }
     .breadcrumb{color:var(--text2);font-size:.82rem;padding:12px 0}
@@ -81,7 +88,7 @@
     .breadcrumb a:hover{color:var(--accent)}
 
     /* a11y: visible keyboard focus for the custom interactive elements */
-    .drop-zone:focus-visible, .faq-item:focus-visible {
+    .drop-zone:focus-visible, .faq-btn:focus-visible,
       outline: 2px solid var(--accent); outline-offset: 2px;
     }
   </style>
@@ -98,11 +105,11 @@
     <div class="settings-row" id="st">
       <div><label for="w">Width (px)</label><input type="number" id="w" placeholder="Auto" min="1" max="8000"></div>
       <div><label for="h">Height (px)</label><input type="number" id="h" placeholder="Auto" min="1" max="8000"></div>
-      <div><label>Presets</label><div class="presets"><span class="preset" onclick="ps(800,600)">800×600</span><span class="preset" onclick="ps(1024,768)">1024×768</span><span class="preset" onclick="ps(1920,1080)">1920×1080</span><span class="preset" onclick="ps(320,240)">320×240</span></div></div>
+      <div><label>Presets</label><div class="presets"><button type="button" class="preset" onclick="ps(800,600)">800×600</button><button type="button" class="preset" onclick="ps(1024,768)">1024×768</button><button type="button" class="preset" onclick="ps(1920,1080)">1920×1080</button><button type="button" class="preset" onclick="ps(320,240)">320×240</button></div></div>
       <button class="btn primary" id="cb" disabled>Resize</button>
       <button class="btn success hidden" id="db">⬇ Download</button>
     </div>
-    <div class="preview-area" id="pa"><img id="pv" alt="Preview"><div class="preview-info">Original: <span id="od"></span> → New: <span id="nd"></span></div></div>
+    <div class="preview-area" id="pa"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="pv" alt="Preview"><div class="preview-info">Original: <span id="od"></span> → New: <span id="nd"></span></div></div>
   </div>
   <section><h2 style="text-align:center;font-size:1.1rem;margin-bottom:12px">More Free Tools</h2>
     <div class="tools-grid">
@@ -115,16 +122,16 @@
   </section>
   <section class="faq">
     <h2>FAQ</h2>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>How do I resize an image without uploading it?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">How do I resize an image without uploading it?</button></h3>
       <p>Drop an image into the panel above, type a target width and height, then press Resize. Leave one box empty to keep the original value for that axis. Everything runs on your own device through the Canvas API, so no upload ever happens.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Can I resize by percentage?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Can I resize by percentage?</button></h3>
       <p>There is no percentage slider. You set exact pixel dimensions, and four presets (800x600, 1024x768, 1920x1080 and 320x240) are one click away. For a percentage, multiply your current dimensions yourself and type the result in.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Does resizing reduce file size?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Does resizing reduce file size?</button></h3>
       <p>Usually yes, because fewer pixels means fewer bytes. The output is always written as PNG no matter what you dropped in, so a JPEG input can occasionally come out larger; the before and after readout shows which happened for your file.</p>
     </div>
   </section>
@@ -156,34 +163,35 @@ db.onclick=()=>{if(!rb)return;const a=document.createElement('a');a.href=URL.cre
 function fs(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'}
 </script>
 <script>
-/* a11y: make the upload zone and the FAQ accordions operable by keyboard.
-   The drop zone is a div (it must stay one for the drag & drop layout) and the file
-   input is display:none, so Enter/Space on the focused zone has to open the picker
-   explicitly. FAQ items carry role=button + aria-expanded in the markup. */
+/* a11y: make the upload zone operable by keyboard, and the FAQ accordions
+   accessible. The drop zone is a div (it must stay one for the drag & drop
+   layout) and the file input is display:none, so Enter/Space on the focused
+   zone has to open the picker explicitly. FAQ questions are real <button>
+   elements inside their <h3>, so the heading semantics survive and the
+   browser handles Enter/Space natively. */
 (function () {
-  function toggleFaq(el) {
-    el.classList.toggle('open');
-    el.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
+  function toggleFaq(item) {
+    var open = item.classList.toggle('open');
+    var btn = item.querySelector('.faq-btn');
+    if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
   }
+  document.addEventListener('click', function (e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.classList && el.classList.contains('faq-item')) { toggleFaq(el); return; }
+      el = el.parentNode;
+    }
+  });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
     var el = e.target;
     if (!el || !el.classList) return;
-    if (el.classList.contains('faq-item')) {
-      e.preventDefault();
-      toggleFaq(el);
-    } else if (el.classList.contains('drop-zone')) {
+    if (el.classList.contains('drop-zone')) {
       e.preventDefault();
       var fi = el.querySelector('input[type=file]') ||
                (el.parentElement && el.parentElement.querySelector('input[type=file]')) ||
                document.querySelector('input[type=file]');
       if (fi) fi.click();
-    }
-  });
-  document.addEventListener('click', function (e) {
-    var el = e.target;
-    if (el && el.classList && el.classList.contains('faq-item')) {
-      el.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
     }
   });
 })();

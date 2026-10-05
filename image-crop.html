@@ -72,6 +72,13 @@
       padding: 16px 20px; margin-bottom: 10px; cursor: pointer;
     }
     .faq-item h3 { font-size: 0.95rem; font-weight: 500; }
+    .faq-btn { position: relative; display: block; background: none; border: 0;
+      margin: 0; padding: 0 18px 0 0; font: inherit; color: inherit;
+      text-align: left; width: 100%; cursor: pointer; }
+    .faq-btn::after { content: ''; position: absolute; right: 3px; top: 50%;
+      width: 6px; height: 6px; border-right: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent); transform: translateY(-70%) rotate(45deg); }
+    .faq-item.open .faq-btn::after { transform: translateY(-30%) rotate(-135deg); }
     .faq-item p { color: var(--text2); font-size: 0.85rem; margin-top: 8px; display: none; line-height: 1.5; }
     .faq-item.open p { display: block; }
     .breadcrumb{color:var(--text2);font-size:.82rem;padding:12px 0}
@@ -79,7 +86,7 @@
     .breadcrumb a:hover{color:var(--accent)}
   
     /* a11y: visible keyboard focus for the custom interactive elements */
-    .drop-zone:focus-visible, .faq-item:focus-visible {
+    .drop-zone:focus-visible, .faq-btn:focus-visible,
       outline: 2px solid var(--accent); outline-offset: 2px;
     }
   </style>
@@ -93,12 +100,12 @@
     <div class="tool-header"><h2>Crop Image</h2><div class="ratio-btns"><span class="rb active" data-r="0">Free</span><span class="rb" data-r="1">1:1</span><span class="rb" data-r="1.333">4:3</span><span class="rb" data-r="1.778">16:9</span><span class="rb" data-r="0.75">3:4</span><span class="rb" data-r="0.5625">9:16</span></div></div>
     <div class="drop-zone" id="dz" role="button" tabindex="0"><div class="icon">✂️</div><p>Drop an image here or click to select</p><p class="fn" id="fn"></p></div>
     <input type="file" id="fi" accept="image/*" class="hidden">
-    <div class="crop-container" id="cc"><img id="ci" alt="Crop"><div class="crop-box" id="cbx"><div class="handle tl"></div><div class="handle tr"></div><div class="handle bl"></div><div class="handle br"></div></div></div>
+    <div class="crop-container" id="cc"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="ci" alt="Crop"><div class="crop-box" id="cbx"><div class="handle tl"></div><div class="handle tr"></div><div class="handle bl"></div><div class="handle br"></div></div></div>
     <div class="btn-row" id="btnRow" style="display:none">
       <button class="btn primary" id="cropBtn">Crop &amp; Download</button>
       <button class="btn" id="resetBtn">Reset</button>
     </div>
-    <div class="preview-area" id="pa"><img id="pv" alt="Cropped"></div>
+    <div class="preview-area" id="pa"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="pv" alt="Cropped"></div>
   </div>
   <section><h2 style="text-align:center;font-size:1.1rem;margin-bottom:12px">More Free Tools</h2>
     <div class="tools-grid">
@@ -111,28 +118,28 @@
   </section>
   <section class="faq">
     <h2>Frequently Asked Questions</h2>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Can I crop to an exact pixel size?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Can I crop to an exact pixel size?</button></h3>
       <p>There is no width and height field on this page. You shape the crop by dragging the box, and the six ratio buttons — Free, 1:1, 4:3, 16:9, 3:4 and 9:16 — hold the proportions for you. When a job needs a fixed pixel target, crop here to the right shape and then dial in the exact numbers with the Resize Image tool.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>What file do I get back after cropping?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">What file do I get back after cropping?</button></h3>
       <p>The crop is drawn onto a canvas and always saved as a PNG called cropped-image.png, whatever you dropped in. Crop a JPEG and you get a lossless PNG that can be larger than the photo you started with, so send it through the JPG compressor afterwards if file size matters.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Does the crop box stay inside the picture?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Does the crop box stay inside the picture?</button></h3>
       <p>Yes. The box is clamped to the image bounds while you drag it, so you can never select blank padding outside the picture. The handles will not shrink a side below 20 pixels of the source image, and the box is centred for you when the file is first opened.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Do I have to pick a ratio before cropping?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Do I have to pick a ratio before cropping?</button></h3>
       <p>No. Free is the default and lets you move width and height independently. Pick a ratio when you want the corners to hold the proportion for you — that is what stops an avatar or a thumbnail from coming out slightly rectangular.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Does cropping strip the EXIF data and GPS location?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Does cropping strip the EXIF data and GPS location?</button></h3>
       <p>Yes. The crop is re-drawn pixel by pixel onto a fresh canvas, so the output holds only the cropped picture: EXIF, GPS coordinates and camera metadata from the original file are not carried over. That is usually what you want before publishing a photo online.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Can I crop a transparent PNG without losing the transparency?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Can I crop a transparent PNG without losing the transparency?</button></h3>
       <p>Yes. The canvas starts empty and the output is PNG, which keeps the alpha channel, so transparent areas stay transparent. JPEG and WebP files have no transparency to preserve and crop exactly the same way.</p>
     </div>
   </section>
@@ -177,34 +184,35 @@ cropBtn.onclick=()=>{const c=document.createElement('canvas');c.width=cropW;c.he
 resetBtn.onclick=()=>{dz.style.display='';cc.classList.remove('show');btnRow.style.display='none';pa.classList.remove('show');fn.textContent='';ci.src=''};
 </script>
 <script>
-/* a11y: make the upload zone and the FAQ accordions operable by keyboard.
-   The drop zone is a div (it must stay one for the drag & drop layout) and the file
-   input is display:none, so Enter/Space on the focused zone has to open the picker
-   explicitly. FAQ items carry role=button + aria-expanded in the markup. */
+/* a11y: make the upload zone operable by keyboard, and the FAQ accordions
+   accessible. The drop zone is a div (it must stay one for the drag & drop
+   layout) and the file input is display:none, so Enter/Space on the focused
+   zone has to open the picker explicitly. FAQ questions are real <button>
+   elements inside their <h3>, so the heading semantics survive and the
+   browser handles Enter/Space natively. */
 (function () {
-  function toggleFaq(el) {
-    el.classList.toggle('open');
-    el.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
+  function toggleFaq(item) {
+    var open = item.classList.toggle('open');
+    var btn = item.querySelector('.faq-btn');
+    if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
   }
+  document.addEventListener('click', function (e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.classList && el.classList.contains('faq-item')) { toggleFaq(el); return; }
+      el = el.parentNode;
+    }
+  });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
     var el = e.target;
     if (!el || !el.classList) return;
-    if (el.classList.contains('faq-item')) {
-      e.preventDefault();
-      toggleFaq(el);
-    } else if (el.classList.contains('drop-zone')) {
+    if (el.classList.contains('drop-zone')) {
       e.preventDefault();
       var fi = el.querySelector('input[type=file]') ||
                (el.parentElement && el.parentElement.querySelector('input[type=file]')) ||
                document.querySelector('input[type=file]');
       if (fi) fi.click();
-    }
-  });
-  document.addEventListener('click', function (e) {
-    var el = e.target;
-    if (el && el.classList && el.classList.contains('faq-item')) {
-      el.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
     }
   });
 })();

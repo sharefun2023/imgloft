@@ -248,6 +248,13 @@
       padding: 16px 20px; margin-bottom: 10px; cursor: pointer;
     }
     .faq-item h3 { font-size: 0.95rem; font-weight: 500; }
+    .faq-btn { position: relative; display: block; background: none; border: 0;
+      margin: 0; padding: 0 18px 0 0; font: inherit; color: inherit;
+      text-align: left; width: 100%; cursor: pointer; }
+    .faq-btn::after { content: ''; position: absolute; right: 3px; top: 50%;
+      width: 6px; height: 6px; border-right: 2px solid var(--accent);
+      border-bottom: 2px solid var(--accent); transform: translateY(-70%) rotate(45deg); }
+    .faq-item.open .faq-btn::after { transform: translateY(-30%) rotate(-135deg); }
     .faq-item p { color: var(--text2); font-size: 0.85rem; margin-top: 8px; display: none; line-height: 1.5; }
     .faq-item.open p { display: block; }
 
@@ -275,7 +282,7 @@
     .breadcrumb a:hover{color:var(--accent)}
   
     /* a11y: visible keyboard focus for the custom interactive elements */
-    .drop-zone:focus-visible, .faq-item:focus-visible {
+    .drop-zone:focus-visible, .faq-btn:focus-visible,
       outline: 2px solid var(--accent); outline-offset: 2px;
     }
   </style>
@@ -298,11 +305,11 @@
     <p>Convert SVG to PNG instantly. Resize and compress — <strong>all in your browser</strong>. No upload, no signup, no limits.</p>
   </section>
 
-  <section class="intro-text">
+  <div class="intro-text">
     <p>Need to <strong>convert SVG to PNG</strong> quickly, privately, and without installing anything? You're in the right place. Our <strong>SVG to PNG converter</strong> transforms vector graphics into high-quality raster images entirely in your browser — no uploads, no signups, no software to download. Whether you're a designer exporting icons for a website, a developer creating PNG fallbacks for SVG assets, a marketer preparing images for social media, or anyone who needs to <strong>convert SVG to PNG online</strong>, imgloft delivers instant, professional results.</p>
     <p style="margin-top:12px">SVG (Scalable Vector Graphics) is an incredible format — infinitely scalable, tiny file sizes, and perfect for responsive web design. But many platforms and applications still require PNG format: WordPress featured images, email signatures, presentation slides, document embedding, and social media posts all expect raster images. That's where a reliable <strong>svg to png converter</strong> becomes essential, and imgloft's tool is built to handle it flawlessly.</p>
     <p style="margin-top:12px">What sets our <strong>svg to png converter</strong> apart is privacy. Unlike other online tools that silently upload your files to remote servers — exposing sensitive designs, logos, or unpublished work — imgloft processes everything client-side using your browser's Canvas API. Your SVG data never leaves your device. No server ever sees your files. No logs of your files, no cookies, no tracking pixels — the only measurement is Cloudflare's cookieless page-view analytics. You also get full control: type an exact output width and height in pixels, then check the real file size in the preview line before you download anything. Best of all — it's completely free, with no daily limits and no watermarks.</p>
-  </section>
+  </div>
 
   <div class="tool-panel">
     <div class="tool-header">
@@ -334,7 +341,7 @@
     </div>
 
     <div class="preview-area" id="previewArea">
-      <img id="preview" alt="Output preview">
+      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="preview" alt="Output preview">
       <div class="preview-info">
         <span id="origSize"></span>
         <span id="newSize"></span>
@@ -424,36 +431,36 @@
 
   <section class="faq">
     <h2>FAQ</h2>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Should I convert at 1x or 2x my display size?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Should I convert at 1x or 2x my display size?</button></h3>
       <p>Export at 2x the CSS size you will render the image at: a 24 px icon becomes a 48 x 48 px PNG. PNG scales down cleanly in a browser, but it never scales up without blur, so the largest size you are likely to need is the size to convert at.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Will the transparent background survive the conversion?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Will the transparent background survive the conversion?</button></h3>
       <p>Yes. The output is RGBA PNG, so transparency defined in the SVG stays transparent. A white box only appears if the SVG itself paints one.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Why is there a white box behind my icon?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Why is there a white box behind my icon?</button></h3>
       <p>Usually the SVG paints a full-size white rectangle, sets a CSS background, or relies on a font the browser has to substitute. Open the file in a text editor, look for a shape that covers the whole viewBox, remove it and convert again.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Do web fonts and text labels convert correctly?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Do web fonts and text labels convert correctly?</button></h3>
       <p>Only when the font is web-safe or embedded in the file. If the SVG merely references a system font, the rasterizer substitutes whatever is installed on your machine, so convert text to outlines in your editor when the exact typeface matters.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Does the quality setting shrink the PNG file?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Does the quality setting shrink the PNG file?</button></h3>
       <p>PNG is a lossless format, so a quality factor does not reduce its size the way it does for JPEG. To lose real bytes, convert at a smaller pixel size, or convert the image to WebP instead.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Is there a file size or conversion limit?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Is there a file size or conversion limit?</button></h3>
       <p>No. Nothing is uploaded and there is no account or quota, so the only ceiling is your device memory. Very large drawings, heavy filters or hundreds of paths simply take longer to rasterize.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Why is part of my artwork missing from the PNG?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Why is part of my artwork missing from the PNG?</button></h3>
       <p>Because it was never inside the file. When an SVG is drawn as an image, the browser does not fetch anything the file links from a URL &mdash; a photo, a stylesheet, a webfont &mdash; and it does not report an error either: that part of the artwork simply comes out blank. Inline the asset as a data URI, or export a self-contained SVG from your editor, then convert again.</p>
     </div>
-    <div class="faq-item" role="button" tabindex="0" aria-expanded="false" onclick="this.classList.toggle('open')">
-      <h3>Why is the PNG a different size than the SVG's own width and height?</h3>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Why is the PNG a different size than the SVG's own width and height?</button></h3>
       <p>The size you type wins. The vector is redrawn on the canvas at exactly those pixel dimensions, so a 24 &times; 24 px icon exported at 512 &times; 512 gives you a 512 &times; 512 PNG with no upscaling blur &mdash; the source is vector. An SVG that carries only a viewBox and no width or height has no size of its own (browsers fall back to 300 &times; 150 on a page), which is why this tool asks instead of guessing.</p>
     </div>
   </section>
@@ -579,34 +586,35 @@ function formatBytes(bytes) {
 }
 </script>
 <script>
-/* a11y: make the upload zone and the FAQ accordions operable by keyboard.
-   The drop zone is a div (it must stay one for the drag & drop layout) and the file
-   input is display:none, so Enter/Space on the focused zone has to open the picker
-   explicitly. FAQ items carry role=button + aria-expanded in the markup. */
+/* a11y: make the upload zone operable by keyboard, and the FAQ accordions
+   accessible. The drop zone is a div (it must stay one for the drag & drop
+   layout) and the file input is display:none, so Enter/Space on the focused
+   zone has to open the picker explicitly. FAQ questions are real <button>
+   elements inside their <h3>, so the heading semantics survive and the
+   browser handles Enter/Space natively. */
 (function () {
-  function toggleFaq(el) {
-    el.classList.toggle('open');
-    el.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
+  function toggleFaq(item) {
+    var open = item.classList.toggle('open');
+    var btn = item.querySelector('.faq-btn');
+    if (btn) btn.setAttribute('aria-expanded', open ? 'true' : 'false');
   }
+  document.addEventListener('click', function (e) {
+    var el = e.target;
+    while (el && el !== document) {
+      if (el.classList && el.classList.contains('faq-item')) { toggleFaq(el); return; }
+      el = el.parentNode;
+    }
+  });
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar') return;
     var el = e.target;
     if (!el || !el.classList) return;
-    if (el.classList.contains('faq-item')) {
-      e.preventDefault();
-      toggleFaq(el);
-    } else if (el.classList.contains('drop-zone')) {
+    if (el.classList.contains('drop-zone')) {
       e.preventDefault();
       var fi = el.querySelector('input[type=file]') ||
                (el.parentElement && el.parentElement.querySelector('input[type=file]')) ||
                document.querySelector('input[type=file]');
       if (fi) fi.click();
-    }
-  });
-  document.addEventListener('click', function (e) {
-    var el = e.target;
-    if (el && el.classList && el.classList.contains('faq-item')) {
-      el.setAttribute('aria-expanded', el.classList.contains('open') ? 'true' : 'false');
     }
   });
 })();
