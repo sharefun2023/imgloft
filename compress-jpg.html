@@ -141,7 +141,8 @@ dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover
 dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));
 dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragover');if(e.dataTransfer.files[0])hf(e.dataTransfer.files[0])});
 fi.onchange=()=>{if(fi.files[0])hf(fi.files[0])};
-function hf(f){cf=f;fn.textContent='📄 '+f.name;cb.disabled=false;pa.classList.remove('show');db.classList.add('hidden')}
+function readFail(n){return '⚠️ Could not read '+n+' — it may be corrupt or empty, or a format this tool cannot decode (e.g. iPhone HEIC/HEIF, TIFF or SVG). Re-save it as a JPEG or PNG first; SVG vector files can go through the SVG to PNG tool.'}
+function hf(f){cf=f;fn.textContent='📄 '+f.name;cb.disabled=false;pa.classList.remove('show');db.classList.add('hidden');const im=new Image();im.onload=()=>{fn.textContent='📄 '+f.name+' ('+im.naturalWidth+'×'+im.naturalHeight+')';URL.revokeObjectURL(im.src)};im.onerror=()=>{fn.textContent=readFail(f.name);URL.revokeObjectURL(im.src)};im.src=URL.createObjectURL(f)}
 cb.onclick=async()=>{if(!cf)return;cb.disabled=true;cb.textContent='Compressing...';
   try{const bmp=await createImageBitmap(cf);const c=document.createElement('canvas');c.width=bmp.width;c.height=bmp.height;c.getContext('2d').drawImage(bmp,0,0);
     rb=await new Promise(r=>c.toBlob(r,'image/jpeg',parseFloat(q.value)));pv.src=URL.createObjectURL(rb);pa.classList.add('show');

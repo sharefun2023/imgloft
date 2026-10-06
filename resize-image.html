@@ -151,7 +151,8 @@ dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover
 dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));
 dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragover');if(e.dataTransfer.files[0])hf(e.dataTransfer.files[0])});
 fi.onchange=()=>{if(fi.files[0])hf(fi.files[0])};
-function hf(f){cf=f;fn.textContent='📄 '+f.name;cb.disabled=false;pa.classList.remove('show');db.classList.add('hidden');const im=new Image();im.onload=()=>{fn.textContent='📄 '+f.name+' ('+im.naturalWidth+'×'+im.naturalHeight+')'};im.onerror=()=>{fn.textContent='⚠️ '+f.name+' could not be read — it may be corrupt, empty, or a format this browser cannot decode. SVG is not supported here; use the SVG to PNG tool first.';};im.src=URL.createObjectURL(f)}
+function readFail(n){return '⚠️ Could not read '+n+' — it may be corrupt or empty, or a format this tool cannot decode (e.g. iPhone HEIC/HEIF, TIFF or SVG). Re-save it as a JPEG or PNG first; SVG vector files can go through the SVG to PNG tool.'}
+function hf(f){cf=f;fn.textContent='📄 '+f.name;cb.disabled=false;pa.classList.remove('show');db.classList.add('hidden');const im=new Image();im.onload=()=>{fn.textContent='📄 '+f.name+' ('+im.naturalWidth+'×'+im.naturalHeight+')';URL.revokeObjectURL(im.src)};im.onerror=()=>{fn.textContent=readFail(f.name);URL.revokeObjectURL(im.src)};im.src=URL.createObjectURL(f)}
 cb.onclick=async()=>{if(!cf)return;cb.disabled=true;cb.textContent='Resizing...';
   try{const bmp=await createImageBitmap(cf);const tw=w.value?parseInt(w.value):bmp.width;const th=h.value?parseInt(h.value):bmp.height;
     const c=document.createElement('canvas');c.width=tw;c.height=th;c.getContext('2d').drawImage(bmp,0,0,tw,th);
