@@ -489,7 +489,7 @@ const outHeight = document.getElementById('outHeight');
 const quality = document.getElementById('quality');
 
 let currentFile = null;
-let resultBlob = null;
+let resultBlob = null, previewUrl = null, probeUrl = null;
 
 dropZone.addEventListener('click', () => fileInput.click());
 dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
@@ -525,13 +525,13 @@ convertBtn.addEventListener('click', async () => {
   try {
     const text = await currentFile.text();
     const blob = new Blob([text], { type: 'image/svg+xml' });
-    const url = URL.createObjectURL(blob);
+    probeUrl = URL.createObjectURL(blob);
 
     const img = new Image();
     await new Promise((resolve, reject) => {
       img.onload = resolve;
       img.onerror = reject;
-      img.src = url;
+      img.src = probeUrl;
     });
 
     const w = outWidth.value ? parseInt(outWidth.value) : img.naturalWidth;
@@ -545,9 +545,10 @@ convertBtn.addEventListener('click', async () => {
     ctx.drawImage(img, 0, 0, w, h);
 
     resultBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', q));
-    URL.revokeObjectURL(url);
+    URL.revokeObjectURL(probeUrl); probeUrl = null;
 
-    const previewUrl = URL.createObjectURL(resultBlob);
+    if (previewUrl) URL.revokeObjectURL(previewUrl);
+    previewUrl = URL.createObjectURL(resultBlob);
     preview.src = previewUrl;
     previewArea.classList.add('show');
 
@@ -562,6 +563,7 @@ convertBtn.addEventListener('click', async () => {
     convertBtn.textContent = 'Convert Again';
     convertBtn.disabled = false;
   } catch (err) {
+    if (probeUrl) { URL.revokeObjectURL(probeUrl); probeUrl = null; }
     alert('Conversion failed: ' + err.message);
     convertBtn.textContent = 'Convert to PNG';
     convertBtn.disabled = false;

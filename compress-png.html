@@ -154,7 +154,7 @@
 const dz=document.getElementById('dz'),fi=document.getElementById('fi'),fn=document.getElementById('fn');
 const cb=document.getElementById('cb'),db=document.getElementById('db'),pa=document.getElementById('pa'),pv=document.getElementById('pv');
 const q=document.getElementById('q'),qv=document.getElementById('qv');
-let cf=null,rb=null;
+let cf=null,rb=null,pvUrl=null;
 q.oninput=()=>qv.textContent=q.value;
 dz.onclick=()=>fi.click();
 dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover')});
@@ -165,14 +165,14 @@ function readFail(n){return '⚠️ Could not read '+n+' — it may be corrupt o
 function hf(f){if(!(f.type.includes('png')||/\.png$/i.test(f.name))){fn.textContent='⚠️ '+f.name+' is not a PNG — this tool only compresses PNG files.';return}cf=f;fn.textContent='📄 '+f.name;cb.disabled=false;pa.classList.remove('show');db.classList.add('hidden');const im=new Image();im.onload=()=>{fn.textContent='📄 '+f.name+' ('+im.naturalWidth+'×'+im.naturalHeight+')';URL.revokeObjectURL(im.src)};im.onerror=()=>{fn.textContent=readFail(f.name);URL.revokeObjectURL(im.src)};im.src=URL.createObjectURL(f)}
 cb.onclick=async()=>{if(!cf)return;cb.disabled=true;cb.textContent='Compressing...';
   try{const bmp=await createImageBitmap(cf);const c=document.createElement('canvas');c.width=bmp.width;c.height=bmp.height;c.getContext('2d').drawImage(bmp,0,0);
-    rb=await new Promise(r=>c.toBlob(r,'image/png',parseFloat(q.value)));pv.src=URL.createObjectURL(rb);pa.classList.add('show');
+    rb=await new Promise(r=>c.toBlob(r,'image/png',parseFloat(q.value)));if(pvUrl)URL.revokeObjectURL(pvUrl);pvUrl=URL.createObjectURL(rb);pv.src=pvUrl;pa.classList.add('show');
     document.getElementById('os').textContent='Original: '+fs(cf.size);
     document.getElementById('ns').textContent='Compressed: '+fs(rb.size);
     const pct=((1-rb.size/cf.size)*100).toFixed(1);
     document.getElementById('rd').textContent=pct>0?'-'+pct+'%':'+'+Math.abs(pct)+'%';
     document.getElementById('rd').style.color=pct>0?'var(--green)':'var(--text2)';
     db.classList.remove('hidden');cb.textContent='Compress Again';cb.disabled=false}catch(e){alert('Failed: '+e.message);cb.textContent='Compress';cb.disabled=false}};
-db.onclick=()=>{if(!rb)return;const a=document.createElement('a');a.href=URL.createObjectURL(rb);a.download=cf.name.replace(/\.[a-z0-9]+$/i,'')+'-compressed.png';a.click()};
+db.onclick=()=>{if(!rb)return;const a=document.createElement('a');const u=URL.createObjectURL(rb);a.href=u;a.download=cf.name.replace(/\.[a-z0-9]+$/i,'')+'-compressed.png';a.click();URL.revokeObjectURL(u)};
 function fs(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'}
 </script>
 <script>

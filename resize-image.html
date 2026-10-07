@@ -144,7 +144,7 @@
 const dz=document.getElementById('dz'),fi=document.getElementById('fi'),fn=document.getElementById('fn');
 const cb=document.getElementById('cb'),db=document.getElementById('db'),pa=document.getElementById('pa'),pv=document.getElementById('pv');
 const w=document.getElementById('w'),h=document.getElementById('h');
-let cf=null,rb=null;
+let cf=null,rb=null,pvUrl=null;
 function ps(ww,hh){w.value=ww;h.value=hh}
 dz.onclick=()=>fi.click();
 dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover')});
@@ -156,11 +156,11 @@ function hf(f){cf=f;fn.textContent='📄 '+f.name;cb.disabled=false;pa.classList
 cb.onclick=async()=>{if(!cf)return;cb.disabled=true;cb.textContent='Resizing...';
   try{const bmp=await createImageBitmap(cf);const tw=w.value?parseInt(w.value):bmp.width;const th=h.value?parseInt(h.value):bmp.height;
     const c=document.createElement('canvas');c.width=tw;c.height=th;c.getContext('2d').drawImage(bmp,0,0,tw,th);
-    rb=await new Promise(r=>c.toBlob(r,'image/png'));pv.src=URL.createObjectURL(rb);pa.classList.add('show');
+    rb=await new Promise(r=>c.toBlob(r,'image/png'));if(pvUrl)URL.revokeObjectURL(pvUrl);pvUrl=URL.createObjectURL(rb);pv.src=pvUrl;pa.classList.add('show');
     document.getElementById('od').textContent=bmp.width+'×'+bmp.height+' ('+fs(cf.size)+')';
     document.getElementById('nd').textContent=tw+'×'+th+' ('+fs(rb.size)+')';
     db.classList.remove('hidden');cb.textContent='Resize Again';cb.disabled=false}catch(e){alert('Failed: '+e.message);cb.textContent='Resize';cb.disabled=false}};
-db.onclick=()=>{if(!rb)return;const a=document.createElement('a');a.href=URL.createObjectURL(rb);a.download='resized-'+cf.name.replace(/\.[a-z0-9]+$/i,'')+'.png';a.click()};
+db.onclick=()=>{if(!rb)return;const a=document.createElement('a');const u=URL.createObjectURL(rb);a.href=u;a.download='resized-'+cf.name.replace(/\.[a-z0-9]+$/i,'')+'.png';a.click();URL.revokeObjectURL(u)};
 function fs(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'}
 </script>
 <script>
