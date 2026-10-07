@@ -258,7 +258,9 @@
     .faq-item p { color: var(--text2); font-size: 0.85rem; margin-top: 8px; display: none; line-height: 1.5; }
     .faq-item.open p { display: block; }
 
-    .comparison-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: .85rem; }
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.comparison-table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: .85rem; }
     .comparison-table th { background: var(--surface2); color: var(--text); padding: 10px 12px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border); }
     .comparison-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text2); vertical-align: top; }
     .measured { color: var(--text2); font-size: .85rem; line-height: 1.65; margin: 8px 0 0 18px; }
@@ -403,6 +405,7 @@
     instructions again, and anything it does not support is skipped without an error message.
     Each behaviour in this table was verified in a browser before this page was written,
     because together they explain most &ldquo;the PNG came out wrong&rdquo; reports.</p>
+    <div class="table-wrap" role="region" aria-label="What the browser actually renders" tabindex="0">
     <table class="comparison-table">
       <tr><th>What is in your SVG</th><th>What the converted PNG contains</th></tr>
       <tr><td><code>width="24" height="24"</code></td><td>The pixel size you typed. The file's own dimensions never cap the export &mdash; the artwork is redrawn at your size, so small vector files become large crisp PNGs.</td></tr>
@@ -411,6 +414,7 @@
       <tr><td>A webfont loaded with <code>@import</code> or a linked stylesheet</td><td>Your fallback font. The font is never downloaded either, so text is set in whatever local font matches your font stack.</td></tr>
       <tr><td>A <code>&lt;style&gt;</code> block inside the file</td><td>Applied. Rules that live in the file itself do run, and SVG filters such as <code>feGaussianBlur</code> are rendered.</td></tr>
     </table>
+    </div>
     <ul class="measured">
       <li><strong>Measured:</strong> a 24 &times; 24 SVG exported at 512 &times; 512 produced a 512 &times; 512 PNG (7,220 bytes, 183,184 painted pixels) &mdash; the vector was redrawn, not stretched.</li>
       <li><strong>Measured:</strong> an SVG pointing at a photo by URL painted 0 pixels in that slot, while the identical picture inlined as a data URI filled all 40,000 pixels of it.</li>

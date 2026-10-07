@@ -36,7 +36,7 @@
     body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;flex-direction:column;line-height:1.6}
     .container{max-width:900px;margin:0 auto;padding:0 20px;width:100%}
     header{border-bottom:1px solid var(--border);padding:16px 0;background:var(--surface)}
-    header .container{display:flex;align-items:center;justify-content:space-between}
+    header .container{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:4px 0}
     .logo{font-size:1.4rem;font-weight:700;color:var(--text);text-decoration:none}.logo span{color:var(--accent)}
     nav a{color:var(--text2);text-decoration:none;margin-left:20px;font-size:.9rem}nav a:hover,nav a.active{color:var(--accent)}
     .hero{text-align:center;padding:48px 0 28px}
@@ -59,6 +59,8 @@
     .steps{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin:16px 0}
     .steps ol{margin:0}
     .steps li{margin-bottom:10px}
+    .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+    .table-wrap:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
     .comparison-table{width:100%;border-collapse:collapse;margin:16px 0;font-size:.88rem}
     .comparison-table th{background:var(--surface2);color:var(--text);padding:10px 14px;text-align:left;font-weight:600;border-bottom:2px solid var(--border)}
     .comparison-table td{padding:10px 14px;border-bottom:1px solid var(--border);color:var(--text2)}
@@ -145,6 +147,7 @@
 
   <section>
     <h2>imgloft vs Other SVG to PNG Converters</h2>
+    <div class="table-wrap" role="region" aria-label="imgloft vs Other SVG to PNG Converters" tabindex="0">
     <table class="comparison-table">
       <tr><th>Feature</th><th>imgloft</th><th>CloudConvert</th><th>Convertio</th><th>EZGIF</th></tr>
       <tr><td>Free</td><td><span class="check">✓ Unlimited</span></td><td>25/day free</td><td>10/day free</td><td><span class="check">✓ Free</span></td></tr>
@@ -154,6 +157,7 @@
       <tr><td>Transparency Support</td><td><span class="check">✓ Full alpha</span></td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td>Partial</td></tr>
       <tr><td>Batch Conversion</td><td>Coming soon</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span></td></tr>
     </table>
+    </div>
   </section>
 
   <section>
