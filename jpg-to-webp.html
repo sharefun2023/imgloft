@@ -171,7 +171,7 @@ cb.onclick=async()=>{if(!cf)return;cb.disabled=true;cb.textContent='Converting..
     document.getElementById('os').textContent='JPG: '+fs(cf.size);document.getElementById('ns').textContent='WebP: '+fs(rb.size);
     const pct=((1-rb.size/cf.size)*100).toFixed(1);document.getElementById('rd').textContent=pct>0?'-'+pct+'%':'+'+Math.abs(pct)+'%';
     document.getElementById('rd').style.color=pct>0?'var(--green)':'var(--text2)';
-    db.classList.remove('hidden');cb.textContent='Convert Again';cb.disabled=false}catch(e){alert('Failed: '+e.message);cb.textContent='Convert to WebP';cb.disabled=false}};
+    db.classList.remove('hidden');cb.textContent='Convert Again';cb.disabled=false}catch(e){fn.textContent='⚠️ Conversion failed — this browser could not re-encode the image. Try another file, or re-save it as a JPEG or PNG first.';console.error(e);cb.textContent='Convert to WebP';cb.disabled=false}};
 db.onclick=()=>{if(!rb)return;const a=document.createElement('a');const u=URL.createObjectURL(rb);a.href=u;a.download=cf.name.replace(/\.(jpe?g|png|webp|gif|bmp|avif)$/i,'')+'.webp';a.click();URL.revokeObjectURL(u)};
 function fs(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/1048576).toFixed(1)+' MB'}
 </script>

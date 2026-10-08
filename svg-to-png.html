@@ -511,7 +511,7 @@ fileInput.addEventListener('change', () => {
 
 function handleFile(file) {
   if (!file.type.includes('svg') && !file.name.endsWith('.svg')) {
-    alert('Please select an SVG file.');
+    fileName.textContent = '⚠️ ' + file.name + ' is not an SVG — this tool only converts SVG files.';
     return;
   }
   currentFile = file;
@@ -568,7 +568,7 @@ convertBtn.addEventListener('click', async () => {
     convertBtn.disabled = false;
   } catch (err) {
     if (probeUrl) { URL.revokeObjectURL(probeUrl); probeUrl = null; }
-    alert('Conversion failed: ' + err.message);
+    fileName.textContent = '⚠️ Conversion failed — this browser could not render the SVG. Check that the file contains valid SVG markup, then try again.'; console.error(err);
     convertBtn.textContent = 'Convert to PNG';
     convertBtn.disabled = false;
   }
