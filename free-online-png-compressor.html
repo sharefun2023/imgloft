@@ -80,11 +80,17 @@
     .breadcrumb a{color:var(--text2);text-decoration:none}.breadcrumb a:hover{color:var(--accent)}
     .updated{text-align:center;color:var(--text2);font-size:.78rem;padding:0 0 20px}
   </style>
+<style>
+.skip-link{position:absolute;left:-9999px;top:0;z-index:1000;background:#a9591e;color:#fff;padding:10px 16px;border-radius:0 0 6px 0;text-decoration:none;font-weight:600;font-size:.95rem}
+.skip-link:focus{left:0;outline:2px solid #fff;outline-offset:-4px}
+</style>
 </head>
 <body>
+<a class="skip-link" href="#main">Skip to content</a>
+
 <header><div class="container"><a href="/" class="logo">img<span>loft</span></a><nav><a href="/">Home</a><a href="/compress-png">Compress PNG</a><a href="/resize-image">Resize</a><a href="/about">About</a></nav></div></header>
 
-<main class="container">
+<main id="main" class="container">
   <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Free Online PNG Compressor</div>
 
   <section class="hero">
@@ -149,7 +155,7 @@
     <h2>imgloft vs Other PNG Compression Tools</h2>
     <div class="table-wrap" role="region" aria-label="imgloft vs Other PNG Compression Tools" tabindex="0">
     <table class="comparison-table">
-      <tr><th>Feature</th><th>imgloft</th><th>TinyPNG</th><th>iloveimg</th></tr>
+      <tr><th scope="col">Feature</th><th scope="col">imgloft</th><th scope="col">TinyPNG</th><th scope="col">iloveimg</th></tr>
       <tr><td>Free</td><td><span class="check">✓ Unlimited</span></td><td>20/day free</td><td>Limited free tier</td></tr>
       <tr><td>Privacy</td><td><span class="check">✓ Client-side only</span></td><td><span class="cross">✗</span> Uploads to server</td><td><span class="cross">✗</span> Uploads to server</td></tr>
       <tr><td>No Signup</td><td><span class="check">✓</span></td><td><span class="check">✓</span></td><td><span class="cross">✗</span> Account required</td></tr>
