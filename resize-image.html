@@ -95,6 +95,7 @@
 <style>
 .skip-link{position:absolute;left:-9999px;top:0;z-index:1000;background:#a9591e;color:#fff;padding:10px 16px;border-radius:0 0 6px 0;text-decoration:none;font-weight:600;font-size:.95rem}
 .skip-link:focus{left:0;outline:2px solid #fff;outline-offset:-4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 </style>
 </head>
 <body>
@@ -106,8 +107,9 @@
   <section class="hero"><h1>Free Image Size Reducer</h1><p>Resize images to exact dimensions — all in your browser. No upload, no limits.</p></section>
   <div class="tool-panel">
     <div class="tool-header"><h2>Resize Image</h2></div>
-    <div class="drop-zone" id="dz" role="button" tabindex="0"><div class="icon">📐</div><p>Drop an image here or click to select</p><p class="fn" id="fn"></p></div>
+    <div class="drop-zone" id="dz" role="button" tabindex="0" aria-label="Drop an image here or click to select"><div class="icon">📐</div><p>Drop an image here or click to select</p><p class="fn" id="fn"></p></div>
     <input type="file" id="fi" accept="image/*" class="hidden">
+    <p class="sr-only" id="live" role="status" aria-live="polite" aria-atomic="true"></p>
     <div class="settings-row" id="st">
       <div><label for="w">Width (px)</label><input type="number" id="w" placeholder="Auto" min="1" max="8000"></div>
       <div><label for="h">Height (px)</label><input type="number" id="h" placeholder="Auto" min="1" max="8000"></div>
@@ -201,6 +203,36 @@ function fs(b){return b<1024?b+' B':b<1048576?(b/1024).toFixed(1)+' KB':(b/10485
       if (fi) fi.click();
     }
   });
+
+  /* status messages (WCAG 4.1.3): the visible status line sits inside the
+     role="button" drop zone (a button's descendants are presentational and
+     get folded into its accessible name), and the page had no live region at
+     all, so "file loaded", "could not read" and "result ready" reached no
+     assistive tech. Mirror the status line into a polite live region. */
+  var live = document.getElementById('live');
+  var status = document.querySelector('.fn, .file-name');
+  if (live && status && window.MutationObserver) {
+    new MutationObserver(function () {
+      if (live.textContent !== status.textContent) live.textContent = status.textContent;
+    }).observe(status, { childList: true, characterData: true, subtree: true });
+  }
+  if (live && window.MutationObserver) {
+    var dlBtn = document.querySelector('.btn.success');
+    if (dlBtn) {
+      new MutationObserver(function () {
+        if (!dlBtn.classList.contains('hidden')) {
+          var ns = document.getElementById('ns');
+          live.textContent = 'Result ready — ' + (ns && ns.textContent ? ns.textContent + ', ' : '') + 'download available.';
+        }
+      }).observe(dlBtn, { attributes: true, attributeFilter: ['class'] });
+    }
+    var cropBtn = document.getElementById('cropBtn');
+    if (cropBtn) {
+      cropBtn.addEventListener('click', function () {
+        live.textContent = 'Cropped image saved to your downloads.';
+      });
+    }
+  }
 })();
 </script>
 </body>
