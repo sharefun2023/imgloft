@@ -97,7 +97,7 @@
       --bg: #0d1117;
       --surface: #161b22;
       --surface2: #21262d;
-      --border: #30363d;
+      --border: #30363d; --border-ui: #6e7681;
       --text: #e6edf3;
       --text2: #8b949e;
       --accent: #f0883e;
@@ -141,7 +141,7 @@
     }
     .tool-header h2 { font-size: 1.1rem; font-weight: 600; }
     .drop-zone {
-      margin: 20px; border: 2px dashed var(--border); border-radius: var(--radius);
+      margin: 20px; border: 2px dashed var(--border-ui); border-radius: var(--radius);
       padding: 48px 20px; text-align: center; cursor: pointer; transition: all 0.2s;
     }
     .drop-zone:hover, .drop-zone.dragover {
@@ -155,12 +155,12 @@
     }
     .settings-row label { display: block; font-size: 0.8rem; color: var(--text2); margin-bottom: 4px; }
     .settings-row input {
-      padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border);
+      padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border-ui);
       background: var(--surface2); color: var(--text); font-size: 0.9rem; width: 120px;
     }
     .settings-row input:focus { outline: none; border-color: var(--accent); }
     .btn {
-      padding: 8px 20px; border-radius: 6px; border: 1px solid var(--border);
+      padding: 8px 20px; border-radius: 6px; border: 1px solid var(--border-ui);
       background: var(--surface2); color: var(--text); font-size: 0.9rem; cursor: pointer;
       transition: all 0.2s; font-weight: 500;
     }
