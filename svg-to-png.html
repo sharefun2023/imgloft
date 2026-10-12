@@ -84,10 +84,10 @@
       },
       {
         "@type": "Question",
-        "name": "Does the quality setting shrink the PNG file?",
+        "name": "Can I reduce the PNG file size?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "PNG is a lossless format, so a quality factor does not reduce its size the way it does for JPEG. To lose real bytes, convert at a smaller pixel size, or convert the image to WebP instead."
+          "text": "PNG is a lossless format, so there is no quality setting and no size dial. To lose real bytes, convert at a smaller pixel size, or convert the image to WebP instead."
         }
       },
       {
@@ -342,10 +342,6 @@
         <label for="outHeight">Height (px)</label>
         <input type="number" id="outHeight" placeholder="Original" min="1" max="8000">
       </div>
-      <div>
-        <label for="quality">Quality (0.1–1.0)</label>
-        <input type="number" id="quality" value="0.92" min="0.1" max="1.0" step="0.01">
-      </div>
       <button class="btn primary" id="convertBtn" disabled>Convert to PNG</button>
       <button class="btn success hidden" id="downloadBtn">⬇ Download PNG</button>
     </div>
@@ -460,8 +456,8 @@
       <p>Only when the font is web-safe or embedded in the file. If the SVG merely references a system font, the rasterizer substitutes whatever is installed on your machine, so convert text to outlines in your editor when the exact typeface matters.</p>
     </div>
     <div class="faq-item">
-      <h3><button type="button" class="faq-btn" aria-expanded="false">Does the quality setting shrink the PNG file?</button></h3>
-      <p>PNG is a lossless format, so a quality factor does not reduce its size the way it does for JPEG. To lose real bytes, convert at a smaller pixel size, or convert the image to WebP instead.</p>
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Can I reduce the PNG file size?</button></h3>
+      <p>PNG is a lossless format, so there is no quality setting and no size dial. To lose real bytes, convert at a smaller pixel size, or convert the image to WebP instead.</p>
     </div>
     <div class="faq-item">
       <h3><button type="button" class="faq-btn" aria-expanded="false">Is there a file size or conversion limit?</button></h3>
@@ -498,7 +494,6 @@ const previewArea = document.getElementById('previewArea');
 const preview = document.getElementById('preview');
 const outWidth = document.getElementById('outWidth');
 const outHeight = document.getElementById('outHeight');
-const quality = document.getElementById('quality');
 
 let currentFile = null;
 let resultBlob = null, previewUrl = null, probeUrl = null;
@@ -535,6 +530,16 @@ convertBtn.addEventListener('click', async () => {
   convertBtn.textContent = 'Converting...';
 
   try {
+    if ((outWidth.value && !outWidth.validity.valid) || (outHeight.value && !outHeight.validity.valid)) {
+      const bad = [];
+      if (outWidth.value && !outWidth.validity.valid) bad.push('width "' + outWidth.value + '"');
+      if (outHeight.value && !outHeight.validity.valid) bad.push('height "' + outHeight.value + '"');
+      fileName.textContent = '⚠️ Output size must be a whole number from 1 to 8000 px — you entered ' + bad.join(' and ') + '. Leave a box empty to keep the original dimension.';
+      convertBtn.textContent = 'Convert to PNG';
+      convertBtn.disabled = false;
+      return;
+    }
+
     const text = await currentFile.text();
     const blob = new Blob([text], { type: 'image/svg+xml' });
     probeUrl = URL.createObjectURL(blob);
@@ -546,9 +551,8 @@ convertBtn.addEventListener('click', async () => {
       img.src = probeUrl;
     });
 
-    const w = outWidth.value ? parseInt(outWidth.value) : img.naturalWidth;
-    const h = outHeight.value ? parseInt(outHeight.value) : img.naturalHeight;
-    const q = parseFloat(quality.value) || 0.92;
+    const w = outWidth.value ? Number(outWidth.value) : img.naturalWidth;
+    const h = outHeight.value ? Number(outHeight.value) : img.naturalHeight;
 
     const canvas = document.createElement('canvas');
     canvas.width = w;
@@ -556,7 +560,7 @@ convertBtn.addEventListener('click', async () => {
     const ctx = canvas.getContext('2d');
     ctx.drawImage(img, 0, 0, w, h);
 
-    resultBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png', q));
+    resultBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
     URL.revokeObjectURL(probeUrl); probeUrl = null;
 
     if (previewUrl) URL.revokeObjectURL(previewUrl);
