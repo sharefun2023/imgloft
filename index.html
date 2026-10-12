@@ -467,6 +467,8 @@ convertBtn.addEventListener('click', async () => {
       img.src = probeUrl;
     });
 
+    if (fileName.textContent.indexOf('⚠️') === 0) fileName.textContent = '📄 ' + currentFile.name;
+
     const w = outWidth.value ? Number(outWidth.value) : img.naturalWidth;
     const h = outHeight.value ? Number(outHeight.value) : img.naturalHeight;
 
