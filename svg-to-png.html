@@ -672,7 +672,15 @@ function formatBytes(bytes) {
       msg = '⚠️ That drop contained no image file — drop an image file instead (folders, links and selected text are not supported).';
     }
     multiNote.textContent = msg;
-    if (msg && live) live.textContent = msg;
+    if (msg && live) {
+      live.textContent = msg;
+      /* the page's own status line (file name + dimensions) lands a few ms
+         later and the 4.1.3 mirror would overwrite this announcement before a
+         screen reader got to it - re-assert it once things have settled. */
+      setTimeout(function () {
+        if (multiNote.textContent) live.textContent = multiNote.textContent;
+      }, 250);
+    }
   });
   document.addEventListener('change', function (e) {
     if (e.target && e.target.type === 'file') clearMultiNote();
