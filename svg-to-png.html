@@ -292,6 +292,8 @@
 .skip-link{position:absolute;left:-9999px;top:0;z-index:1000;background:#a9591e;color:#fff;padding:10px 16px;border-radius:0 0 6px 0;text-decoration:none;font-weight:600;font-size:.95rem}
 .skip-link:focus{left:0;outline:2px solid #fff;outline-offset:-4px}
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
+.multi-note{color:var(--accent);font-size:.85rem;margin:-8px 16px 12px;line-height:1.45}
+.multi-note:empty{display:none}
 </style>
 </head>
 <body>
@@ -330,6 +332,7 @@
       <p>Drag &amp; drop an SVG file here, or click to select</p>
       <p class="file-name" id="fileName"></p>
     </div>
+    <p class="multi-note" id="multiNote"></p>
     <input type="file" id="fileInput" accept=".svg,image/svg+xml" class="hidden">
     <p class="sr-only" id="live" role="status" aria-live="polite" aria-atomic="true"></p>
 
@@ -650,6 +653,33 @@ function formatBytes(bytes) {
       if (live.textContent !== status.textContent) live.textContent = status.textContent;
     }).observe(status, { childList: true, characterData: true, subtree: true });
   }
+  /* multi-file drop: every drop handler on this site reads
+     dataTransfer.files[0] only, so dropping several files silently threw the
+     rest away and dropping a folder / selected text did nothing at all with no
+     feedback. The note sits just below the drop zone, i.e. OUTSIDE the
+     role="button" element - text inside a button would be folded into its
+     accessible name (the 4.1.3 bug fixed earlier). */
+  var multiNote = document.getElementById('multiNote');
+  function clearMultiNote() { if (multiNote) multiNote.textContent = ''; }
+  document.addEventListener('drop', function (e) {
+    if (!multiNote || !e.dataTransfer) return;
+    var n = e.dataTransfer.files ? e.dataTransfer.files.length : 0;
+    var items = e.dataTransfer.items ? e.dataTransfer.items.length : 0;
+    var msg = '';
+    if (n > 1) {
+      msg = '⚠️ You dropped ' + n + ' files — this tool converts one at a time, so it is using the first one only.';
+    } else if (n === 0 && items > 0) {
+      msg = '⚠️ That drop contained no image file — drop an image file instead (folders, links and selected text are not supported).';
+    }
+    multiNote.textContent = msg;
+    if (msg && live) live.textContent = msg;
+  });
+  document.addEventListener('change', function (e) {
+    if (e.target && e.target.type === 'file') clearMultiNote();
+  });
+  document.addEventListener('click', function (e) {
+    if (e.target && e.target.id === 'resetBtn') clearMultiNote();
+  });
   if (live && window.MutationObserver) {
     var dlBtn = document.querySelector('.btn.success');
     if (dlBtn) {
