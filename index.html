@@ -577,9 +577,65 @@ function formatBytes(bytes) {
      accessible name (the 4.1.3 bug fixed earlier). */
   var multiNote = document.getElementById('multiNote');
   function clearMultiNote() { if (multiNote) multiNote.textContent = ''; }
+  /* one place that both writes the note and re-asserts it in the live region:
+     the page's own status line (file name + dimensions) lands a few ms later
+     and the 4.1.3 mirror below would overwrite the announcement before a
+     screen reader got to it. */
+  function note(msg) {
+    if (!multiNote) return;
+    multiNote.textContent = msg;
+    if (msg && live) {
+      live.textContent = msg;
+      setTimeout(function () {
+        if (multiNote.textContent) live.textContent = multiNote.textContent;
+      }, 250);
+    }
+  }
+  function dropZoneEl() { return document.querySelector('.drop-zone'); }
+  function fileInputEl() {
+    var d = dropZoneEl();
+    return (d && d.querySelector('input[type=file]')) ||
+           (d && d.parentElement && d.parentElement.querySelector('input[type=file]')) ||
+           document.querySelector('input[type=file]');
+  }
+  function dragHasFiles(dt) {
+    if (!dt) return false;
+    var t = dt.types || [];
+    for (var i = 0; i < t.length; i++) { if (t[i] === 'Files') return true; }
+    var it = dt.items || [];
+    for (var j = 0; j < it.length; j++) { if (it[j] && it[j].kind === 'file') return true; }
+    return false;
+  }
+  /* hand a File to the page through its own <input type=file> and fire the
+     event the page already listens to - the picker, a drop and the clipboard
+     all end up in exactly the same load path, so no tool logic is duplicated
+     or touched. */
+  function routeFile(f) {
+    var fi = fileInputEl();
+    if (!fi || !f || !window.DataTransfer) return false;
+    try {
+      var dt = new DataTransfer();
+      dt.items.add(f);
+      fi.files = dt.files;
+      fi.dispatchEvent(new Event('change', { bubbles: true }));
+      return true;
+    } catch (err) { return false; }
+  }
   document.addEventListener('drop', function (e) {
-    if (!multiNote || !e.dataTransfer) return;
-    var n = e.dataTransfer.files ? e.dataTransfer.files.length : 0;
+    if (!e.dataTransfer) return;
+    /* a drop that misses the upload area used to be handled by nobody: the
+       file was not loaded and the page said nothing at all. Cancel the
+       browser's default (for an uncancelled file drop that is to open the
+       dropped file, i.e. to take the page over) and accept it here instead. */
+    var d = dropZoneEl();
+    var inside = d && (e.target === d || d.contains(e.target));
+    var fl = e.dataTransfer.files;
+    if (!inside && fl && fl.length) {
+      e.preventDefault();
+      routeFile(fl[0]);
+    }
+    if (!multiNote) return;
+    var n = fl ? fl.length : 0;
     var items = e.dataTransfer.items ? e.dataTransfer.items.length : 0;
     var msg = '';
     if (n > 1) {
@@ -587,22 +643,37 @@ function formatBytes(bytes) {
     } else if (n === 0 && items > 0) {
       msg = '⚠️ That drop contained no image file — drop an image file instead (folders, links and selected text are not supported).';
     }
-    multiNote.textContent = msg;
-    if (msg && live) {
-      live.textContent = msg;
-      /* the page's own status line (file name + dimensions) lands a few ms
-         later and the 4.1.3 mirror would overwrite this announcement before a
-         screen reader got to it - re-assert it once things have settled. */
-      setTimeout(function () {
-        if (multiNote.textContent) live.textContent = multiNote.textContent;
-      }, 250);
-    }
+    note(msg);
   });
   document.addEventListener('change', function (e) {
     if (e.target && e.target.type === 'file') clearMultiNote();
   });
   document.addEventListener('click', function (e) {
     if (e.target && e.target.id === 'resetBtn') clearMultiNote();
+  });
+  /* Ctrl+V: after a screenshot this is the shortest way to hand a tool an
+     image, and the site had no paste handler anywhere (grep "paste" over all
+     16 pages: 0 hits), so a pasted screenshot did nothing and said nothing. */
+  document.addEventListener('paste', function (e) {
+    var dt = e.clipboardData;
+    if (!dt) return;
+    var f = (dt.files && dt.files[0]) || null;
+    if (!f) {
+      var it = dt.items || [];
+      for (var i = 0; i < it.length; i++) {
+        if (it[i] && it[i].kind === 'file') { f = it[i].getAsFile(); break; }
+      }
+    }
+    if (!f) return;                    /* plain text on the clipboard - not ours to handle */
+    if (!routeFile(f)) return;
+    e.preventDefault();
+    note('📋 Pasted ' + f.name + ' from your clipboard.');
+  });
+  /* the upload area is still the obvious target, but files are welcome
+     anywhere on the page; without this cancel a drag that misses the upload
+     area falls through to the browser's own default action. */
+  document.addEventListener('dragover', function (e) {
+    if (e.dataTransfer && dragHasFiles(e.dataTransfer)) e.preventDefault();
   });
   if (live && window.MutationObserver) {
     var dlBtn = document.querySelector('.btn.success');
