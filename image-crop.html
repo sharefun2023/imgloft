@@ -45,7 +45,7 @@
     .hero{text-align:center;padding:40px 0 24px}.hero h1{font-size:1.7rem;font-weight:700;margin-bottom:8px}.hero p{color:var(--text2);font-size:.95rem}
     .tool-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:24px;overflow:hidden}
     .tool-header{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
-    .ratio-btns{display:flex;gap:4px}.rb{padding:4px 10px;border-radius:4px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);font-size:.75rem;cursor:pointer}.rb:hover,.rb.active{color:var(--accent);border-color:var(--accent)}
+    .ratio-btns{display:flex;gap:4px}.rb{padding:4px 10px;border-radius:4px;border:1px solid var(--border-ui);background:var(--surface2);color:var(--text2);font-family:inherit;font-size:.75rem;cursor:pointer}.rb:hover,.rb.active{color:var(--accent);border-color:var(--accent)}
     .drop-zone{margin:16px;border:2px dashed var(--border-ui);border-radius:var(--radius);padding:36px 20px;text-align:center;cursor:pointer}
     .drop-zone:hover,.drop-zone.dragover{border-color:var(--accent);background:rgba(240,136,62,.05)}
     .drop-zone .fn{color:var(--accent);font-weight:500;margin-top:6px;font-size:.85rem}
@@ -106,7 +106,7 @@
   <div class="breadcrumb"><a href="/">Home</a> &rsaquo; Free Image Crop Tool</div>
   <section class="hero"><h1>Free Image Crop Tool</h1><p>Crop images to any size or aspect ratio — all in your browser. No upload, no limits.</p></section>
   <div class="tool-panel">
-    <div class="tool-header"><h2>Crop Image</h2><div class="ratio-btns"><span class="rb active" data-r="0">Free</span><span class="rb" data-r="1">1:1</span><span class="rb" data-r="1.333">4:3</span><span class="rb" data-r="1.778">16:9</span><span class="rb" data-r="0.75">3:4</span><span class="rb" data-r="0.5625">9:16</span></div></div>
+    <div class="tool-header"><h2>Crop Image</h2><div class="ratio-btns"><button type="button" class="rb active" data-r="0" aria-pressed="true">Free</button><button type="button" class="rb" data-r="1" aria-pressed="false">1:1</button><button type="button" class="rb" data-r="1.333" aria-pressed="false">4:3</button><button type="button" class="rb" data-r="1.778" aria-pressed="false">16:9</button><button type="button" class="rb" data-r="0.75" aria-pressed="false">3:4</button><button type="button" class="rb" data-r="0.5625" aria-pressed="false">9:16</button></div></div>
     <div class="drop-zone" id="dz" role="button" tabindex="0" aria-label="Drop an image here or click to select"><div class="icon">✂️</div><p>Drop an image here or click to select</p><p class="fn" id="fn"></p></div>
     <p class="multi-note" id="multiNote"></p>
     <input type="file" id="fi" accept="image/*" class="hidden">
@@ -166,7 +166,7 @@ const cropBtn=document.getElementById('cropBtn'),resetBtn=document.getElementByI
 const pa=document.getElementById('pa'),pv=document.getElementById('pv');
 let ratio=0,imgW=0,imgH=0,cropX=0,cropY=0,cropW=200,cropH=200,dragging=false,resizing=false,resizeHandle='',startX=0,startY=0,startCX=0,startCY=0,startCW=0,startCH=0;
 
-document.querySelectorAll('.rb').forEach(b=>b.onclick=function(){document.querySelectorAll('.rb').forEach(x=>x.classList.remove('active'));this.classList.add('active');ratio=parseFloat(this.dataset.r);updateCropBox()});
+document.querySelectorAll('.rb').forEach(b=>b.onclick=function(){document.querySelectorAll('.rb').forEach(x=>{x.classList.remove('active');x.setAttribute('aria-pressed','false')});this.classList.add('active');this.setAttribute('aria-pressed','true');ratio=parseFloat(this.dataset.r);updateCropBox()});
 
 dz.onclick=()=>fi.click();
 dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover')});
