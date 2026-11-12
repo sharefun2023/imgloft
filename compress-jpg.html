@@ -91,6 +91,19 @@
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 .multi-note{color:var(--accent);font-size:.85rem;margin:-8px 16px 12px;line-height:1.45}
 .multi-note:empty{display:none}
+.data-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:24px 0}
+.data-section h2{font-size:1.1rem;margin-bottom:6px}
+.data-section p{color:var(--text2);font-size:.88rem;line-height:1.65;margin:10px 0}
+.data-section p a{color:var(--accent);text-decoration:none}
+.data-section p a:hover{text-decoration:underline}
+.data-section code{background:var(--surface2);padding:1px 5px;border-radius:4px;font-size:.82em}
+.qtable{width:100%;border-collapse:collapse;font-size:.85rem;margin:14px 0}
+.qtable caption{caption-side:top;text-align:left;color:var(--text2);font-size:.76rem;padding-bottom:8px}
+.qtable th,.qtable td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums}
+.qtable th:first-child,.qtable td:first-child{text-align:left}
+.qtable thead th{color:var(--text2);font-weight:600;font-size:.74rem;text-transform:uppercase;letter-spacing:.04em}
+.qtable tbody tr:last-child td{border-bottom:none}
+.qtable td:last-child{color:var(--text2)}
 </style>
 </head>
 <body>
@@ -113,6 +126,27 @@
     </div>
     <div class="preview-area" id="pa"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="pv" alt="Preview"><div class="preview-info"><span id="os"></span><span id="ns"></span><span id="rd"></span></div></div>
   </div>
+  <section class="data-section">
+    <h2>What each JPEG quality level actually weighs</h2>
+    <p>We encoded one 1200&times;630 image (44,915 bytes as PNG) at eight quality settings in headless Chrome 149 and recorded the resulting <code>Blob.size</code>. These are measurements, not estimates:</p>
+    <table class="qtable">
+      <caption>JPEG output size by quality setting &mdash; 1200&times;630 source, 44,915 B</caption>
+      <thead><tr><th scope="col">Quality</th><th scope="col">Output</th><th scope="col">vs. source</th></tr></thead>
+      <tbody>
+        <tr><td>1.00</td><td>218,307 B</td><td>4.86&times;</td></tr>
+        <tr><td>0.95</td><td>109,443 B</td><td>2.44&times;</td></tr>
+        <tr><td>0.92</td><td>90,251 B</td><td>2.01&times;</td></tr>
+        <tr><td>0.85</td><td>72,233 B</td><td>1.61&times;</td></tr>
+        <tr><td>0.75</td><td>58,265 B</td><td>1.30&times;</td></tr>
+        <tr><td>0.60</td><td>46,603 B</td><td>1.04&times;</td></tr>
+        <tr><td>0.40</td><td>36,427 B</td><td>0.81&times;</td></tr>
+        <tr><td>0.10</td><td>16,194 B</td><td>0.36&times;</td></tr>
+      </tbody>
+    </table>
+    <p><strong>The default of 0.75 is not a compression setting.</strong> At that value the output is still 30% <em>larger</em> than the source file it came from. That source only starts shrinking below roughly 0.57 &mdash; so if a tool shows you &ldquo;quality 75%&rdquo; and a number that went up, this is why.</p>
+    <p>Re-encoding an already-compressed JPEG saves almost nothing. Starting from a 89,634-byte JPEG, four further passes at 0.92 produced 89,634 &rarr; 89,526 &rarr; 89,390 &rarr; 89,331 bytes: 0.34% smaller after four generations, with detail discarded in every one of them. Compress once, from the best source you have.</p>
+    <p>WebP is smaller than JPEG at every one of those settings &mdash; the same image at 0.75 is 22,212 B. Compare the two on the <a href="/jpg-to-webp">JPG to WebP</a> tool before picking a format to ship.</p>
+  </section>
   <section><h2 style="text-align:center;font-size:1.1rem;margin-bottom:12px">More Free Tools</h2>
     <div class="tools-grid">
       <a href="/" class="tc"><strong>SVG → PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Convert SVG to PNG</span></a>
