@@ -98,6 +98,19 @@
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 .multi-note{color:var(--accent);font-size:.85rem;margin:-8px 16px 12px;line-height:1.45}
 .multi-note:empty{display:none}
+.data-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:24px 0}
+.data-section h2{font-size:1.1rem;margin-bottom:6px}
+.data-section p{color:var(--text2);font-size:.88rem;line-height:1.65;margin:10px 0}
+.data-section p a{color:var(--accent);text-decoration:none}
+.data-section p a:hover{text-decoration:underline}
+.data-section code{background:var(--surface2);padding:1px 5px;border-radius:4px;font-size:.82em}
+.qtable{width:100%;border-collapse:collapse;font-size:.85rem;margin:14px 0}
+.qtable caption{caption-side:top;text-align:left;color:var(--text2);font-size:.76rem;padding-bottom:8px}
+.qtable th,.qtable td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums}
+.qtable th:first-child,.qtable td:first-child{text-align:left}
+.qtable thead th{color:var(--text2);font-weight:600;font-size:.74rem;text-transform:uppercase;letter-spacing:.04em}
+.qtable tbody tr:last-child td{border-bottom:none}
+.qtable td:last-child{color:var(--text2)}
 </style>
 </head>
 <body>
@@ -122,6 +135,27 @@
     </div>
     <div class="preview-area" id="pa"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="pv" alt="Preview"><div class="preview-info">Original: <span id="od"></span> → New: <span id="nd"></span></div></div>
   </div>
+  <section class="data-section">
+    <h2>What a resize actually saves, in bytes</h2>
+    <p>One image &mdash; 1200&times;630, 44,915 bytes as PNG &mdash; pushed through <code>canvas.drawImage()</code> at six target widths in headless Chrome 148, then written out three ways: PNG (what this tool produces), JPEG at quality 0.92 and WebP at 0.85. Sizes are real <code>Blob.size</code> values, not estimates:</p>
+    <table class="qtable">
+      <caption>Output size by target width &mdash; 1200&times;630 source, 44,915 B</caption>
+      <thead><tr><th scope="col">Target</th><th scope="col">PNG</th><th scope="col">JPEG 0.92</th><th scope="col">WebP 0.85</th><th scope="col">PNG vs. source</th></tr></thead>
+      <tbody>
+        <tr><td>1200&times;630</td><td>71,663 B</td><td>90,251 B</td><td>27,792 B</td><td>159.6%</td></tr>
+        <tr><td>900&times;473</td><td>67,352 B</td><td>61,981 B</td><td>20,596 B</td><td>150.0%</td></tr>
+        <tr><td>600&times;315</td><td>34,768 B</td><td>35,777 B</td><td>12,608 B</td><td>77.4%</td></tr>
+        <tr><td>450&times;236</td><td>31,202 B</td><td>23,506 B</td><td>8,494 B</td><td>69.5%</td></tr>
+        <tr><td>300&times;158</td><td>16,077 B</td><td>12,357 B</td><td>5,764 B</td><td>35.8%</td></tr>
+        <tr><td>150&times;79</td><td>7,352 B</td><td>4,509 B</td><td>2,266 B</td><td>16.4%</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Four times fewer pixels bought only 23% fewer bytes.</strong> 1200 to 600 px drops 75% of the pixels, and the PNG goes 44,915 &rarr; 34,768 B (&minus;22.6%). Bytes do not track pixel count, because a lossless encoder still has to describe every pixel that is left, and downscaling concentrates edges instead of smoothing them away. If a file is much too big, resizing alone will not fix it.</p>
+    <p><strong>A resize that changes nothing can still nearly double the file.</strong> Re-saving the same 1200&times;630 image at its native size as PNG gives 71,663 B &mdash; 59.6% <em>larger</em> than the file we started from, because the browser's PNG encoder is not the one that originally wrote it. This is the concrete case behind "resizing can make a file bigger": no pixels were removed at all.</p>
+    <p><strong>At small sizes the format matters more than the dimensions.</strong> At 150 px wide, PNG is 7,352 B while WebP is 2,266 B (&minus;69%) and JPEG is 4,509 B (&minus;39%). Down to roughly 600 px this flat-colour graphic still compresses smaller as PNG than as JPEG at 0.92 (34,768 vs. 35,777 B); at 450 px that flips, and JPEG wins. Once the image is this small it is the format, not the pixel count, that decides the size.</p>
+    <p><strong>The smoothing setting is not a lever.</strong> At 4&times; down, 12&times; down and 2&times; up, <code>imageSmoothingQuality</code> set to <code>low</code>, <code>medium</code> and <code>high</code> produced byte-identical output and 0 of 47,400 pixels differing (at 300 px wide); the unset default matched <code>low</code> exactly. Setting <code>imageSmoothingEnabled = false</code> did change 25.8% of pixels, so the comparison itself works &mdash; the quality hint simply made no difference in this browser build. Spend the effort on target width and output format instead. The same measurements in other encoders: the <a href="/compress-jpg">JPEG quality table</a> and the <a href="/jpg-to-webp">JPEG vs. WebP table</a>.</p>
+    <p style="font-size:.8rem">Boundary: one image (flat-colour graphic), one browser build (HeadlessChrome 148). A photograph will give different absolute numbers, and a differently-encoded source PNG will show a different same-size round-trip cost. The ratios above apply to this file.</p>
+  </section>
   <section><h2 style="text-align:center;font-size:1.1rem;margin-bottom:12px">More Free Tools</h2>
     <div class="tools-grid">
       <a href="/" class="tc"><strong>SVG → PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Convert SVG to PNG</span></a>
