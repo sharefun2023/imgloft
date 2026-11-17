@@ -294,6 +294,19 @@
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 .multi-note{color:var(--accent);font-size:.85rem;margin:-8px 16px 12px;line-height:1.45}
 .multi-note:empty{display:none}
+.data-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:24px 0}
+.data-section h2{font-size:1.1rem;margin-bottom:6px}
+.data-section p{color:var(--text2);font-size:.88rem;line-height:1.65;margin:10px 0}
+.data-section p a{color:var(--accent);text-decoration:none}
+.data-section p a:hover{text-decoration:underline}
+.data-section code{background:var(--surface2);padding:1px 5px;border-radius:4px;font-size:.82em}
+.qtable{width:100%;border-collapse:collapse;font-size:.85rem;margin:14px 0}
+.qtable caption{caption-side:top;text-align:left;color:var(--text2);font-size:.76rem;padding-bottom:8px}
+.qtable th,.qtable td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums}
+.qtable th:first-child,.qtable td:first-child{text-align:left}
+.qtable thead th{color:var(--text2);font-weight:600;font-size:.74rem;text-transform:uppercase;letter-spacing:.04em}
+.qtable tbody tr:last-child td{border-bottom:none}
+.qtable td:last-child{color:var(--text2)}
 </style>
 </head>
 <body>
@@ -427,6 +440,29 @@
       <li><strong>Measured:</strong> an SVG pointing at a photo by URL painted 0 pixels in that slot, while the identical picture inlined as a data URI filled all 40,000 pixels of it.</li>
       <li><strong>Measured:</strong> text set in an <code>@import</code>'ed webfont rendered pixel-for-pixel like the local monospace fallback (2,256 ink pixels both times), while a <code>&lt;style&gt;</code> rule in the same file did change the output colour.</li>
     </ul>
+  </section>
+
+  <section class="data-section">
+    <h2>What a bigger PNG actually costs</h2>
+    <p>The sections above explain <em>what</em> the renderer does. This one answers what the result <em>weighs</em>. One vector &mdash; 120&times;120, <strong>487 bytes</strong> as SVG &mdash; was pushed through the same path this tool uses (<code>drawImage()</code> into a canvas, <code>toBlob()</code> out) at five export widths in headless Chrome 148, written three ways: PNG (what this tool produces), JPEG at quality 0.92 and WebP at 0.85. Every number is a real <code>Blob.size</code>:</p>
+    <div class="table-wrap" role="region" aria-label="SVG export width vs output bytes" tabindex="0">
+    <table class="qtable">
+      <caption>Output size by export width &mdash; flat-colour logo, 487 B as SVG</caption>
+      <thead><tr><th scope="col">Export width</th><th scope="col">PNG</th><th scope="col">JPEG 0.92</th><th scope="col">WebP 0.85</th><th scope="col">PNG vs. the SVG</th></tr></thead>
+      <tbody>
+        <tr><td>120 &times; 120</td><td>15,331 B</td><td>3,789 B</td><td>2,190 B</td><td>31&times;</td></tr>
+        <tr><td>240 &times; 240</td><td>61,020 B</td><td>7,158 B</td><td>4,028 B</td><td>125&times;</td></tr>
+        <tr><td>480 &times; 480</td><td>227,624 B</td><td>14,691 B</td><td>7,888 B</td><td>467&times;</td></tr>
+        <tr><td>960 &times; 960</td><td>832,953 B</td><td>29,651 B</td><td>15,522 B</td><td>1,710&times;</td></tr>
+        <tr><td>1920 &times; 1920</td><td>2,875,249 B</td><td>68,515 B</td><td>34,984 B</td><td>5,904&times;</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><strong>A vector is nearly free; its raster is not.</strong> The SVG is 487 bytes at every size. The PNG written from it is 15,331 bytes at its own 120 px &mdash; 31 times the source &mdash; and 2,875,249 bytes at 1920 px, which is 5,904 times the source and 2.8 MB on disk. Nothing was added to the artwork in between: same paths, same four fills, same gradient. Everything you pay for is pixels.</p>
+    <p><strong>Bytes track pixels here, which is the opposite of a photograph.</strong> Going 120 &rarr; 1920 px multiplies the pixel count by 256; this PNG grew 187&times;. On detailed artwork (120 small shapes, 14,292 B as SVG) the same 256&times; area bought only 84&times; more bytes. Cost per megapixel falls either way &mdash; 1.06 MB/Mpx at 120 px vs. 0.78 MB/Mpx at 1920 px on the logo &mdash; but the total still multiplies, because a lossless encoder has to describe every pixel that exists. On a photograph the opposite happens: cutting pixels buys almost nothing (see the <a href="/resize-image">resize table</a>).</p>
+    <p><strong>Above roughly 480 px, PNG is the wrong format for this job by an order of magnitude.</strong> At 1920 px the same drawing is 68,515 B as JPEG (2.4% of the PNG) and 34,984 B as WebP (1.2% of it). The detailed artwork shows the same gap: 1,299,895 B as PNG against 262,362 B as JPEG and 97,356 B as WebP. PNG wins only where you need a hard alpha edge or exact colours &mdash; icons, UI assets, anything that will be composited. For a big raster you are only going to look at, exporting PNG is the expensive choice.</p>
+    <p><strong>Exporting at 8&times; and then shrinking buys no sharpness.</strong> A 1920 px render scaled back down to 240 px was compared pixel-for-pixel against a native 240 px render: 59.4% of pixels differed on the logo, but the mean channel difference was <strong>0.8</strong> out of 255; on the detailed artwork 25.0% differed with a mean of 0.94. The PNG that came out was 32,157 B &mdash; <em>smaller</em> than the native render's 61,020 B, not bigger and not sharper, because averaging eight subpixels smooths edges instead of adding detail. So the FAQ answer above is the whole rule: convert at the size you will display, doubled once for dense screens, and stop there.</p>
+    <p style="font-size:.8rem">Boundary: two hand-built fixtures (a 487 B flat-colour logo and 14,292 B detailed artwork), one browser build (HeadlessChrome 148), PNG written by <code>canvas.toBlob()</code>. A photograph-based SVG or a different encoder will give different absolute numbers; the ratios above belong to these two files. The same measuring rig produced the <a href="/compress-jpg">JPEG quality table</a>, the <a href="/jpg-to-webp">JPEG vs. WebP table</a> and the <a href="/resize-image">resize table</a>.</p>
   </section>
 
   <section>
