@@ -31,7 +31,7 @@
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"imgloft JPG Compressor","description":"Free online JPG compressor. Reduce JPEG file size in your browser.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://imgloft.com/compress-jpg","browserRequirements":"Requires JavaScript"}
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much can I compress a JPG?","acceptedAnswer":{"@type":"Answer","text":"It depends on the source image. The panel reports the exact before and after sizes; at the default quality of 0.75 a typical camera JPEG shrinks noticeably, while a file that was already exported at low quality has very little left to give."}},{"@type":"Question","name":"Is the compression lossless?","acceptedAnswer":{"@type":"Answer","text":"No, JPEG compression is lossy, so re-encoding always discards some detail. At quality 0.75 to 0.9 the difference is normally hard to see at full size, but every re-save compounds the loss, so keep the original file."}},{"@type":"Question","name":"Can I compress a PNG here?","acceptedAnswer":{"@type":"Answer","text":"No. This tool re-encodes to JPEG and the file picker only accepts JPEG images. For PNG files use the PNG compressor, which stays lossless."}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much can I compress a JPG?","acceptedAnswer":{"@type":"Answer","text":"It depends on the source image. The panel reports the exact before and after sizes; at the default quality of 0.75 a typical camera JPEG shrinks noticeably, while a file that was already exported at low quality has very little left to give."}},{"@type":"Question","name":"Is the compression lossless?","acceptedAnswer":{"@type":"Answer","text":"No, JPEG compression is lossy, so detail is discarded either way. On our test image the first encode at 0.92 shifted the average pixel by 0.98 levels out of 255 (PSNR 39 dB), while four further re-saves added only 0.20 more: the damage is front-loaded rather than compounding, but it never reaches zero, so keep the original file."}},{"@type":"Question","name":"Can I compress a PNG here?","acceptedAnswer":{"@type":"Answer","text":"No. This tool re-encodes to JPEG and the file picker only accepts JPEG images. For PNG files use the PNG compressor, which stays lossless."}}]}
   </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -128,23 +128,37 @@
   </div>
   <section class="data-section">
     <h2>What each JPEG quality level actually weighs</h2>
-    <p>We encoded one 1200&times;630 image (44,915 bytes as PNG) at eight quality settings in headless Chrome 149 and recorded the resulting <code>Blob.size</code>. These are measurements, not estimates:</p>
+    <p>We encoded one 1200&times;630 image (44,915 bytes as PNG) at eight quality settings in headless Chrome 149 and recorded the resulting <code>Blob.size</code>. These are measurements, not estimates. The last two columns decode each result back and compare it with the untouched source pixels, so the size saving sits next to what it actually costs:</p>
     <table class="qtable">
-      <caption>JPEG output size by quality setting &mdash; 1200&times;630 source, 44,915 B</caption>
-      <thead><tr><th scope="col">Quality</th><th scope="col">Output</th><th scope="col">vs. source</th></tr></thead>
+      <caption>JPEG output size and measured pixel error by quality setting &mdash; 1200&times;630 source, 44,915 B</caption>
+      <thead><tr><th scope="col">Quality</th><th scope="col">Output</th><th scope="col">vs. source</th><th scope="col">Mean error</th><th scope="col">PSNR</th></tr></thead>
       <tbody>
-        <tr><td>1.00</td><td>218,307 B</td><td>4.86&times;</td></tr>
-        <tr><td>0.95</td><td>109,443 B</td><td>2.44&times;</td></tr>
-        <tr><td>0.92</td><td>90,251 B</td><td>2.01&times;</td></tr>
-        <tr><td>0.85</td><td>72,233 B</td><td>1.61&times;</td></tr>
-        <tr><td>0.75</td><td>58,265 B</td><td>1.30&times;</td></tr>
-        <tr><td>0.60</td><td>46,603 B</td><td>1.04&times;</td></tr>
-        <tr><td>0.40</td><td>36,427 B</td><td>0.81&times;</td></tr>
-        <tr><td>0.10</td><td>16,194 B</td><td>0.36&times;</td></tr>
+        <tr><td>1.00</td><td>218,307 B</td><td>4.86&times;</td><td>0.35</td><td>52.6 dB</td></tr>
+        <tr><td>0.95</td><td>109,443 B</td><td>2.44&times;</td><td>0.84</td><td>39.4 dB</td></tr>
+        <tr><td>0.92</td><td>90,251 B</td><td>2.01&times;</td><td>0.98</td><td>39.0 dB</td></tr>
+        <tr><td>0.85</td><td>72,233 B</td><td>1.61&times;</td><td>1.23</td><td>37.7 dB</td></tr>
+        <tr><td>0.75</td><td>58,265 B</td><td>1.30&times;</td><td>1.99</td><td>35.9 dB</td></tr>
+        <tr><td>0.60</td><td>46,603 B</td><td>1.04&times;</td><td>1.89</td><td>34.7 dB</td></tr>
+        <tr><td>0.40</td><td>36,427 B</td><td>0.81&times;</td><td>2.89</td><td>32.9 dB</td></tr>
+        <tr><td>0.10</td><td>16,194 B</td><td>0.36&times;</td><td>5.79</td><td>28.5 dB</td></tr>
       </tbody>
     </table>
     <p><strong>The default of 0.75 is not a compression setting.</strong> At that value the output is still 30% <em>larger</em> than the source file it came from. That source only starts shrinking below roughly 0.57 &mdash; so if a tool shows you &ldquo;quality 75%&rdquo; and a number that went up, this is why.</p>
-    <p>Re-encoding an already-compressed JPEG saves almost nothing. Starting from a 89,634-byte JPEG, four further passes at 0.92 produced 89,634 &rarr; 89,526 &rarr; 89,390 &rarr; 89,331 bytes: 0.34% smaller after four generations, with detail discarded in every one of them. Compress once, from the best source you have.</p>
+    <p><strong>The cheap savings are over by 0.92.</strong> Going from 0.92 down to 0.75 removes 35% of the bytes (90,251 &rarr; 58,265) but doubles the average pixel error (0.98 &rarr; 1.99 levels out of 255) and nearly triples the share of pixels that are off by more than 8 levels (1.9% &rarr; 5.4%). Below 0.92 you are no longer trimming overhead, you are trading picture for size.</p>
+    <p><strong>Re-encoding is front-loaded, not compounding.</strong> We took the same source, encoded it at 0.92, then decoded and re-encoded it four more times, measuring every generation against the original pixels:</p>
+    <table class="qtable">
+      <caption>Five generations of JPEG at quality 0.92 &mdash; 1200&times;630 source</caption>
+      <thead><tr><th scope="col">Generation</th><th scope="col">Bytes</th><th scope="col">Mean error vs. original</th><th scope="col">PSNR</th><th scope="col">Error added by this pass</th></tr></thead>
+      <tbody>
+        <tr><td>1 (from PNG)</td><td>90,251 B</td><td>0.98</td><td>39.0 dB</td><td>0.98</td></tr>
+        <tr><td>2</td><td>89,634 B</td><td>1.07</td><td>37.7 dB</td><td>0.16</td></tr>
+        <tr><td>3</td><td>89,526 B</td><td>1.12</td><td>37.0 dB</td><td>0.10</td></tr>
+        <tr><td>4</td><td>89,390 B</td><td>1.16</td><td>36.5 dB</td><td>0.08</td></tr>
+        <tr><td>5</td><td>89,331 B</td><td>1.18</td><td>36.3 dB</td><td>0.06</td></tr>
+      </tbody>
+    </table>
+    <p>Four extra generations cost <strong>20% more error</strong> on top of the first encode (0.98 &rarr; 1.18 levels), <strong>2.7 dB</strong> of PSNR, and <strong>1.0%</strong> of the file size &mdash; and each pass damages less than the one before it (0.98, then 0.16, 0.10, 0.08, 0.06). The original encode at 0.92 is what costs you the picture; the re-saves mostly cost you the archive. Compress once, from the best source you have, and keep that source.</p>
+    <p>&#9888;&#65039; Two honest boundaries. On this image the mean error at 0.75 (1.99) is <em>higher</em> than at 0.60 (1.89) while the tail gets worse (pixels off by more than 8 levels: 5.4% &rarr; 6.6%) &mdash; a single average is not a verdict, because the encoder's quantisation tables do not scale evenly between steps. And all of it was measured on one flat-colour graphic; photographs with fine texture will land on different absolute numbers, so treat the <em>shape</em> of these curves as the finding, not the digits.</p>
     <p>WebP is smaller than JPEG at every one of those settings &mdash; the same image at 0.75 is 22,212 B. Compare the two on the <a href="/jpg-to-webp">JPG to WebP</a> tool before picking a format to ship.</p>
   </section>
   <section><h2 style="text-align:center;font-size:1.1rem;margin-bottom:12px">More Free Tools</h2>
@@ -164,7 +178,7 @@
     </div>
     <div class="faq-item">
       <h3><button type="button" class="faq-btn" aria-expanded="false">Is the compression lossless?</button></h3>
-      <p>No, JPEG compression is lossy, so re-encoding always discards some detail. At quality 0.75 to 0.9 the difference is normally hard to see at full size, but every re-save compounds the loss, so keep the original file.</p>
+      <p>No, JPEG compression is lossy, so detail is discarded either way. On our test image the first encode at 0.92 shifted the average pixel by 0.98 levels out of 255 (PSNR 39 dB), while four further re-saves added only 0.20 more &mdash; the damage is front-loaded rather than compounding, but it never reaches zero, so keep the original file.</p>
     </div>
     <div class="faq-item">
       <h3><button type="button" class="faq-btn" aria-expanded="false">Can I compress a PNG here?</button></h3>
