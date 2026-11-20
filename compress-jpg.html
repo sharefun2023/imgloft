@@ -158,8 +158,42 @@
       </tbody>
     </table>
     <p>Four extra generations cost <strong>20% more error</strong> on top of the first encode (0.98 &rarr; 1.18 levels), <strong>2.7 dB</strong> of PSNR, and <strong>1.0%</strong> of the file size &mdash; and each pass damages less than the one before it (0.98, then 0.16, 0.10, 0.08, 0.06). The original encode at 0.92 is what costs you the picture; the re-saves mostly cost you the archive. Compress once, from the best source you have, and keep that source.</p>
-    <p>&#9888;&#65039; Two honest boundaries. On this image the mean error at 0.75 (1.99) is <em>higher</em> than at 0.60 (1.89) while the tail gets worse (pixels off by more than 8 levels: 5.4% &rarr; 6.6%) &mdash; a single average is not a verdict, because the encoder's quantisation tables do not scale evenly between steps. And all of it was measured on one flat-colour graphic; photographs with fine texture will land on different absolute numbers, so treat the <em>shape</em> of these curves as the finding, not the digits.</p>
+    <p>&#9888;&#65039; Two honest boundaries. On this image the mean error at 0.75 (1.99) is <em>higher</em> than at 0.60 (1.89) while the tail gets worse (pixels off by more than 8 levels: 5.4% &rarr; 6.6%) &mdash; a single average is not a verdict, because the encoder's quantisation tables do not scale evenly between steps. And all of it was measured on one flat-colour graphic; photographs with fine texture land on different numbers, which is what the next section measures.</p>
     <p>WebP is smaller than JPEG at every one of those settings &mdash; the same image at 0.75 is 22,212 B. Compare the two on the <a href="/jpg-to-webp">JPG to WebP</a> tool before picking a format to ship.</p>
+  </section>
+  <section class="data-section">
+    <h2>What the same slider does to a photograph</h2>
+    <p>Every number above came from one flat-colour graphic, so we ran the same chain on a real photograph &mdash; 1200&times;800, stored lossless at 1,627,250 bytes so nothing arrived pre-compressed. Same headless Chrome 149, same <code>toBlob('image/jpeg', q)</code> path, eight settings:</p>
+    <table class="qtable">
+      <caption>JPEG output size and measured pixel error on a 1200&times;800 photograph</caption>
+      <thead><tr><th scope="col">Quality</th><th scope="col">Output</th><th scope="col">vs. same image at 1.00</th><th scope="col">Mean error</th><th scope="col">PSNR</th><th scope="col">Off by &gt;8 levels</th></tr></thead>
+      <tbody>
+        <tr><td>1.00</td><td>1,081,393 B</td><td>100%</td><td>0.35</td><td>51.7 dB</td><td>0.0%</td></tr>
+        <tr><td>0.95</td><td>416,677 B</td><td>38.5%</td><td>1.46</td><td>41.3 dB</td><td>1.5%</td></tr>
+        <tr><td>0.92</td><td>335,320 B</td><td>31.0%</td><td>1.92</td><td>39.0 dB</td><td>4.2%</td></tr>
+        <tr><td>0.85</td><td>250,498 B</td><td>23.2%</td><td>2.85</td><td>35.4 dB</td><td>13.6%</td></tr>
+        <tr><td>0.75</td><td>186,343 B</td><td>17.2%</td><td>3.86</td><td>32.6 dB</td><td>22.1%</td></tr>
+        <tr><td>0.60</td><td>139,061 B</td><td>12.9%</td><td>4.87</td><td>30.5 dB</td><td>28.2%</td></tr>
+        <tr><td>0.40</td><td>102,395 B</td><td>9.5%</td><td>5.89</td><td>28.8 dB</td><td>33.4%</td></tr>
+        <tr><td>0.10</td><td>35,857 B</td><td>3.3%</td><td>10.00</td><td>24.6 dB</td><td>62.6%</td></tr>
+      </tbody>
+    </table>
+    <p>Set against the graphic, the same five moves cost differently:</p>
+    <table class="qtable">
+      <caption>Identical quality settings, two different pictures</caption>
+      <thead><tr><th scope="col">Measure</th><th scope="col">Photograph</th><th scope="col">Flat graphic</th></tr></thead>
+      <tbody>
+        <tr><td>0.92 output, as % of the same image at 1.00</td><td>31.0%</td><td>41.3%</td></tr>
+        <tr><td>Mean pixel error at 0.92 (levels of 255)</td><td>1.92</td><td>0.98</td></tr>
+        <tr><td>Bytes saved, 0.92 &rarr; 0.75</td><td>44.4%</td><td>35.4%</td></tr>
+        <tr><td>Pixels off by &gt;8 levels, 0.92 &rarr; 0.75</td><td>4.2% &rarr; 22.1%</td><td>1.9% &rarr; 5.4%</td></tr>
+        <tr><td>WebP 0.85 against JPEG 0.92</td><td>&minus;35.8%</td><td>&minus;69.2%</td></tr>
+      </tbody>
+    </table>
+    <p><strong>At the same setting a photograph pays about twice the error.</strong> At 0.92 its average pixel moves 1.92 levels where the graphic moves 0.98, and the tail is worse than the average admits: push both to 0.75 and 22.1% of the photograph's pixels are off by more than 8 levels &mdash; one pixel in five &mdash; against 5.4% for the graphic. Advice calibrated on logos (&ldquo;75% is fine&rdquo;) does not survive the trip to a photo. On this photograph, 0.85 is the last setting that keeps the tail under roughly 14%.</p>
+    <p><strong>A photograph also has more to give away, which is why the slider feels generous.</strong> From 0.92 to 0.75 it loses 44.4% of its bytes against 35.4% for the graphic, and by 0.10 it is down to 3.3% of its own 1.00 size while the graphic stops at 7.4% &mdash; texture is redundancy. The catch is where the damage lands: that same 0.92 &rarr; 0.75 step multiplies the tail 5.2&times; on the photograph and 2.8&times; on the graphic.</p>
+    <p><strong>WebP's advantage halves on a photograph.</strong> JPEG 0.92 to WebP 0.85 saves 69.2% on the graphic and <strong>35.8%</strong> on the photo. It is still the better encoder &mdash; WebP 0.85 holds the photograph's error at 2.39 against JPEG 0.85's 2.85 while writing 14% fewer bytes &mdash; but a size budget built on &ldquo;WebP saves 60%&rdquo; is a budget built on a logo. Halve it for photographs.</p>
+    <p>&#9888;&#65039; One measurement trap, recorded because it nearly shipped. The first pass used a JPEG as its source, and at 0.75 the error <em>dropped</em> to 0.12 levels &mdash; re-encoding an image at the quality it was originally saved at reproduces its own quantisation table almost exactly, so the step looks free. The photograph here is therefore a lossless 1200&times;800 re-save and every number above is a first-generation encode. The side effect: &ldquo;re-save at the same quality&rdquo; is measurable rather than mythical &mdash; we fell into it by accident.</p>
   </section>
   <section><h2 style="text-align:center;font-size:1.1rem;margin-bottom:12px">More Free Tools</h2>
     <div class="tools-grid">
