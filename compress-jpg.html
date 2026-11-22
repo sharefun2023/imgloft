@@ -31,7 +31,7 @@
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"imgloft JPG Compressor","description":"Free online JPG compressor. Reduce JPEG file size in your browser.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://imgloft.com/compress-jpg","browserRequirements":"Requires JavaScript"}
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much can I compress a JPG?","acceptedAnswer":{"@type":"Answer","text":"It depends on the source image. The panel reports the exact before and after sizes; at the default quality of 0.75 a typical camera JPEG shrinks noticeably, while a file that was already exported at low quality has very little left to give."}},{"@type":"Question","name":"Is the compression lossless?","acceptedAnswer":{"@type":"Answer","text":"No, JPEG compression is lossy, so detail is discarded either way. On our test image the first encode at 0.92 shifted the average pixel by 0.98 levels out of 255 (PSNR 39 dB), while four further re-saves added only 0.20 more: the damage is front-loaded rather than compounding, but it never reaches zero, so keep the original file."}},{"@type":"Question","name":"Can I compress a PNG here?","acceptedAnswer":{"@type":"Answer","text":"No. This tool re-encodes to JPEG and the file picker only accepts JPEG images. For PNG files use the PNG compressor, which stays lossless."}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How much can I compress a JPG?","acceptedAnswer":{"@type":"Answer","text":"It depends on the source image. The panel reports the exact before and after sizes; at the default quality of 0.75 a typical camera JPEG shrinks noticeably, while a file that was already exported at low quality has very little left to give."}},{"@type":"Question","name":"Is the compression lossless?","acceptedAnswer":{"@type":"Answer","text":"No, JPEG compression is lossy, so detail is discarded either way. On our test image the first encode at 0.92 shifted the average pixel by 0.98 levels out of 255 (PSNR 39 dB), while four further re-saves added only 0.20 more: the damage is front-loaded rather than compounding, but it never reaches zero, so keep the original file."}},{"@type":"Question","name":"Can I compress a PNG here?","acceptedAnswer":{"@type":"Answer","text":"No. This tool re-encodes to JPEG and the file picker only accepts JPEG images. For PNG files use the PNG compressor, which stays lossless."}},{"@type":"Question","name":"Does compressing a JPEG here remove its EXIF data and GPS location?","acceptedAnswer":{"@type":"Answer","text":"Yes, completely. The re-encode writes new pixels and a new set of segments: the output holds JFIF and a 456-byte sRGB colour profile, with no APP1 block at all, and APP1 is where EXIF, XMP and the GPS coordinates live. The one tag that survives is orientation, because the browser applies it to the pixels before encoding, so a portrait phone photo comes out portrait. Treat the download as a clean copy: good for privacy, less good if you wanted the capture date or the camera model."}}]}
   </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -195,6 +195,39 @@
     <p><strong>WebP's advantage halves on a photograph.</strong> JPEG 0.92 to WebP 0.85 saves 69.2% on the graphic and <strong>35.8%</strong> on the photo. It is still the better encoder &mdash; WebP 0.85 holds the photograph's error at 2.39 against JPEG 0.85's 2.85 while writing 14% fewer bytes &mdash; but a size budget built on &ldquo;WebP saves 60%&rdquo; is a budget built on a logo. Halve it for photographs.</p>
     <p>&#9888;&#65039; One measurement trap, recorded because it nearly shipped. The first pass used a JPEG as its source, and at 0.75 the error <em>dropped</em> to 0.12 levels &mdash; re-encoding an image at the quality it was originally saved at reproduces its own quantisation table almost exactly, so the step looks free. The photograph here is therefore a lossless 1200&times;800 re-save and every number above is a first-generation encode. The side effect: &ldquo;re-save at the same quality&rdquo; is measurable rather than mythical &mdash; we fell into it by accident.</p>
   </section>
+  <section class="data-section">
+    <h2>What a re-encode does to your photo's metadata, rotation and colour profile</h2>
+    <p>This page never copies your file. It decodes the pixels, draws them into a canvas and writes a brand-new JPEG, so anything that is not a pixel has to be carried forward deliberately &mdash; and we had never checked what actually gets carried. Four copies of the same 1200&times;800 photograph went through this page in headless Chrome 149, at quality 0.92 and at the default 0.75, and we then parsed the resulting bytes segment by segment:</p>
+    <table class="qtable">
+      <caption>One photograph, four metadata shapes, measured on this page &mdash; 1200&times;800 source</caption>
+      <thead><tr><th scope="col">Source file</th><th scope="col">Output at 0.92</th><th scope="col">Output at 0.75</th><th scope="col">EXIF tags in &rarr; out</th><th scope="col">Colour profile in &rarr; out</th></tr></thead>
+      <tbody>
+        <tr><td>Plain JPEG, no metadata</td><td>334,988 B (&minus;1.3%)</td><td>188,460 B (&minus;44.5%)</td><td>0 &rarr; 0</td><td>none &rarr; sRGB, 456 B</td></tr>
+        <tr><td>+ 5 EXIF tags (make, model, date, software, orientation 1)</td><td>334,988 B (&minus;1.4%)</td><td>188,460 B (&minus;44.5%)</td><td>5 &rarr; 0</td><td>none &rarr; sRGB</td></tr>
+        <tr><td>+ same tags, orientation 6</td><td>336,140 B, 800&times;1200</td><td>190,500 B, 800&times;1200</td><td>5 &rarr; 0</td><td>none &rarr; sRGB</td></tr>
+        <tr><td>+ Adobe RGB profile</td><td>340,211 B (+74 B)</td><td>189,352 B (&minus;44.3%)</td><td>0 &rarr; 0</td><td>Adobe RGB, 564 B &rarr; sRGB</td></tr>
+      </tbody>
+    </table>
+    <p><strong>EXIF is deleted outright, not hidden.</strong> The output contains exactly two metadata segments: APP0/JFIF (16 bytes) and an ICC profile (472 bytes). There is no APP1 segment at all, and APP1 is where the camera make and model, the capture date, the software string, XMP and the GPS block live &mdash; latitude and longitude sit inside that same block. So for a photo of your street, your flat or your kid's school, this is a feature: the file you download carries no location and no serial number.</p>
+    <p><strong>Metadata is not where the savings come from.</strong> Those five tags occupy 146 bytes of a 339,701-byte file (0.04%); the Adobe RGB profile accounts for 582 bytes (0.17%). The same tool takes 44.5% out of that file at 0.75 &mdash; three orders of magnitude more, and it comes out of the picture, at the prices in the two tables above. If your plan is &ldquo;strip the metadata to shrink the file&rdquo;, you are optimising the rounding error.</p>
+    <p><strong>Rotation is the one tag that cannot be lost, because it is baked into the pixels.</strong> Orientation 6 means &ldquo;stored landscape, display it a quarter turn clockwise&rdquo;, and that is what came out: 800&times;1200, pixels already turned, flag gone. Good &mdash; from now on no viewer can show it sideways, because nothing is left to ignore. Bad &mdash; the turn happens on the way in, so a file whose rotation flag was already dropped upstream arrives here with wrong pixels, and no compressor can put back a rotation that was never applied.</p>
+    <p><strong>The colour profile is replaced rather than deleted, and that does move pixels.</strong> The Adobe RGB file came back numerically different: 49.4% of its pixels changed by more than 8 levels, mean shift 8.12 levels, worst pixel 122. That is not corruption. Running the identical Adobe RGB &rarr; sRGB transform through LittleCMS reproduces this tool's output to within 1.40 levels on average, so what you see is colour management doing its job &mdash; the same colours, re-expressed in the smaller space, plus a 456-byte sRGB profile so every colour-managed viewer knows what it is looking at:</p>
+    <table class="qtable">
+      <caption>The profile swap on the Adobe RGB file, measured before and after</caption>
+      <thead><tr><th scope="col">Measure</th><th scope="col">Source</th><th scope="col">Output at 0.92</th></tr></thead>
+      <tbody>
+        <tr><td>Metadata segments present</td><td>APP2/ICC only (564 B profile)</td><td>APP0/JFIF + APP2/ICC (456 B sRGB)</td></tr>
+        <tr><td>Pixel (300, 120), raw channel values</td><td>84, 177, 244</td><td>0, 179, 246</td></tr>
+        <tr><td>Pixel (0, 0), raw channel values</td><td>8, 175, 246</td><td>0, 178, 253</td></tr>
+        <tr><td>Mean channel shift over the whole frame</td><td>&mdash;</td><td>8.12 levels</td></tr>
+        <tr><td>Pixels off by more than 8 levels</td><td>&mdash;</td><td>49.4% (worst pixel 122)</td></tr>
+        <tr><td>Same transform run through LittleCMS</td><td>reference</td><td>within 1.40 levels of the output</td></tr>
+      </tbody>
+    </table>
+    <p><strong>At high quality a wide-gamut JPEG can come out slightly larger.</strong> The Adobe RGB source was 340,137 bytes and the 0.92 output was 340,211 &mdash; 74 bytes bigger, and the panel prints &ldquo;+0%&rdquo;. Nothing is broken: the source was already a 92-quality encode, so the only work left was the colour conversion, which added a 456-byte profile and removed nothing worth trimming. At 0.75 the same file drops to 189,352 bytes (&minus;44.3%). A file that grew under &ldquo;compress&rdquo; is telling you it was already compressed.</p>
+    <p>Every tool on this site shares that decode &rarr; canvas &rarr; encode path, so the same three things happen on <a href="/jpg-to-webp">JPG to WebP</a> and <a href="/resize-image">Resize Image</a>: EXIF and GPS go, rotation is applied to the pixels, and the profile is replaced with sRGB.</p>
+    <p>&#9888;&#65039; Boundaries. One photograph, one browser build (headless Chrome 149), a synthetic EXIF block of five tags and Ghostscript's 564-byte Adobe RGB profile rather than a camera vendor's multi-kilobyte one &mdash; the byte counts move with content, the directions do not. Heading the other way, a real camera file usually carries a 3&ndash;10 KB EXIF block including a thumbnail, so &ldquo;metadata as a share of file size&rdquo; can land nearer 1% than 0.04%; it is still not where 44% comes from.</p>
+  </section>
   <section><h2 style="text-align:center;font-size:1.1rem;margin-bottom:12px">More Free Tools</h2>
     <div class="tools-grid">
       <a href="/" class="tc"><strong>SVG → PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Convert SVG to PNG</span></a>
@@ -217,6 +250,10 @@
     <div class="faq-item">
       <h3><button type="button" class="faq-btn" aria-expanded="false">Can I compress a PNG here?</button></h3>
       <p>No. This tool re-encodes to JPEG and the file picker only accepts JPEG images. For PNG files use the PNG compressor, which stays lossless.</p>
+    </div>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Does compressing a JPEG here remove its EXIF data and GPS location?</button></h3>
+      <p>Yes, completely. The re-encode writes new pixels and a new set of segments: the output holds JFIF and a 456-byte sRGB colour profile, with no APP1 block at all, and APP1 is where EXIF, XMP and the GPS coordinates live. The one tag that survives is orientation, because the browser applies it to the pixels before encoding, so a portrait phone photo comes out portrait. Treat the download as a clean copy: good for privacy, less good if you wanted the capture date or the camera model.</p>
     </div>
   </section>
 </main>
