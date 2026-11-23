@@ -7,7 +7,7 @@
   <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <title>Free PNG Compressor Online — No Upload | imgloft</title>
-  <meta name="description" content="Compress PNG images online for free. Reduce file size without losing quality — all in your browser, no upload required.">
+  <meta name="description" content="Compress PNG losslessly in your browser, no upload. We measured what a re-encode can save, when it grows your file, and which setting actually works.">
   <meta name="keywords" content="compress png, png compressor, compress png online, reduce png size">
   <meta property="og:title" content="Free PNG Compressor Online — No Upload | imgloft">
   <meta property="og:description" content="Compress PNG images instantly in your browser. No upload, no limits, completely free.">
@@ -31,7 +31,7 @@
   {"@context":"https://schema.org","@type":"SoftwareApplication","name":"imgloft PNG Compressor","description":"Free online PNG compressor. Reduce PNG file size in your browser — no upload, no signup.","applicationCategory":"MultimediaApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"url":"https://imgloft.com/compress-png","browserRequirements":"Requires JavaScript","featureList":"PNG compression, metadata stripping, client-side processing"}
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I compress a PNG without losing quality?","acceptedAnswer":{"@type":"Answer","text":"Drop the PNG into the panel above and press Compress. Your browser re-encodes the file locally and reports the exact before and after size. Note that PNG is a lossless format, so there is no quality setting that trades detail for a smaller file: a re-encode mainly strips metadata and only sometimes saves a meaningful number of bytes."}},{"@type":"Question","name":"Can I reduce the PNG file size?","acceptedAnswer":{"@type":"Answer","text":"No. PNG stores pixels losslessly, so a quality factor does not shrink the file the way it does for JPEG. To remove real bytes, resize the image to fewer pixels, or convert it to WebP instead."}},{"@type":"Question","name":"Does imgloft upload my PNG to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Decoding and re-encoding both happen inside your own browser using the Canvas API, so the file never leaves your device and there is no server-side copy to delete."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"There is no artificial limit because nothing is uploaded; the only ceiling is your device memory. Very large images take longer to decode, that is all."}}]}
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How do I compress a PNG without losing quality?","acceptedAnswer":{"@type":"Answer","text":"Drop the PNG into the panel above and press Compress. Your browser re-encodes the file locally and reports the exact before and after sizes. Because PNG is lossless, no pixel can change, and we checked: the downloads were 0 levels different from the source in every pixel. What does change is the wrapper around the pixels. In our test the six metadata chunks were dropped (325 bytes, 0.72% of the file) and the pixels were re-deflated with the browser's own encoder, which on a properly exported PNG came out 59.6% larger. Since the quality argument makes no difference at all (quality 1.00, 0.92, 0.50 and 0.10 gave byte-identical files), lossless is guaranteed here and smaller is not: expect a saving only when the source was written lazily."}},{"@type":"Question","name":"Can I reduce the PNG file size?","acceptedAnswer":{"@type":"Answer","text":"Not with a quality setting: PNG has no such parameter, and asking the browser for quality 1.00, 0.92, 0.50 and 0.10 produced byte-identical files. The reductions that are real come from fewer pixels or from a different format. Halving the width and height took our 1200x800 photograph from 2,150,964 to 589,583 bytes (27.4% of the bytes), and WebP at quality 0.85 on the pixels at full size was 215,206 bytes, which is 13.2% of the 1,627,250-byte PNG it started from. So for a smaller file, change the dimensions or the format rather than the encoder setting: Resize Image and JPG to WebP are both one click away."}},{"@type":"Question","name":"Does imgloft upload my PNG to a server?","acceptedAnswer":{"@type":"Answer","text":"No. Decoding and re-encoding both happen inside your own browser using the Canvas API, so the file never leaves your device and there is no server-side copy to delete."}},{"@type":"Question","name":"Is there a file size limit?","acceptedAnswer":{"@type":"Answer","text":"There is no artificial limit because nothing is uploaded; the only ceiling is your device memory. Very large images take longer to decode, that is all."}}]}
   </script>
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -104,6 +104,20 @@
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap;border:0}
 .multi-note{color:var(--accent);font-size:.85rem;margin:-8px 16px 12px;line-height:1.45}
 .multi-note:empty{display:none}
+.data-section{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;margin:24px 0}
+.data-section h2{font-size:1.1rem;margin-bottom:6px}
+.data-section p{color:var(--text2);font-size:.88rem;line-height:1.65;margin:10px 0}
+.data-section p a{color:var(--accent);text-decoration:none}
+.data-section p a:hover{text-decoration:underline}
+.data-section strong{color:var(--text)}
+.data-section code{background:var(--surface2);padding:1px 5px;border-radius:4px;font-size:.82em}
+.qtable{width:100%;border-collapse:collapse;font-size:.85rem;margin:14px 0}
+.qtable caption{caption-side:top;text-align:left;color:var(--text2);font-size:.76rem;padding-bottom:8px}
+.qtable th,.qtable td{padding:8px 10px;border-bottom:1px solid var(--border);text-align:right;font-variant-numeric:tabular-nums}
+.qtable th:first-child,.qtable td:first-child{text-align:left}
+.qtable thead th{color:var(--text2);font-weight:600;font-size:.74rem;text-transform:uppercase;letter-spacing:.04em}
+.qtable tbody tr:last-child td{border-bottom:none}
+.qtable td:last-child{color:var(--text2)}
 </style>
 </head>
 <body>
@@ -125,6 +139,73 @@
     </div>
     <div class="preview-area" id="pa"><img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" id="pv" alt="Preview"><div class="preview-info"><span id="os"></span><span id="ns"></span><span id="rd"></span></div></div>
   </div>
+
+  <section class="data-section">
+    <h2>What a PNG re-encode actually does</h2>
+    <p>PNG has no quality knob, so &ldquo;compress PNG&rdquo; has to mean something else. We took one 1200&times;630 graphic and one 1200&times;800 photograph, stored each of them several different ways &mdash; same pixels every time, different file &mdash; and ran every copy through the panel above in headless Chrome 149. The output never varied. These are measurements, not estimates:</p>
+    <table class="qtable">
+      <caption>Same pixels, seven different source encodings &mdash; output size depends only on the pixels</caption>
+      <thead><tr><th>Source file</th><th>Source</th><th>Output of this tool</th><th>vs source</th></tr></thead>
+      <tbody>
+        <tr><td>Graphic &mdash; zlib level 0 (stored)</td><td>2,269,421 B</td><td>71,663 B</td><td>&minus;96.8%</td></tr>
+        <tr><td>Graphic &mdash; zlib level 6 (Pillow default)</td><td>47,020 B</td><td>71,663 B</td><td>+52.4%</td></tr>
+        <tr><td>Graphic &mdash; zlib level 9, optimised</td><td>44,915 B</td><td>71,663 B</td><td>+59.6%</td></tr>
+        <tr><td>Graphic &mdash; level 9 + 6 metadata chunks</td><td>45,240 B</td><td>71,663 B</td><td>+58.4%</td></tr>
+        <tr><td>Photograph &mdash; zlib level 6 (Pillow default)</td><td>1,627,250 B</td><td>2,150,964 B</td><td>+32.2%</td></tr>
+        <tr><td>Photograph &mdash; zlib level 9, optimised</td><td>1,588,624 B</td><td>2,150,964 B</td><td>+35.4%</td></tr>
+        <tr><td>Photograph &mdash; level 9 + metadata</td><td>1,588,721 B</td><td>2,150,964 B</td><td>+35.4%</td></tr>
+      </tbody>
+    </table>
+    <p><strong>All four graphic sources produced the same 71,663 bytes, and all three photograph sources the same 2,150,964 &mdash; byte for byte, matching SHA-256, not merely similar sizes.</strong> That is the whole finding: this is not a compressor, it is the browser's own PNG writer, and its output is a function of the pixels alone. Nothing about how your file was stored survives the round trip.</p>
+    <p>So a PNG re-encode helps exactly once: when the file you start with was stored lazily. That stored copy went from 2.27 MB to 70 KB, which is a real 96.8% saving and the reason &ldquo;PNG compressor&rdquo; tools appear to work at all. On a file that came out of a normal export the same treatment costs you 52&ndash;60%, and the panel above will still print the word <em>Compressed</em> next to the bigger number &mdash; only the sign of the percentage tells you which way it went. A file that grows under &ldquo;compress&rdquo; is telling you it was already compressed.</p>
+
+    <h2 style="margin-top:26px">The quality argument does nothing at all</h2>
+    <p>The Canvas API accepts a quality argument for every image type, so we passed one deliberately, four different values plus no argument at all, on the same canvas:</p>
+    <table class="qtable">
+      <caption>toBlob("image/png", q) &mdash; five calls, five identical files</caption>
+      <thead><tr><th>Quality passed</th><th>Graphic 1200&times;630</th><th>Photograph 1200&times;800</th></tr></thead>
+      <tbody>
+        <tr><td><code>1.00</code></td><td>71,663 B</td><td>2,150,964 B</td></tr>
+        <tr><td><code>0.92</code></td><td>71,663 B</td><td>2,150,964 B</td></tr>
+        <tr><td><code>0.50</code></td><td>71,663 B</td><td>2,150,964 B</td></tr>
+        <tr><td><code>0.10</code></td><td>71,663 B</td><td>2,150,964 B</td></tr>
+        <tr><td>omitted</td><td>71,663 B</td><td>2,150,964 B</td></tr>
+      </tbody>
+    </table>
+    <p>Every row is the same bytes, not just the same size. Any PNG tool with a quality slider is either showing you a number that changes nothing, or it is quantising the image to a palette behind your back &mdash; that second thing is real (PNG-8 with 256 colours), it throws colours away, and no browser canvas can do it. This one does not, and says so.</p>
+
+    <h2 style="margin-top:26px">What does come off, and what it is worth</h2>
+    <p>The only thing removed is everything that is not a pixel. We gave one copy a realistic wrapper &mdash; two text chunks, two international-text chunks, a physical-size chunk and a 110-byte EXIF block &mdash; and parsed the download chunk by chunk:</p>
+    <table class="qtable">
+      <caption>Chunks before and after, and what the pixels did</caption>
+      <thead><tr><th>Measure</th><th>Source</th><th>Output</th></tr></thead>
+      <tbody>
+        <tr><td>Chunks in the file</td><td>IHDR, IDAT, IEND + tEXt &times;2, iTXt &times;2, pHYs, eXIf</td><td>IHDR, IDAT, IEND only</td></tr>
+        <tr><td>Non-pixel chunks</td><td>6, occupying 325 bytes</td><td>0</td></tr>
+        <tr><td>That is, as a share of the file</td><td>0.72%</td><td>&mdash;</td></tr>
+        <tr><td>Pixel difference</td><td>&mdash;</td><td>0 levels in every pixel (mean 0.00, worst 0)</td></tr>
+        <tr><td>File size</td><td>45,240 B</td><td>71,663 B (+58.4%)</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Metadata stripping is real, and it is worth 325 bytes &mdash; 0.72% of a small file &mdash; while the re-deflate that replaces it added 26,748.</strong> If your plan is &ldquo;strip the metadata to get a smaller PNG&rdquo;, you are optimising the rounding error. The good news is the other column: zero levels of difference in every pixel, so the lossless claim survives the trip. What it costs you is your EXIF (camera, timestamp, GPS &mdash; the JPEG page measures that block being deleted outright) and nothing else about the picture.</p>
+
+    <h2 style="margin-top:26px">The lever that actually works: fewer pixels</h2>
+    <p>If the goal is a smaller file, dimensions are the only honest control a browser gives you. Same two images, scaled in the same decode &rarr; canvas &rarr; <code>toBlob("image/png")</code> chain:</p>
+    <table class="qtable">
+      <caption>Same pixels, fewer of them &mdash; PNG output at five sizes</caption>
+      <thead><tr><th>Size</th><th>Graphic</th><th>vs full</th><th>Photograph</th><th>vs full</th></tr></thead>
+      <tbody>
+        <tr><td>Full (1200&times;630 / 1200&times;800)</td><td>71,663 B</td><td>100%</td><td>2,150,964 B</td><td>100%</td></tr>
+        <tr><td>75% (900&times;473 / 900&times;600)</td><td>67,352 B</td><td>94.0%</td><td>1,245,386 B</td><td>57.9%</td></tr>
+        <tr><td>50% (600&times;315 / 600&times;400)</td><td>34,768 B</td><td>48.5%</td><td>589,583 B</td><td>27.4%</td></tr>
+        <tr><td>25% (300&times;158 / 300&times;200)</td><td>11,908 B</td><td>16.6%</td><td>162,830 B</td><td>7.6%</td></tr>
+        <tr><td>12.5% (150&times;79 / 150&times;100)</td><td>4,194 B</td><td>5.9%</td><td>43,924 B</td><td>2.0%</td></tr>
+      </tbody>
+    </table>
+    <p>Halving the dimensions of the graphic saved 51.5% of its bytes and halving the photograph saved 72.6% &mdash; while a full-size re-encode <em>added</em> 58.4% and 35.4%. The second lever is the format: the same pixels as WebP at quality 0.85 are 27,792 bytes for the graphic (38.8% of the PNG the browser wrote) and 215,206 for the photograph (10.0% of it, and 13.2% of the 1,627,250-byte PNG that went in). Both controls live one click away &mdash; use <a href="/resize-image">Resize Image</a> to drop pixels, <a href="/jpg-to-webp">JPG to WebP</a> to change format, and <a href="/compress-jpg">Compress JPG</a> if the picture is a photo and can afford to be lossy.</p>
+    <p>&#9888;&#65039; Boundaries. Two images, one browser build (headless Chrome 149), sources written by Pillow; a different browser may write a different deflate stream, and a dedicated PNG optimiser (zopfli, pngquant, oxipng) will beat every number here because it is allowed to change the encoding &mdash; or the palette &mdash; in ways the Canvas API cannot. The directions hold: output depends on pixels, quality does nothing, metadata is worth less than a rounding error, and dimensions are the real lever.</p>
+  </section>
+
   <section><h2 style="text-align:center;font-size:1.1rem;margin-bottom:12px">More Free Tools</h2>
     <div class="tools-grid">
       <a href="/" class="tc"><strong>SVG → PNG</strong><br><span style="color:var(--text2);font-size:.78rem">Convert SVG to PNG</span></a>
@@ -138,11 +219,11 @@
     <h2>FAQ</h2>
     <div class="faq-item">
       <h3><button type="button" class="faq-btn" aria-expanded="false">How do I compress a PNG without losing quality?</button></h3>
-      <p>Drop the PNG into the panel above and press Compress. Your browser re-encodes the file locally and reports the exact before and after size. Note that PNG is a lossless format, so there is no quality setting that trades detail for a smaller file: a re-encode mainly strips metadata and only sometimes saves a meaningful number of bytes.</p>
+      <p>Drop the PNG into the panel above and press Compress. Your browser re-encodes the file locally and reports the exact before and after sizes. Because PNG is lossless, no pixel can change, and we checked: the downloads were 0 levels different from the source in every pixel. What does change is the wrapper around the pixels. In our test the six metadata chunks were dropped (325 bytes, 0.72% of the file) and the pixels were re-deflated with the browser's own encoder, which on a properly exported PNG came out 59.6% larger. Since the quality argument makes no difference at all (quality 1.00, 0.92, 0.50 and 0.10 gave byte-identical files), lossless is guaranteed here and smaller is not: expect a saving only when the source was written lazily.</p>
     </div>
     <div class="faq-item">
       <h3><button type="button" class="faq-btn" aria-expanded="false">Can I reduce the PNG file size?</button></h3>
-      <p>No. PNG stores pixels losslessly, so a quality factor does not shrink the file the way it does for JPEG. To remove real bytes, resize the image to fewer pixels, or convert it to WebP instead.</p>
+      <p>Not with a quality setting: PNG has no such parameter, and asking the browser for quality 1.00, 0.92, 0.50 and 0.10 produced byte-identical files. The reductions that are real come from fewer pixels or from a different format. Halving the width and height took our 1200x800 photograph from 2,150,964 to 589,583 bytes (27.4% of the bytes), and WebP at quality 0.85 on the pixels at full size was 215,206 bytes, which is 13.2% of the 1,627,250-byte PNG it started from. So for a smaller file, change the dimensions or the format rather than the encoder setting: Resize Image and JPG to WebP are both one click away.</p>
     </div>
     <div class="faq-item">
       <h3><button type="button" class="faq-btn" aria-expanded="false">Does imgloft upload my PNG to a server?</button></h3>
