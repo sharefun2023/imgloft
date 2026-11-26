@@ -113,6 +113,14 @@
                   "@type": "Answer",
                   "text": "The size you type wins. The vector is redrawn on the canvas at exactly those pixel dimensions, so a 24 x 24 px icon exported at 512 x 512 gives you a 512 x 512 PNG with no upscaling blur — the source is vector. An SVG that carries only a viewBox and no width or height has no size of its own (browsers fall back to 300 x 150 on a page), which is why this tool asks instead of guessing."
             }
+      },
+{
+            "@type": "Question",
+            "name": "Can I convert an SVG to a PNG with a different aspect ratio?",
+            "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Only by stretching it. The canvas writes exactly the width and height you type, and the SVG's own preserveAspectRatio attribute is ignored — a 200 x 100 drawing exported at 200 x 200 comes back as 200 x 200 with its circle turned into an 80 x 160 ellipse. Leave both boxes empty to keep the file's own size, or fill both with a pair you worked out. To letterbox instead of stretch, pad the artwork inside a larger viewBox in your editor and export that."
+            }
       }
     ]
   }
@@ -442,6 +450,108 @@
     </ul>
   </section>
 
+  <section class="data-section" id="intrinsic-size">
+    <h2>Why your PNG came out 300 &times; 150</h2>
+    <p>Leave both size boxes empty and this tool does not guess &mdash; it reads the size the SVG
+    declares for itself, and that number is often not the one you expect. The nine files below
+    carry <em>identical artwork</em> (a 200 &times; 100 red field, a black circle of radius 40, a
+    white 20 &times; 20 corner notch) and differ only in how they declare their size. Each was fed
+    to this page in headless Chrome&nbsp;149 with both boxes empty. The intrinsic size and the PNG
+    are both read back from the page's own <code>Blob</code>, not estimated.</p>
+    <div class="table-wrap" role="region" aria-label="SVG intrinsic size by size declaration" tabindex="0">
+    <table class="qtable">
+      <caption>Intrinsic size by declaration &mdash; same artwork, both size boxes empty</caption>
+      <thead><tr><th scope="col">The file declares</th><th scope="col">Read as</th><th scope="col">PNG, boxes empty</th><th scope="col">Circle in the PNG</th><th scope="col">PNG bytes</th></tr></thead>
+      <tbody>
+        <tr><td><code>width="200" height="100"</code></td><td>200 &times; 100</td><td>200 &times; 100</td><td>80 &times; 80</td><td>2,405 B</td></tr>
+        <tr><td><code>width="200px" height="100px"</code></td><td>200 &times; 100</td><td>200 &times; 100</td><td>80 &times; 80</td><td>2,405 B</td></tr>
+        <tr><td><code>viewBox="0 0 200 100"</code>, no width or height</td><td><strong>300 &times; 150</strong></td><td>300 &times; 150</td><td>120 &times; 120</td><td>4,223 B</td></tr>
+        <tr><td><code>width="100%" height="100%"</code></td><td><strong>300 &times; 150</strong></td><td>300 &times; 150</td><td>120 &times; 120</td><td>4,223 B</td></tr>
+        <tr><td><code>width="50mm" height="25mm"</code></td><td>189 &times; 94</td><td>189 &times; 94</td><td><strong>75 &times; 74</strong></td><td>2,280 B</td></tr>
+        <tr><td><code>width="2in" height="1in"</code></td><td>192 &times; 96</td><td>192 &times; 96</td><td>76 &times; 76</td><td>2,318 B</td></tr>
+        <tr><td><code>width="150pt" height="75pt"</code></td><td>200 &times; 100</td><td>200 &times; 100</td><td>80 &times; 80</td><td>2,405 B</td></tr>
+        <tr><td><code>width="12.5em" height="6.25em"</code></td><td>200 &times; 100</td><td>200 &times; 100</td><td>80 &times; 80</td><td>2,405 B</td></tr>
+        <tr><td>No width, no height, no <code>viewBox</code></td><td>300 &times; 150</td><td>300 &times; 150, <strong>56% empty</strong></td><td>80 &times; 80</td><td>3,316 B</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><strong>Two very common files both land on 300 &times; 150.</strong> A file with a
+    <code>viewBox</code> and no <code>width</code>/<code>height</code>, and a file that declares
+    <code>100%</code> of a parent that does not exist in an image context, both report
+    300 &times; 150. You do get a correct-looking picture &mdash; the artwork is scaled by 1.5 and
+    the circle grows from 80 to 120 pixels &mdash; but at a size nobody chose. That is the most
+    common &ldquo;why is my PNG 300 &times; 150&rdquo; case, and it is why the boxes exist: type
+    the size you want instead of leaving them empty.</p>
+    <p><strong>Absolute units convert at 96&nbsp;dpi.</strong> 2in becomes 192, 150pt becomes 200,
+    12.5em becomes 200. And because those resolve to the same 200 &times; 100 pixels as the plain
+    <code>200</code> and <code>200px</code> files, all four exports came back with the
+    <em>same SHA-256</em> (<code>242bd5f9&hellip;</code>) from four different source files of
+    350&ndash;356 bytes. How the file was written does not survive into the raster; only the pixels
+    do. The same rule, measured on PNG re-encoding, is in the
+    <a href="/compress-png">compress PNG tables</a>.</p>
+    <p><strong>Millimetres round each axis separately, and that is enough to dent a circle.</strong>
+    50&nbsp;mm is 188.976&nbsp;px and 25&nbsp;mm is 94.488&nbsp;px, so the file's exact 2:1 request
+    becomes 189 &times; 94 &mdash; a ratio of 2.0106. The circle in that export is the only one of
+    the nine that is not round: <strong>75 &times; 74</strong>. Half a percent, but it is a
+    rounding artefact rather than a rendering decision, and it is why a physical-unit SVG comes out
+    a pixel or two from what the arithmetic suggests.</p>
+    <p><strong>The last row is the one that quietly ruins a file: 300 &times; 150 is a size, not a
+    fit.</strong> With no <code>viewBox</code> the renderer has no instruction to scale anything,
+    so it draws the artwork at its own coordinates inside a 300 &times; 150 window: the
+    200 &times; 100 drawing sits in the top-left corner, only 20,000 of the 45,000 pixels carry
+    anything at all, and the bottom-right pixel reads <code>0,0,0,0</code>. The PNG is valid and
+    the preview looks plausible if your artwork is dark, while 56% of it is empty. An SVG without
+    a <code>viewBox</code> is not a lighter file, it is an unscalable one &mdash; the first thing
+    to add when an export comes out half blank.</p>
+
+    <h3>A ratio the file itself cannot defend</h3>
+    <p>The two boxes are not a suggestion. The tool runs
+    <code>drawImage(img, 0, 0, w, h)</code>, which writes the rendered bitmap into exactly
+    <code>w &times; h</code> whatever shape that is. So a 200 &times; 100 drawing exported into a
+    square box is not letterboxed &mdash; it is stretched, and nothing in the file can stop it.</p>
+    <div class="table-wrap" role="region" aria-label="What a mismatched aspect ratio does to the export" tabindex="0">
+    <table class="qtable">
+      <caption>One 200 &times; 100 file, different boxes &mdash; the circle is the tell</caption>
+      <thead><tr><th scope="col">Boxes you type</th><th scope="col">PNG</th><th scope="col">Circle in the PNG</th><th scope="col">Black pixels</th><th scope="col">PNG bytes</th></tr></thead>
+      <tbody>
+        <tr><td>both empty</td><td>200 &times; 100</td><td>80 &times; 80</td><td>4,927</td><td>2,405 B</td></tr>
+        <tr><td>200 &times; 200</td><td>200 &times; 200</td><td><strong>80 &times; 160</strong></td><td>9,917</td><td>3,811 B</td></tr>
+        <tr><td>400 &times; 100</td><td>400 &times; 100</td><td><strong>160 &times; 80</strong></td><td>9,918</td><td>4,050 B</td></tr>
+        <tr><td>width 400, height empty</td><td>400 &times; 100</td><td><strong>160 &times; 80</strong></td><td>9,918</td><td>4,050 B</td></tr>
+        <tr><td>200 &times; 200, file says <code>preserveAspectRatio="xMidYMid meet"</code></td><td>200 &times; 200</td><td><strong>80 &times; 160</strong></td><td>9,917</td><td>3,811 B</td></tr>
+        <tr><td>200 &times; 200, file says <code>preserveAspectRatio="none"</code></td><td>200 &times; 200</td><td><strong>80 &times; 160</strong></td><td>9,917</td><td>3,811 B</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p><strong><code>preserveAspectRatio</code> has no effect here, and that is the surprising
+    part.</strong> It is the one attribute an SVG author can write to say &ldquo;letterbox instead
+    of stretch&rdquo;. All three 200 &times; 200 rows &mdash; <code>meet</code>, <code>none</code>,
+    and the attribute left out entirely &mdash; produced a 3,811-byte PNG with the same SHA-256
+    (<code>265e41ed&hellip;</code>). The attribute governs how the artwork is fitted into the SVG's
+    own viewport, and by the time <code>drawImage()</code> receives the bitmap that fitting has
+    already happened; the canvas then scales the finished bitmap to the box you typed. An
+    80 &times; 80 circle becomes 80 &times; 160 and doubles its painted pixels
+    (4,927 &rarr; 9,917, +101%), which is exactly why the file grows from 2,405 to 3,811 bytes.</p>
+    <p><strong>Leaving one box empty is not the escape hatch it looks like.</strong> The empty
+    box is filled with the file's own value, not with a proportional calculation, so typing 400
+    into width alone on the 200 &times; 100 file gives 400 &times; 100 &mdash; the same SHA-256 as
+    typing 400 and 100 by hand (<code>7190a8f0&hellip;</code>). On the 300 &times; 150 file the
+    same move is worse, because that intrinsic 150 is now the wrong number: width alone 400
+    &rarr; <strong>400 &times; 150</strong> with the circle at 160 &times; 120, and height alone
+    300 &rarr; <strong>300 &times; 300</strong> with the circle at 120 &times; 240. If the ratio
+    matters, fill both boxes with a pair you worked out; if you fill only one, you are accepting
+    the file's own value for the other axis.</p>
+    <p style="font-size:.8rem">Boundary: nine hand-written fixtures that differ only in the size
+    declaration, one browser build (HeadlessChrome&nbsp;149 on Linux), PNG written by
+    <code>canvas.toBlob()</code>. Unit conversion follows the 96&nbsp;dpi CSS reference pixel, so
+    a print workflow that assumes 72&nbsp;dpi will disagree with every physical-unit row. The
+    artwork is deliberately simple &mdash; a circle, a field and a notch &mdash; so the geometry
+    can be read straight out of the pixels; byte counts would differ for real artwork, while the
+    sizes, ratios and the empty-area share would not. Related: <a href="/resize-image">what a
+    canvas does past 268 million pixels</a>, <a href="/image-crop">crop vs. bytes</a>,
+    <a href="/jpg-to-webp">frames and transparency</a>.</p>
+  </section>
+
   <section class="data-section">
     <h2>What a bigger PNG actually costs</h2>
     <p>The sections above explain <em>what</em> the renderer does. This one answers what the result <em>weighs</em>. One vector &mdash; 120&times;120, <strong>487 bytes</strong> as SVG &mdash; was pushed through the same path this tool uses (<code>drawImage()</code> into a canvas, <code>toBlob()</code> out) at five export widths in headless Chrome 148, written three ways: PNG (what this tool produces), JPEG at quality 0.92 and WebP at 0.85. Every number is a real <code>Blob.size</code>:</p>
@@ -509,6 +619,10 @@
     <div class="faq-item">
       <h3><button type="button" class="faq-btn" aria-expanded="false">Why is the PNG a different size than the SVG's own width and height?</button></h3>
       <p>The size you type wins. The vector is redrawn on the canvas at exactly those pixel dimensions, so a 24 &times; 24 px icon exported at 512 &times; 512 gives you a 512 &times; 512 PNG with no upscaling blur &mdash; the source is vector. An SVG that carries only a viewBox and no width or height has no size of its own (browsers fall back to 300 &times; 150 on a page), which is why this tool asks instead of guessing.</p>
+    </div>
+    <div class="faq-item">
+      <h3><button type="button" class="faq-btn" aria-expanded="false">Can I convert an SVG to a PNG with a different aspect ratio?</button></h3>
+      <p>Only by stretching it. The canvas writes exactly the width and height you type, and the SVG's own preserveAspectRatio attribute is ignored &mdash; a 200 &times; 100 drawing exported at 200 &times; 200 comes back as 200 &times; 200 with its circle turned into an 80 &times; 160 ellipse. Leave both boxes empty to keep the file's own size, or fill both with a pair you worked out. To letterbox instead of stretch, pad the artwork inside a larger viewBox in your editor and export that.</p>
     </div>
   </section>
 </main>
